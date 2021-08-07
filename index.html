@@ -185,7 +185,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2021-08-08 04:14:38 / Modified: 05:01:45" itemprop="dateCreated datePublished" datetime="2021-08-08T04:14:38+08:00">2021-08-08</time>
+      <time title="Created: 2021-08-08 04:14:38 / Modified: 05:45:07" itemprop="dateCreated datePublished" datetime="2021-08-08T04:14:38+08:00">2021-08-08</time>
     </span>
 
   
@@ -201,6 +201,11 @@
           <h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
 <p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
 <p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
+<h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
+<blockquote>
+<p>注：如果你用了 hexo clean 命令删除本地静态资源，CNAME文件也会被删掉，所以你可以在本地生成的public文件夹中直接创建好，再上传。</p>
+</blockquote>
+<p>也许是typo，应该把CMAKE文件放在source里，才不会被删。</p>
 <h1 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h1><p>本站采用next主题：<a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-theme-next">https://github.com/next-theme/hexo-theme-next</a></p>
 <p>因为hexo是5.0+版本，所以安装主题只需：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd hexo-site</span><br><span class="line">$ npm install hexo-theme-next</span><br></pre></td></tr></table></figure>
