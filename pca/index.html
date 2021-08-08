@@ -20,18 +20,18 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="本文在 http:&#x2F;&#x2F;www.cnblogs.com&#x2F;pinard&#x2F;p&#x2F;6239403.html 和 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;pinard&#x2F;p&#x2F;6243025.html 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。 Jupiter notebook版本参见我的github:  https:&#x2F;&#x2F;github.com&#x2F;konatasick&#x2F;ma">
+<meta name="description" content="本文在 http:&#x2F;&#x2F;www.cnblogs.com&#x2F;pinard&#x2F;p&#x2F;6239403.html 和 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;pinard&#x2F;p&#x2F;6243025.html 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。 Jupiter notebook版本参见我的github:  https:&#x2F;&#x2F;github.com&#x2F;konatasick&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="scikit-learn使用PCA降维小结">
 <meta property="og:url" content="https://tech.konata.co/pca/index.html">
 <meta property="og:site_name" content="Konata Tech Blog">
-<meta property="og:description" content="本文在 http:&#x2F;&#x2F;www.cnblogs.com&#x2F;pinard&#x2F;p&#x2F;6239403.html 和 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;pinard&#x2F;p&#x2F;6243025.html 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。 Jupiter notebook版本参见我的github:  https:&#x2F;&#x2F;github.com&#x2F;konatasick&#x2F;ma">
+<meta property="og:description" content="本文在 http:&#x2F;&#x2F;www.cnblogs.com&#x2F;pinard&#x2F;p&#x2F;6239403.html 和 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;pinard&#x2F;p&#x2F;6243025.html 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。 Jupiter notebook版本参见我的github:  https:&#x2F;&#x2F;github.com&#x2F;konatasick&#x2F;">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104731303-1636187054.png">
 <meta property="og:image" content="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104805898-1186449046.png">
 <meta property="og:image" content="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104849634-1533278071.png">
 <meta property="article:published_time" content="2018-11-29T16:19:38.000Z">
-<meta property="article:modified_time" content="2021-08-08T16:48:15.788Z">
+<meta property="article:modified_time" content="2021-08-08T16:51:16.159Z">
 <meta property="article:author" content="Konata Izumi">
 <meta property="article:tag" content="scikit-learn">
 <meta property="article:tag" content="python">
@@ -224,7 +224,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-08-09 00:48:15" itemprop="dateModified" datetime="2021-08-09T00:48:15+08:00">2021-08-09</time>
+        <time title="Modified: 2021-08-09 00:51:16" itemprop="dateModified" datetime="2021-08-09T00:51:16+08:00">2021-08-09</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -246,7 +246,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>本文在 <a target="_blank" rel="noopener" href="http://www.cnblogs.com/pinard/p/6239403.html">http://www.cnblogs.com/pinard/p/6239403.html</a> 和 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。</p>
+        <meta name="referrer" content="no-referrer"/>
+
+<p>本文在 <a target="_blank" rel="noopener" href="http://www.cnblogs.com/pinard/p/6239403.html">http://www.cnblogs.com/pinard/p/6239403.html</a> 和 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。</p>
 <p>Jupiter notebook版本参见我的github: </p>
 <p><a target="_blank" rel="noopener" href="https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb">https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb</a></p>
 <h2 id="PCA的思想"><a href="#PCA的思想" class="headerlink" title="PCA的思想"></a>PCA的思想</h2><p>PCA（Principal components analysis，主成分分析）是一种降维算法，它通过使样本间方差尽量大来尽可能保留原始数据的相关关系。</p>
