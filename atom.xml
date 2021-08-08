@@ -36,9 +36,9 @@
     <category term="Project" scheme="https://tech.konata.co/categories/Project/"/>
     
     
-    <category term="Hexo" scheme="https://tech.konata.co/tags/Hexo/"/>
-    
     <category term="GitHub" scheme="https://tech.konata.co/tags/GitHub/"/>
+    
+    <category term="Hexo" scheme="https://tech.konata.co/tags/Hexo/"/>
     
   </entry>
   
@@ -176,9 +176,9 @@
     <category term="Workshop" scheme="https://tech.konata.co/categories/Workshop/"/>
     
     
-    <category term="GitHub" scheme="https://tech.konata.co/tags/GitHub/"/>
-    
     <category term="git" scheme="https://tech.konata.co/tags/git/"/>
+    
+    <category term="GitHub" scheme="https://tech.konata.co/tags/GitHub/"/>
     
   </entry>
   
@@ -203,9 +203,9 @@
     <category term="Workshop" scheme="https://tech.konata.co/categories/Workshop/"/>
     
     
-    <category term="conda" scheme="https://tech.konata.co/tags/conda/"/>
-    
     <category term="python" scheme="https://tech.konata.co/tags/python/"/>
+    
+    <category term="conda" scheme="https://tech.konata.co/tags/conda/"/>
     
   </entry>
   
@@ -231,9 +231,9 @@
     <category term="Algorithm" scheme="https://tech.konata.co/categories/Algorithm/"/>
     
     
-    <category term="python" scheme="https://tech.konata.co/tags/python/"/>
-    
     <category term="scikit-learn" scheme="https://tech.konata.co/tags/scikit-learn/"/>
+    
+    <category term="python" scheme="https://tech.konata.co/tags/python/"/>
     
     <category term="kmeans" scheme="https://tech.konata.co/tags/kmeans/"/>
     
@@ -261,9 +261,9 @@
     <category term="Algorithm" scheme="https://tech.konata.co/categories/Algorithm/"/>
     
     
-    <category term="python" scheme="https://tech.konata.co/tags/python/"/>
-    
     <category term="scikit-learn" scheme="https://tech.konata.co/tags/scikit-learn/"/>
+    
+    <category term="python" scheme="https://tech.konata.co/tags/python/"/>
     
     <category term="PCA" scheme="https://tech.konata.co/tags/PCA/"/>
     
