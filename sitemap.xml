@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://tech.konata.co/20200808-build-blog-by-hexo/</loc>
+    <loc>https://tech.konata.co/categories/index.html</loc>
     
     <lastmod>2021-08-08</lastmod>
     
@@ -16,7 +16,7 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/categories/index.html</loc>
+    <loc>https://tech.konata.co/20200808-build-blog-by-hexo/</loc>
     
     <lastmod>2021-08-08</lastmod>
     
