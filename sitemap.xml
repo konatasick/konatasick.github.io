@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://tech.konata.co/pca/</loc>
+    <loc>https://tech.konata.co/vscode/</loc>
     
     <lastmod>2021-08-08</lastmod>
     
@@ -16,7 +16,7 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/vscode/</loc>
+    <loc>https://tech.konata.co/git/</loc>
     
     <lastmod>2021-08-08</lastmod>
     
@@ -30,7 +30,7 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/git/</loc>
+    <loc>https://tech.konata.co/pca/</loc>
     
     <lastmod>2021-08-08</lastmod>
     
@@ -95,7 +95,7 @@
 
   
   <url>
-    <loc>https://tech.konata.co/tags/conda/</loc>
+    <loc>https://tech.konata.co/tags/scikit-learn/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -109,14 +109,14 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/scikit-learn/</loc>
+    <loc>https://tech.konata.co/tags/PCA/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/PCA/</loc>
+    <loc>https://tech.konata.co/tags/conda/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -179,13 +179,6 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/Hexo/</loc>
-    <lastmod>2021-08-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://tech.konata.co/tags/COMA/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
@@ -213,17 +206,24 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>https://tech.konata.co/tags/Hexo/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
   
   <url>
-    <loc>https://tech.konata.co/categories/Workshop/</loc>
+    <loc>https://tech.konata.co/categories/Algorithm/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://tech.konata.co/categories/Algorithm/</loc>
+    <loc>https://tech.konata.co/categories/Workshop/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
