@@ -95,7 +95,7 @@
 
   
   <url>
-    <loc>https://tech.konata.co/tags/scikit-learn/</loc>
+    <loc>https://tech.konata.co/tags/conda/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -103,6 +103,13 @@
   
   <url>
     <loc>https://tech.konata.co/tags/python/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/scikit-learn/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -137,13 +144,6 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/conda/</loc>
-    <lastmod>2021-08-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://tech.konata.co/tags/ffmpeg/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
@@ -158,13 +158,6 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/mac/</loc>
-    <lastmod>2021-08-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://tech.konata.co/tags/vscode/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
@@ -173,6 +166,20 @@
   
   <url>
     <loc>https://tech.konata.co/tags/JupyterNotebook/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/mac/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/Hexo/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -206,24 +213,17 @@
     <priority>0.6</priority>
   </url>
   
-  <url>
-    <loc>https://tech.konata.co/tags/Hexo/</loc>
-    <lastmod>2021-08-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
 
   
   <url>
-    <loc>https://tech.konata.co/categories/Algorithm/</loc>
+    <loc>https://tech.konata.co/categories/Workshop/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://tech.konata.co/categories/Workshop/</loc>
+    <loc>https://tech.konata.co/categories/Algorithm/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
