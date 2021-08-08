@@ -2,21 +2,63 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://tech.konata.co/categories/index.html</loc>
+    <loc>https://tech.konata.co/pca/</loc>
     
     <lastmod>2021-08-08</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/index.html</loc>
+    <loc>https://tech.konata.co/ffmpeg/</loc>
     
     <lastmod>2021-08-08</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tech.konata.co/20200808-build-blog-by-hexo/</loc>
+    <loc>https://tech.konata.co/vscode/</loc>
+    
+    <lastmod>2021-08-08</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/kmeans/</loc>
+    
+    <lastmod>2021-08-08</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/git/</loc>
+    
+    <lastmod>2021-08-08</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/conda-create-env/</loc>
+    
+    <lastmod>2021-08-08</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/mac/</loc>
+    
+    <lastmod>2021-08-08</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/COMA/</loc>
+    
+    <lastmod>2021-08-08</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/2021-08-08-build-blog-by-hexo/</loc>
     
     <lastmod>2021-08-08</lastmod>
     
@@ -30,9 +72,16 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/hello-world/</loc>
+    <loc>https://tech.konata.co/categories/index.html</loc>
     
-    <lastmod>2021-08-07</lastmod>
+    <lastmod>2021-08-08</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/index.html</loc>
+    
+    <lastmod>2021-08-08</lastmod>
     
   </url>
   
@@ -46,7 +95,42 @@
 
   
   <url>
-    <loc>https://tech.konata.co/tags/Hexo/</loc>
+    <loc>https://tech.konata.co/tags/scikit-learn/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/python/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/PCA/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/conda/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/kmeans/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/git/</loc>
     <lastmod>2021-08-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -59,7 +143,91 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>https://tech.konata.co/tags/ffmpeg/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/bash/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/vscode/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/JupyterNotebook/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/mac/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/COMA/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/opendr/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/Tensorflow/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/MPI-IS/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/Hexo/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
+  
+  <url>
+    <loc>https://tech.konata.co/categories/Algorithm/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/categories/Workshop/</loc>
+    <lastmod>2021-08-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
   
   <url>
     <loc>https://tech.konata.co/categories/Project/</loc>
