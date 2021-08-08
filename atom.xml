@@ -18,8 +18,8 @@
   
   <entry>
     <title>使用 Hexo + GitHub Page 自建博客</title>
-    <link href="https://tech.konata.co/2021-08-08-build-blog-by-hexo/"/>
-    <id>https://tech.konata.co/2021-08-08-build-blog-by-hexo/</id>
+    <link href="https://tech.konata.co/2021-08-08-2021-08-08-build-blog-by-hexo/"/>
+    <id>https://tech.konata.co/2021-08-08-2021-08-08-build-blog-by-hexo/</id>
     <published>2021-08-07T20:14:38.000Z</published>
     <updated>2021-08-08T15:42:11.446Z</updated>
     
@@ -44,8 +44,8 @@
   
   <entry>
     <title>COMA 环境配置记录</title>
-    <link href="https://tech.konata.co/COMA/"/>
-    <id>https://tech.konata.co/COMA/</id>
+    <link href="https://tech.konata.co/2021-07-23-COMA/"/>
+    <id>https://tech.konata.co/2021-07-23-COMA/</id>
     <published>2021-07-22T16:05:35.000Z</published>
     <updated>2021-08-08T16:13:42.230Z</updated>
     
@@ -74,8 +74,8 @@
   
   <entry>
     <title>在Mac上操作文件</title>
-    <link href="https://tech.konata.co/mac/"/>
-    <id>https://tech.konata.co/mac/</id>
+    <link href="https://tech.konata.co/2021-06-11-mac/"/>
+    <id>https://tech.konata.co/2021-06-11-mac/</id>
     <published>2021-06-10T16:04:59.000Z</published>
     <updated>2021-08-08T16:15:21.235Z</updated>
     
@@ -98,8 +98,8 @@
   
   <entry>
     <title>大型vscode真香现场</title>
-    <link href="https://tech.konata.co/vscode/"/>
-    <id>https://tech.konata.co/vscode/</id>
+    <link href="https://tech.konata.co/2020-01-16-vscode/"/>
+    <id>https://tech.konata.co/2020-01-16-vscode/</id>
     <published>2020-01-15T16:03:29.000Z</published>
     <updated>2021-08-08T17:03:41.396Z</updated>
     
@@ -128,8 +128,8 @@
   
   <entry>
     <title>ffmpeg操作速查</title>
-    <link href="https://tech.konata.co/ffmpeg/"/>
-    <id>https://tech.konata.co/ffmpeg/</id>
+    <link href="https://tech.konata.co/2019-11-28-ffmpeg/"/>
+    <id>https://tech.konata.co/2019-11-28-ffmpeg/</id>
     <published>2019-11-28T15:59:36.000Z</published>
     <updated>2021-08-08T17:03:35.454Z</updated>
     
@@ -156,8 +156,8 @@
   
   <entry>
     <title>Git操作速查</title>
-    <link href="https://tech.konata.co/git/"/>
-    <id>https://tech.konata.co/git/</id>
+    <link href="https://tech.konata.co/2019-07-12-git/"/>
+    <id>https://tech.konata.co/2019-07-12-git/</id>
     <published>2019-07-12T15:56:59.000Z</published>
     <updated>2021-08-08T17:03:25.581Z</updated>
     
@@ -184,8 +184,8 @@
   
   <entry>
     <title>在服务器用conda创建python环境</title>
-    <link href="https://tech.konata.co/conda-create-env/"/>
-    <id>https://tech.konata.co/conda-create-env/</id>
+    <link href="https://tech.konata.co/2019-07-08-conda-create-env/"/>
+    <id>https://tech.konata.co/2019-07-08-conda-create-env/</id>
     <published>2019-07-08T15:53:20.000Z</published>
     <updated>2021-08-08T16:29:03.352Z</updated>
     
@@ -203,16 +203,16 @@
     <category term="Workshop" scheme="https://tech.konata.co/categories/Workshop/"/>
     
     
-    <category term="python" scheme="https://tech.konata.co/tags/python/"/>
-    
     <category term="conda" scheme="https://tech.konata.co/tags/conda/"/>
+    
+    <category term="python" scheme="https://tech.konata.co/tags/python/"/>
     
   </entry>
   
   <entry>
     <title>python实现聚类算法</title>
-    <link href="https://tech.konata.co/kmeans/"/>
-    <id>https://tech.konata.co/kmeans/</id>
+    <link href="https://tech.konata.co/2019-07-08-kmeans/"/>
+    <id>https://tech.konata.co/2019-07-08-kmeans/</id>
     <published>2019-07-07T16:19:34.000Z</published>
     <updated>2021-08-08T17:03:18.859Z</updated>
     
@@ -231,9 +231,9 @@
     <category term="Algorithm" scheme="https://tech.konata.co/categories/Algorithm/"/>
     
     
-    <category term="scikit-learn" scheme="https://tech.konata.co/tags/scikit-learn/"/>
-    
     <category term="python" scheme="https://tech.konata.co/tags/python/"/>
+    
+    <category term="scikit-learn" scheme="https://tech.konata.co/tags/scikit-learn/"/>
     
     <category term="kmeans" scheme="https://tech.konata.co/tags/kmeans/"/>
     
@@ -241,8 +241,8 @@
   
   <entry>
     <title>scikit-learn使用PCA降维小结</title>
-    <link href="https://tech.konata.co/pca/"/>
-    <id>https://tech.konata.co/pca/</id>
+    <link href="https://tech.konata.co/2018-11-30-pca/"/>
+    <id>https://tech.konata.co/2018-11-30-pca/</id>
     <published>2018-11-29T16:19:38.000Z</published>
     <updated>2021-08-08T16:51:16.159Z</updated>
     
@@ -261,9 +261,9 @@
     <category term="Algorithm" scheme="https://tech.konata.co/categories/Algorithm/"/>
     
     
-    <category term="scikit-learn" scheme="https://tech.konata.co/tags/scikit-learn/"/>
-    
     <category term="python" scheme="https://tech.konata.co/tags/python/"/>
+    
+    <category term="scikit-learn" scheme="https://tech.konata.co/tags/scikit-learn/"/>
     
     <category term="PCA" scheme="https://tech.konata.co/tags/PCA/"/>
     
