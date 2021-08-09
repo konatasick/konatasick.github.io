@@ -47,14 +47,15 @@
     <link href="https://tech.konata.co/2021-07-23-COMA/"/>
     <id>https://tech.konata.co/2021-07-23-COMA/</id>
     <published>2021-07-22T16:05:35.000Z</published>
-    <updated>2021-08-08T16:13:42.230Z</updated>
+    <updated>2021-08-09T11:12:04.565Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="Tensorflow-1-3"><a href="#Tensorflow-1-3" class="headerlink" title="Tensorflow 1.3"></a>Tensorflow 1.3</h2><p>这一步由于tensorflow1的环境非常难配置，使用现成docker，版本对应关系如下：</p><p><a href="https://blog.csdn.net/qq_41936559/article/details/104226333">https://blog.csdn.net/qq_41936559/article/details/104226333</a></p><h2 id="opendr安装"><a href="#opendr安装" class="headerlink" title="opendr安装"></a>opendr安装</h2><p>opendr安装对python3的支持比较麻烦，参考：</p><p><a href="https://www.codenong.com/cs110955392/">https://www.codenong.com/cs110955392/</a></p><h2 id="MPI-IS-mesh配置"><a href="#MPI-IS-mesh配置" class="headerlink" title="MPI-IS / mesh配置"></a>MPI-IS / mesh配置</h2><p><a href="https://github.com/MPI-IS/mesh">https://github.com/MPI-IS/mesh</a></p><p>经常要用到的mesh渲染工具</p><p>配置过程：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install boost-devel</span><br><span class="line">BOOST_INCLUDE_DIRS=/usr/include/boost make all</span><br><span class="line">make tests</span><br></pre></td></tr></table></figure><p>遇到报错：<br>ImportError: No module named psbody.mesh.mesh<br>但是在python3下import是可以的，后来发现是在make tests时默认是python，而在docker环境下要改成python3，测试通过。</p>]]></content>
+    <content type="html"><![CDATA[<p><a href="https://github.com/anuragranj/coma">https://github.com/anuragranj/coma</a></p><h2 id="Tensorflow-1-3"><a href="#Tensorflow-1-3" class="headerlink" title="Tensorflow 1.3"></a>Tensorflow 1.3</h2><p>这一步由于tensorflow1的环境非常难配置，使用现成docker，版本对应关系如下：</p><p><a href="https://blog.csdn.net/qq_41936559/article/details/104226333">https://blog.csdn.net/qq_41936559/article/details/104226333</a></p><h2 id="opendr安装"><a href="#opendr安装" class="headerlink" title="opendr安装"></a>opendr安装</h2><p>opendr安装对python3的支持比较麻烦，参考：</p><p><a href="https://www.codenong.com/cs110955392/">https://www.codenong.com/cs110955392/</a></p><h2 id="MPI-IS-mesh配置"><a href="#MPI-IS-mesh配置" class="headerlink" title="MPI-IS / mesh配置"></a>MPI-IS / mesh配置</h2><p><a href="https://github.com/MPI-IS/mesh">https://github.com/MPI-IS/mesh</a></p><p>经常要用到的mesh渲染工具</p><p>配置过程：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install boost-devel</span><br><span class="line">BOOST_INCLUDE_DIRS=/usr/include/boost make all</span><br><span class="line">make tests</span><br></pre></td></tr></table></figure><p>遇到报错：<br>ImportError: No module named psbody.mesh.mesh<br>但是在python3下import是可以的，后来发现是在make tests时默认是python，而在docker环境下要改成python3，测试通过。</p>]]></content>
     
     
       
       
-    <summary type="html">&lt;h2 id=&quot;Tensorflow-1-3&quot;&gt;&lt;a href=&quot;#Tensorflow-1-3&quot; class=&quot;headerlink&quot; title=&quot;Tensorflow 1.3&quot;&gt;&lt;/a&gt;Tensorflow 1.3&lt;/h2&gt;&lt;p&gt;这一步由于tensorflow1的环境非常难</summary>
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/anuragranj/coma&quot;&gt;https://github.com/anuragranj/coma&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Tensorflow-1-3&quot;&gt;&lt;a href=&quot;#Tensorflow-1-3&quot;</summary>
       
     
     
@@ -203,9 +204,9 @@
     <category term="Workshop" scheme="https://tech.konata.co/categories/Workshop/"/>
     
     
-    <category term="python" scheme="https://tech.konata.co/tags/python/"/>
-    
     <category term="conda" scheme="https://tech.konata.co/tags/conda/"/>
+    
+    <category term="python" scheme="https://tech.konata.co/tags/python/"/>
     
   </entry>
   
@@ -231,9 +232,9 @@
     <category term="Algorithm" scheme="https://tech.konata.co/categories/Algorithm/"/>
     
     
-    <category term="scikit-learn" scheme="https://tech.konata.co/tags/scikit-learn/"/>
-    
     <category term="python" scheme="https://tech.konata.co/tags/python/"/>
+    
+    <category term="scikit-learn" scheme="https://tech.konata.co/tags/scikit-learn/"/>
     
     <category term="kmeans" scheme="https://tech.konata.co/tags/kmeans/"/>
     
@@ -261,9 +262,9 @@
     <category term="Algorithm" scheme="https://tech.konata.co/categories/Algorithm/"/>
     
     
-    <category term="scikit-learn" scheme="https://tech.konata.co/tags/scikit-learn/"/>
-    
     <category term="python" scheme="https://tech.konata.co/tags/python/"/>
+    
+    <category term="scikit-learn" scheme="https://tech.konata.co/tags/scikit-learn/"/>
     
     <category term="PCA" scheme="https://tech.konata.co/tags/PCA/"/>
     
