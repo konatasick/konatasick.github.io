@@ -237,8 +237,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2021-09-16 15:14:57" itemprop="dateCreated datePublished" datetime="2021-09-16T15:14:57+08:00">2021-09-16</time>
+      <time title="Created: 2021-09-16 15:14:57 / Modified: 15:16:25" itemprop="dateCreated datePublished" datetime="2021-09-16T15:14:57+08:00">2021-09-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -316,7 +317,7 @@
 <li>确认 docker 已经成功转移</li>
 </ol>
 <p>修改原 docker 路径名，再进行一些操作</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ mv /var/lib/docker /var/lib/docker_temp</span><br><span class="line">$ docker image list</span><br><span class="line">$ docker run --net=host --name deepface3d -it -v /apdcephfs:/apdcephfs mirrors.tencent.com/shadow_cv/g-tlinux2.2-python3.6-tf1.12-cuda9.0-cudnn7.6-horovod-deepface3d:latest /bin/bash</span><br><span class="line"><span class="comment"># docker exec -it deepface3d bash</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mv /var/lib/docker /var/lib/docker_temp</span><br><span class="line">$ docker image list</span><br><span class="line">$ docker container list</span><br></pre></td></tr></table></figure>
 
 <p>在这一步我发现之前的 container 进去会有问题，但是重启后可以重新进入：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker container list</span><br><span class="line">$ docker stop xxx</span><br><span class="line">$ docker start xxx</span><br><span class="line">$ docker <span class="built_in">exec</span> -it xxx /bin/bash</span><br></pre></td></tr></table></figure>
