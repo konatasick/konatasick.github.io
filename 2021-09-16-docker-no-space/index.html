@@ -28,7 +28,7 @@
 <meta property="og:description" content="操作系统为 CentOS Linux release 7.2，试过网上的一些方法例如软链接，增加graph路径都没有用，自己摸索找到了配置路径的位置，记录一下。  使用df -h 查看磁盘状况：  12345$ df -hFilesystem                    Size  Used Avail Use% Mounted on&#x2F;dev&#x2F;vda1">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-09-16T07:14:57.000Z">
-<meta property="article:modified_time" content="2021-09-16T07:16:25.053Z">
+<meta property="article:modified_time" content="2021-09-16T07:19:13.867Z">
 <meta property="article:author" content="Konata Izumi">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary">
@@ -243,7 +243,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2021-09-16 15:14:57 / Modified: 15:16:25" itemprop="dateCreated datePublished" datetime="2021-09-16T15:14:57+08:00">2021-09-16</time>
+      <time title="Created: 2021-09-16 15:14:57 / Modified: 15:19:13" itemprop="dateCreated datePublished" datetime="2021-09-16T15:14:57+08:00">2021-09-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -331,7 +331,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mv /var/lib/docker /var/lib/docker_temp</span><br><span class="line">$ docker image list</span><br><span class="line">$ docker container list</span><br></pre></td></tr></table></figure>
 
 <p>在这一步我发现之前的 container 进去会有问题，但是重启后可以重新进入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker container list</span><br><span class="line">$ docker stop xxx</span><br><span class="line">$ docker start xxx</span><br><span class="line">$ docker <span class="built_in">exec</span> -it xxx /bin/bash</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker stop xxx</span><br><span class="line">$ docker start xxx</span><br><span class="line">$ docker <span class="built_in">exec</span> -it xxx /bin/bash</span><br></pre></td></tr></table></figure>
 
 <p>确认无误后可以删除，为了防止出错可以用一阵子再删</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rm -rf /var/lib/docker_temp</span><br></pre></td></tr></table></figure>
