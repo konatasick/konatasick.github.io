@@ -22,13 +22,13 @@
 <script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 <meta name="description" content="Prerequisites参考 这个教程 或 蓝盒子站长的教程 ，一直进行到把 docker 和 docker-compose 装好。 Checklist：  ssh-key设置并关闭密码登录 开启防火墙 域名映射到服务器ip 安装成功 docker 和 docker-compose   Postgres database在设置mastodon的时候，运行： 1sudo docker-compos">
 <meta property="og:type" content="article">
-<meta property="og:title" content="build-a-mastodon">
+<meta property="og:title" content="Mastodon 建站笔记">
 <meta property="og:url" content="https://tech.konata.co/2022-02-10-build-a-mastodon/index.html">
 <meta property="og:site_name" content="Konata Tech Blog">
 <meta property="og:description" content="Prerequisites参考 这个教程 或 蓝盒子站长的教程 ，一直进行到把 docker 和 docker-compose 装好。 Checklist：  ssh-key设置并关闭密码登录 开启防火墙 域名映射到服务器ip 安装成功 docker 和 docker-compose   Postgres database在设置mastodon的时候，运行： 1sudo docker-compos">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-02-09T20:38:33.000Z">
-<meta property="article:modified_time" content="2022-02-09T20:40:45.758Z">
+<meta property="article:modified_time" content="2022-02-09T20:47:40.963Z">
 <meta property="article:author" content="Konata Izumi">
 <meta property="article:tag" content="nginx">
 <meta property="article:tag" content="certbot">
@@ -40,10 +40,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://tech.konata.co/2022-02-10-build-a-mastodon/","path":"2022-02-10-build-a-mastodon/","title":"build-a-mastodon"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://tech.konata.co/2022-02-10-build-a-mastodon/","path":"2022-02-10-build-a-mastodon/","title":"Mastodon 建站笔记"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>build-a-mastodon | Konata Tech Blog</title>
+<title>Mastodon 建站笔记 | Konata Tech Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=282155994"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":282155994,"only_pageview":false}</script>
@@ -234,7 +234,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          build-a-mastodon
+          Mastodon 建站笔记
         </h1>
 
         <div class="post-meta-container">
@@ -246,7 +246,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2022-02-10 04:38:33 / Modified: 04:40:45" itemprop="dateCreated datePublished" datetime="2022-02-10T04:38:33+08:00">2022-02-10</time>
+      <time title="Created: 2022-02-10 04:38:33 / Modified: 04:47:40" itemprop="dateCreated datePublished" datetime="2022-02-10T04:38:33+08:00">2022-02-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
