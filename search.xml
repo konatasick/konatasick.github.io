@@ -62,6 +62,97 @@
       </tags>
   </entry>
   <entry>
+    <title>Git操作速查</title>
+    <url>/2019-07-12-git/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
+<ol>
+<li><p>未add时<br><code>git checkout .</code></p>
+</li>
+<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
+</li>
+<li><p>commit后</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
+<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
+<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
+<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
+<p><code>git reset --hard</code></p>
+<p>即可</p>
+<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
+<ol>
+<li><p>添加远程仓库到本地remote分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure></li>
+<li><p>查看当前仓库的远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></li>
+<li><p>fetch 远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure></li>
+<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure></li>
+<li><p>推送本地到远程仓库（自己fork的仓库）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote rm origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>GitHub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在服务器用conda创建python环境</title>
+    <url>/2019-07-08-conda-create-env/</url>
+    <content><![CDATA[<p>2019年11月27日更新：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
+
+<p>可以导出environment配置环境：</p>
+<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
+<p>另外，home/xxx/.conda/pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
+<p>删除环境：conda remove -n your_env_name –all</p>
+<hr>
+<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
+<p>首先，尝试conda list，提示not command，解决方法：</p>
+<p>在.bashrc 的末尾添加如下一行：</p>
+<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
+<p>之后conda list，正常。</p>
+<p>创建：</p>
+<p>conda create -n vso python=2.7</p>
+<p>激活：</p>
+<p>source activate vso</p>
+<p>然后就可以开始安装需要的package</p>
+<p>pip install imutils</p>
+<p>pip install numpy</p>
+<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
+<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
+<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
+<p>pip install scipy</p>
+<p>pip install matplotlib</p>
+<p>pip install sklearn</p>
+<p>pip install ffmpeg-normalize</p>
+<p>conda install ffmpeg</p>
+<p>conda install -c conda-forge librosa=0.6.3</p>
+<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>conda</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python实现聚类算法</title>
     <url>/2019-07-08-kmeans/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -134,55 +225,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Git操作速查</title>
-    <url>/2019-07-12-git/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
-<ol>
-<li><p>未add时<br><code>git checkout .</code></p>
-</li>
-<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
-</li>
-<li><p>commit后</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
-<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
-<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
-<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
-<p><code>git reset --hard</code></p>
-<p>即可</p>
-<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
-<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
-<ol>
-<li><p>添加远程仓库到本地remote分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure></li>
-<li><p>查看当前仓库的远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></li>
-<li><p>fetch 远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure></li>
-<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure></li>
-<li><p>推送本地到远程仓库（自己fork的仓库）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote rm origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>GitHub</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ffmpeg操作速查</title>
     <url>/2019-11-28-ffmpeg/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -215,48 +257,6 @@
       <tags>
         <tag>ffmpeg</tag>
         <tag>bash</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在服务器用conda创建python环境</title>
-    <url>/2019-07-08-conda-create-env/</url>
-    <content><![CDATA[<p>2019年11月27日更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
-
-<p>可以导出environment配置环境：</p>
-<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
-<p>另外，home/xxx/.conda/pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
-<p>删除环境：conda remove -n your_env_name –all</p>
-<hr>
-<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
-<p>首先，尝试conda list，提示not command，解决方法：</p>
-<p>在.bashrc 的末尾添加如下一行：</p>
-<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
-<p>之后conda list，正常。</p>
-<p>创建：</p>
-<p>conda create -n vso python=2.7</p>
-<p>激活：</p>
-<p>source activate vso</p>
-<p>然后就可以开始安装需要的package</p>
-<p>pip install imutils</p>
-<p>pip install numpy</p>
-<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
-<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
-<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
-<p>pip install scipy</p>
-<p>pip install matplotlib</p>
-<p>pip install sklearn</p>
-<p>pip install ffmpeg-normalize</p>
-<p>conda install ffmpeg</p>
-<p>conda install -c conda-forge librosa=0.6.3</p>
-<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -415,47 +415,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Wordpress建站笔记</title>
-    <url>/2022-02-09-blog-note/</url>
-    <content><![CDATA[<p>参考教程： <a href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose">https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose</a></p>
-<h3 id="Step-1-设置反代"><a href="#Step-1-设置反代" class="headerlink" title="Step 1 设置反代"></a>Step 1 设置反代</h3><p>这一步主要是对nginx进行设置。</p>
-<p>反代是什么？为什么要反代？一般而言例如VPN这样的服务就是正向代理，代理客户端访问各个网站。而反向代理是服务器的代理。 </p>
-<p><code>listen</code>：告诉nginx要监听哪个端口。这步暂时只用了80端口，也就是HTTP用的。之后SSL下来了以后加上443，也就是HTTPS用的。</p>
-<p><code>server_name</code>：域名，这里似乎其实只需要写blog.konata.co就够了？前后只是优先级？</p>
-<p><code>index</code>：网页的index文件，按照优先级排序</p>
-<p><code>root</code>：这个是根目录地址，之后会在dockerfile里mount到这个目录下。</p>
-<h3 id="Step-2-设置环境变量"><a href="#Step-2-设置环境变量" class="headerlink" title="Step 2 设置环境变量"></a>Step 2 设置环境变量</h3><p>这一步主要是把密码用户名加到环境变量里，然后由于涉及敏感信息，所以额外添加了.gitignore和.dockerignore</p>
-<h3 id="Step-3-设置docker-compose"><a href="#Step-3-设置docker-compose" class="headerlink" title="Step 3 设置docker-compose"></a>Step 3 设置docker-compose</h3><p>Docker-compose和dockerfile是两个东西，各自用处见：</p>
-<p><a href="https://www.runoob.com/docker/docker-dockerfile.html">https://www.runoob.com/docker/docker-dockerfile.html</a></p>
-<p><a href="https://www.runoob.com/docker/docker-compose.html">https://www.runoob.com/docker/docker-compose.html</a></p>
-<p>Docker-compose是用来配置容器内服务的。这里依次配置了db（数据库），wordpress，webserver（nginx反代）和certbot（https证书）。</p>
-<p>在services中，每个服务器的image指定了是从哪个镜像启动服务。这里用的都是公开的现成的镜像，所以可以直接启动。</p>
-<p>这一步wordpress用的镜像是image: wordpress:5.1.1-fpm-alpine，版本比较旧，可以替换成<a href="https://hub.docker.com/_/wordpress/">这里</a> 更新的tag，如<code>5.9.0-fpm-alpine</code>，也许就可以解决php版本过老的问题（待确认）。</p>
-<h3 id="Step-4-获取SSL证书"><a href="#Step-4-获取SSL证书" class="headerlink" title="Step 4 获取SSL证书"></a>Step 4 获取SSL证书</h3><p>要用https而不是http，需要获取SSL证书。在上一步已经配置好了certbot，这一步首先启动docker-compose。</p>
-<p><code>docker-compose up</code> 是启动，加上<code>-d</code>是在后台运行。</p>
-<p><code>docker-compose ps</code> 可以检查服务运行情况。</p>
-<p><code>docker-compose exec webserver ls -la /etc/letsencrypt/live</code> 这句话指的是启动webserver的docker然后查看域名是否设置成功。从名字上看似乎用的是Let’s Encrypt的服务。如果设置成功，就可以进入<code>docker-compose.yml</code>把<code>--staging</code>这个调试用的参数改成<code>--force-renewal</code>，重新申请一个正式的证书。</p>
-<p><code>docker-compose up --force-recreate --no-deps certbot</code>  使最新的docker-compose.yml生效。</p>
-<h3 id="Step-5-修改nginx"><a href="#Step-5-修改nginx" class="headerlink" title="Step 5 修改nginx"></a>Step 5 修改nginx</h3><p> 因为已经申请到了SSL证书，现在要返回修改<code>nginx</code>。</p>
-<p>先把<code>webserver</code>服务停了，然后下载<code>certbot</code>的<code>nginx</code>配置文件<code>options-ssl-nginx.conf</code>，删除旧的<code>nginx.conf</code>改成新的<code>nginx.conf</code>，再修改<code>docker-compose.yml</code>里<code>webserver</code>的配置，把<code>443</code>端口添加上去。</p>
-<p><code>docker-compose up --force-recreate --no-deps webserver</code> 使最新的docker-compose.yml生效。</p>
-<h3 id="Step-6-前端安装"><a href="#Step-6-前端安装" class="headerlink" title="Step 6 前端安装"></a>Step 6 前端安装</h3><p> 到这步为止，<code>nginx</code>反代，SSL证书，<code>wordpress</code>，全部都安装好并且在后台运行了。这时候访问域名，就会出现<code>wordpress</code>的安装界面。全程网页操作，简单易懂。</p>
-<h3 id="Step-7-定期更新证书"><a href="#Step-7-定期更新证书" class="headerlink" title="Step 7 定期更新证书"></a>Step 7 定期更新证书</h3><p>因为证书90天内有效，所以要写一个脚本每隔一段时间（小于90天）就重新申请一次证书。脚本内容大概是renew <code>certbot</code>并删除多余镜像，之后把脚本的权限设为可执行。调用<code>crontab</code>来定期运行脚本。</p>
-<p><code>*/5 * * * *</code>是每五分钟运行一次，为了快速出测试结果。</p>
-<p><code>\&gt;&gt; /var/log/cron.log 2&gt;&amp;1</code>是把输出写到log文件里，方便查看。</p>
-<p>确认没有问题以后，改为<code>0 12 * * *</code>，是每12小时更新一次，需要更新得这么频繁吗？</p>
-<p>同时把调试用的参数<code>--dry-run</code>从脚本里删掉。</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-        <tag>certbot</tag>
-        <tag>wordpress</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>解决 docker no space left on device</title>
     <url>/2021-09-16-docker-no-space/</url>
     <content><![CDATA[<p>操作系统为 CentOS Linux release 7.2，试过网上的一些方法例如软链接，增加graph路径都没有用，自己摸索找到了配置路径的位置，记录一下。</p>
@@ -528,6 +487,124 @@
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Wordpress建站笔记</title>
+    <url>/2022-02-09-blog-note/</url>
+    <content><![CDATA[<p>参考教程： <a href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose">https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose</a></p>
+<h3 id="Step-1-设置反代"><a href="#Step-1-设置反代" class="headerlink" title="Step 1 设置反代"></a>Step 1 设置反代</h3><p>这一步主要是对nginx进行设置。</p>
+<p>反代是什么？为什么要反代？一般而言例如VPN这样的服务就是正向代理，代理客户端访问各个网站。而反向代理是服务器的代理。 </p>
+<p><code>listen</code>：告诉nginx要监听哪个端口。这步暂时只用了80端口，也就是HTTP用的。之后SSL下来了以后加上443，也就是HTTPS用的。</p>
+<p><code>server_name</code>：域名，这里似乎其实只需要写blog.konata.co就够了？前后只是优先级？</p>
+<p><code>index</code>：网页的index文件，按照优先级排序</p>
+<p><code>root</code>：这个是根目录地址，之后会在dockerfile里mount到这个目录下。</p>
+<h3 id="Step-2-设置环境变量"><a href="#Step-2-设置环境变量" class="headerlink" title="Step 2 设置环境变量"></a>Step 2 设置环境变量</h3><p>这一步主要是把密码用户名加到环境变量里，然后由于涉及敏感信息，所以额外添加了.gitignore和.dockerignore</p>
+<h3 id="Step-3-设置docker-compose"><a href="#Step-3-设置docker-compose" class="headerlink" title="Step 3 设置docker-compose"></a>Step 3 设置docker-compose</h3><p>Docker-compose和dockerfile是两个东西，各自用处见：</p>
+<p><a href="https://www.runoob.com/docker/docker-dockerfile.html">https://www.runoob.com/docker/docker-dockerfile.html</a></p>
+<p><a href="https://www.runoob.com/docker/docker-compose.html">https://www.runoob.com/docker/docker-compose.html</a></p>
+<p>Docker-compose是用来配置容器内服务的。这里依次配置了db（数据库），wordpress，webserver（nginx反代）和certbot（https证书）。</p>
+<p>在services中，每个服务器的image指定了是从哪个镜像启动服务。这里用的都是公开的现成的镜像，所以可以直接启动。</p>
+<p>这一步wordpress用的镜像是image: wordpress:5.1.1-fpm-alpine，版本比较旧，可以替换成<a href="https://hub.docker.com/_/wordpress/">这里</a> 更新的tag，如<code>5.9.0-fpm-alpine</code>，也许就可以解决php版本过老的问题（待确认）。</p>
+<h3 id="Step-4-获取SSL证书"><a href="#Step-4-获取SSL证书" class="headerlink" title="Step 4 获取SSL证书"></a>Step 4 获取SSL证书</h3><p>要用https而不是http，需要获取SSL证书。在上一步已经配置好了certbot，这一步首先启动docker-compose。</p>
+<p><code>docker-compose up</code> 是启动，加上<code>-d</code>是在后台运行。</p>
+<p><code>docker-compose ps</code> 可以检查服务运行情况。</p>
+<p><code>docker-compose exec webserver ls -la /etc/letsencrypt/live</code> 这句话指的是启动webserver的docker然后查看域名是否设置成功。从名字上看似乎用的是Let’s Encrypt的服务。如果设置成功，就可以进入<code>docker-compose.yml</code>把<code>--staging</code>这个调试用的参数改成<code>--force-renewal</code>，重新申请一个正式的证书。</p>
+<p><code>docker-compose up --force-recreate --no-deps certbot</code>  使最新的docker-compose.yml生效。</p>
+<h3 id="Step-5-修改nginx"><a href="#Step-5-修改nginx" class="headerlink" title="Step 5 修改nginx"></a>Step 5 修改nginx</h3><p> 因为已经申请到了SSL证书，现在要返回修改<code>nginx</code>。</p>
+<p>先把<code>webserver</code>服务停了，然后下载<code>certbot</code>的<code>nginx</code>配置文件<code>options-ssl-nginx.conf</code>，删除旧的<code>nginx.conf</code>改成新的<code>nginx.conf</code>，再修改<code>docker-compose.yml</code>里<code>webserver</code>的配置，把<code>443</code>端口添加上去。</p>
+<p><code>docker-compose up --force-recreate --no-deps webserver</code> 使最新的docker-compose.yml生效。</p>
+<h3 id="Step-6-前端安装"><a href="#Step-6-前端安装" class="headerlink" title="Step 6 前端安装"></a>Step 6 前端安装</h3><p> 到这步为止，<code>nginx</code>反代，SSL证书，<code>wordpress</code>，全部都安装好并且在后台运行了。这时候访问域名，就会出现<code>wordpress</code>的安装界面。全程网页操作，简单易懂。</p>
+<h3 id="Step-7-定期更新证书"><a href="#Step-7-定期更新证书" class="headerlink" title="Step 7 定期更新证书"></a>Step 7 定期更新证书</h3><p>因为证书90天内有效，所以要写一个脚本每隔一段时间（小于90天）就重新申请一次证书。脚本内容大概是renew <code>certbot</code>并删除多余镜像，之后把脚本的权限设为可执行。调用<code>crontab</code>来定期运行脚本。</p>
+<p><code>*/5 * * * *</code>是每五分钟运行一次，为了快速出测试结果。</p>
+<p><code>\&gt;&gt; /var/log/cron.log 2&gt;&amp;1</code>是把输出写到log文件里，方便查看。</p>
+<p>确认没有问题以后，改为<code>0 12 * * *</code>，是每12小时更新一次，需要更新得这么频繁吗？</p>
+<p>同时把调试用的参数<code>--dry-run</code>从脚本里删掉。</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>certbot</tag>
+        <tag>wordpress</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>build-a-mastodon</title>
+    <url>/2022-02-10-build-a-mastodon/</url>
+    <content><![CDATA[<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>参考 <a href="https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/">这个教程</a> 或 <a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">蓝盒子站长的教程</a> ，一直进行到把 docker 和 docker-compose 装好。</p>
+<p>Checklist：</p>
+<ul>
+<li>ssh-key设置并关闭密码登录</li>
+<li>开启防火墙</li>
+<li>域名映射到服务器ip</li>
+<li>安装成功 docker 和 docker-compose </li>
+</ul>
+<h2 id="Postgres-database"><a href="#Postgres-database" class="headerlink" title="Postgres database"></a>Postgres database</h2><p>在设置mastodon的时候，运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker-compose run --rm web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
+
+<p>我在这个地方卡住了非常久，在postgres那里尝试了各种版本教程的排列组合最后的结果都是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Database connection could not be established with this configuration, try again.</span><br><span class="line">FATAL:  role <span class="string">&quot;mastodon&quot;</span> does not exist</span><br></pre></td></tr></table></figure>
+
+<p>后来我认真看了一下这一步，它的输出是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Starting mastodon_db_1    ... <span class="keyword">done</span></span><br><span class="line">Starting mastodon_redis_1 ... <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>查看docker container也是这两个docker在跑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker container list -a</span><br><span class="line">CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS                    PORTS     NAMES</span><br><span class="line">bd7debf13a49   redis:6-alpine         <span class="string">&quot;docker-entrypoint.s…&quot;</span>   31 minutes ago   Up 31 minutes (healthy)             mastodon_redis_1</span><br><span class="line">30c6e3b74c40   postgres:12.5-alpine   <span class="string">&quot;docker-entrypoint.s…&quot;</span>   31 minutes ago   Up 31 minutes (healthy)             mastodon_db_1</span><br></pre></td></tr></table></figure>
+
+<p>于是我尝试把教程中4. 初始化PostgreSQL的这句话：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it postgres12 psql -U postgres</span><br></pre></td></tr></table></figure>
+
+<p>改成</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br></pre></td></tr></table></figure>
+
+<p>之后再添加mastodon用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; CREATE USER mastodon WITH PASSWORD <span class="string">&#x27;your_password&#x27;</span> CREATEDB;</span><br><span class="line">&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+
+<p>完整操作看起来是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br><span class="line">psql (12.5)</span><br><span class="line">Type <span class="string">&quot;help&quot;</span> <span class="keyword">for</span> <span class="built_in">help</span>.</span><br><span class="line"></span><br><span class="line">postgres=<span class="comment"># CREATE USER mastodon WITH PASSWORD &#x27;mastodon-db&#x27; CREATEDB;</span></span><br><span class="line">CREATE ROLE</span><br><span class="line">postgres=<span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
+
+<p>这时候再运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker-compose run --rm web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
+
+<p>按照下列输出就可以通过验证了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Domain name: example.com</span><br><span class="line"></span><br><span class="line">Single user mode disables registrations and redirects the landing page to your public profile.</span><br><span class="line">Do you want to <span class="built_in">enable</span> single user mode? No</span><br><span class="line"></span><br><span class="line">Are you using Docker to run Mastodon? Yes</span><br><span class="line"></span><br><span class="line">PostgreSQL host: mastodon_db_1</span><br><span class="line">PostgreSQL port: 5432</span><br><span class="line">Name of PostgreSQL database: mastodon</span><br><span class="line">Name of PostgreSQL user: mastodon</span><br><span class="line">Password of PostgreSQL user: （这里写上面你给mastodon设置的your_passwords）</span><br><span class="line">Database configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Redis host: mastodon_redis_1</span><br><span class="line">Redis port: 6379</span><br><span class="line">Redis password: （这里是直接回车，没有密码）</span><br><span class="line">Redis configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Do you want to store uploaded files on the cloud? No</span><br><span class="line"></span><br><span class="line">Do you want to send e-mails from localhost? （这一步参考原教程配置，我配坏了）</span><br><span class="line"></span><br><span class="line">This configuration will be written to .env.production</span><br><span class="line">Save configuration? Yes</span><br><span class="line">Below is your configuration, save it to an .env.production file outside Docker:</span><br></pre></td></tr></table></figure>
+
+<p>把接下来的部分一直到</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">It is also saved within this container so you can proceed with this wizard.</span><br></pre></td></tr></table></figure>
+
+<p>两行绿字中间的所有内容都复制下来。</p>
+<p>接下来依然按照蓝盒子教程走，两个问题选yes，输入管理员账号。</p>
+<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>这边又出了问题，按照教程走下来在这一步报错：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo systemctl reload nginx</span><br><span class="line">Job <span class="keyword">for</span> nginx.service failed.</span><br><span class="line">See <span class="string">&quot;systemctl status nginx.service&quot;</span> and <span class="string">&quot;journalctl -xe&quot;</span> <span class="keyword">for</span> details.</span><br></pre></td></tr></table></figure>
+
+<p>查看报错信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo nginx -t</span><br><span class="line">nginx: [emerg] no <span class="string">&quot;ssl_certificate&quot;</span> is defined <span class="keyword">for</span> the <span class="string">&quot;listen ... ssl&quot;</span> directive <span class="keyword">in</span> /etc/nginx/sites-enabled/example.com.conf:25</span><br><span class="line">nginx: configuration file /etc/nginx/nginx.conf <span class="built_in">test</span> failed</span><br></pre></td></tr></table></figure>
+
+<p>原来是证书没有设置好。这边我把soft link先取消了（否则会报错），运行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo rm /etc/nginx/sites-enabled/example.com.conf</span><br><span class="line">sudo certbot certonly --nginx -d example.com</span><br><span class="line">sudo ln -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
+
+<p>然后把example.com.conf 里这两行取消注释（#删掉）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Uncomment these lines once you acquire a certificate:</span><br><span class="line">ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;</span><br><span class="line">ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;</span><br></pre></td></tr></table></figure>
+
+<p>记得上面的example.com实际上应该是你的域名。</p>
+<p>参考资料：</p>
+<p><a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html</a></p>
+<p><a href="https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4">https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4</a></p>
+<p><a href="https://peterbabic.dev/blog/running-mastodon-with-docker-compose/">https://peterbabic.dev/blog/running-mastodon-with-docker-compose/</a></p>
+<p><a href="https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/">https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/</a></p>
+<p><a href="https://www.alibabacloud.com/blog/how-to-install-mastodon-using-docker-on-alibaba-cloud-ecs_595049">https://www.alibabacloud.com/blog/how-to-install-mastodon-using-docker-on-alibaba-cloud-ecs_595049</a></p>
+<p><a href="https://www.linode.com/docs/guides/install-mastodon-on-ubuntu-2004/">https://www.linode.com/docs/guides/install-mastodon-on-ubuntu-2004/</a></p>
+<p><a href="https://www.notion.so/Mastodon-042a05ee29a048df8b2c1afd49e4c49b">https://www.notion.so/Mastodon-042a05ee29a048df8b2c1afd49e4c49b</a></p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>certbot</tag>
+        <tag>mastodon</tag>
       </tags>
   </entry>
 </search>

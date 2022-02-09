@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tech.konata.co/2022-02-10-build-a-mastodon/</loc>
+    
+    <lastmod>2022-02-09</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tech.konata.co/2022-02-09-blog-note/</loc>
     
     <lastmod>2022-02-09</lastmod>
@@ -130,13 +137,6 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/kmeans/</loc>
-    <lastmod>2022-02-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://tech.konata.co/tags/git/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
@@ -151,6 +151,20 @@
   </url>
   
   <url>
+    <loc>https://tech.konata.co/tags/conda/</loc>
+    <lastmod>2022-02-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/kmeans/</loc>
+    <lastmod>2022-02-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://tech.konata.co/tags/ffmpeg/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
@@ -159,13 +173,6 @@
   
   <url>
     <loc>https://tech.konata.co/tags/bash/</loc>
-    <lastmod>2022-02-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/conda/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -228,6 +235,13 @@
   </url>
   
   <url>
+    <loc>https://tech.konata.co/tags/docker/</loc>
+    <lastmod>2022-02-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://tech.konata.co/tags/nginx/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
@@ -249,7 +263,7 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/docker/</loc>
+    <loc>https://tech.konata.co/tags/mastodon/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

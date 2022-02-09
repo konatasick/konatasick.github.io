@@ -164,7 +164,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -175,7 +175,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -205,6 +205,143 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://tech.konata.co/2022-02-10-build-a-mastodon/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Konata Izumi">
+      <meta itemprop="description" content="堆满了debug记录的笔记本">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Konata Tech Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022-02-10-build-a-mastodon/" class="post-title-link" itemprop="url">build-a-mastodon</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-02-10 04:38:33 / Modified: 04:40:45" itemprop="dateCreated datePublished" datetime="2022-02-10T04:38:33+08:00">2022-02-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Project/" itemprop="url" rel="index"><span itemprop="name">Project</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>参考 <a target="_blank" rel="noopener" href="https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/">这个教程</a> 或 <a target="_blank" rel="noopener" href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">蓝盒子站长的教程</a> ，一直进行到把 docker 和 docker-compose 装好。</p>
+<p>Checklist：</p>
+<ul>
+<li>ssh-key设置并关闭密码登录</li>
+<li>开启防火墙</li>
+<li>域名映射到服务器ip</li>
+<li>安装成功 docker 和 docker-compose </li>
+</ul>
+<h2 id="Postgres-database"><a href="#Postgres-database" class="headerlink" title="Postgres database"></a>Postgres database</h2><p>在设置mastodon的时候，运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker-compose run --rm web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
+
+<p>我在这个地方卡住了非常久，在postgres那里尝试了各种版本教程的排列组合最后的结果都是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Database connection could not be established with this configuration, try again.</span><br><span class="line">FATAL:  role <span class="string">&quot;mastodon&quot;</span> does not exist</span><br></pre></td></tr></table></figure>
+
+<p>后来我认真看了一下这一步，它的输出是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Starting mastodon_db_1    ... <span class="keyword">done</span></span><br><span class="line">Starting mastodon_redis_1 ... <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>查看docker container也是这两个docker在跑：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker container list -a</span><br><span class="line">CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS                    PORTS     NAMES</span><br><span class="line">bd7debf13a49   redis:6-alpine         <span class="string">&quot;docker-entrypoint.s…&quot;</span>   31 minutes ago   Up 31 minutes (healthy)             mastodon_redis_1</span><br><span class="line">30c6e3b74c40   postgres:12.5-alpine   <span class="string">&quot;docker-entrypoint.s…&quot;</span>   31 minutes ago   Up 31 minutes (healthy)             mastodon_db_1</span><br></pre></td></tr></table></figure>
+
+<p>于是我尝试把教程中4. 初始化PostgreSQL的这句话：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it postgres12 psql -U postgres</span><br></pre></td></tr></table></figure>
+
+<p>改成</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br></pre></td></tr></table></figure>
+
+<p>之后再添加mastodon用户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; CREATE USER mastodon WITH PASSWORD <span class="string">&#x27;your_password&#x27;</span> CREATEDB;</span><br><span class="line">&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+
+<p>完整操作看起来是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br><span class="line">psql (12.5)</span><br><span class="line">Type <span class="string">&quot;help&quot;</span> <span class="keyword">for</span> <span class="built_in">help</span>.</span><br><span class="line"></span><br><span class="line">postgres=<span class="comment"># CREATE USER mastodon WITH PASSWORD &#x27;mastodon-db&#x27; CREATEDB;</span></span><br><span class="line">CREATE ROLE</span><br><span class="line">postgres=<span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
+
+<p>这时候再运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker-compose run --rm web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
+
+<p>按照下列输出就可以通过验证了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Domain name: example.com</span><br><span class="line"></span><br><span class="line">Single user mode disables registrations and redirects the landing page to your public profile.</span><br><span class="line">Do you want to <span class="built_in">enable</span> single user mode? No</span><br><span class="line"></span><br><span class="line">Are you using Docker to run Mastodon? Yes</span><br><span class="line"></span><br><span class="line">PostgreSQL host: mastodon_db_1</span><br><span class="line">PostgreSQL port: 5432</span><br><span class="line">Name of PostgreSQL database: mastodon</span><br><span class="line">Name of PostgreSQL user: mastodon</span><br><span class="line">Password of PostgreSQL user: （这里写上面你给mastodon设置的your_passwords）</span><br><span class="line">Database configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Redis host: mastodon_redis_1</span><br><span class="line">Redis port: 6379</span><br><span class="line">Redis password: （这里是直接回车，没有密码）</span><br><span class="line">Redis configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Do you want to store uploaded files on the cloud? No</span><br><span class="line"></span><br><span class="line">Do you want to send e-mails from localhost? （这一步参考原教程配置，我配坏了）</span><br><span class="line"></span><br><span class="line">This configuration will be written to .env.production</span><br><span class="line">Save configuration? Yes</span><br><span class="line">Below is your configuration, save it to an .env.production file outside Docker:</span><br></pre></td></tr></table></figure>
+
+<p>把接下来的部分一直到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">It is also saved within this container so you can proceed with this wizard.</span><br></pre></td></tr></table></figure>
+
+<p>两行绿字中间的所有内容都复制下来。</p>
+<p>接下来依然按照蓝盒子教程走，两个问题选yes，输入管理员账号。</p>
+<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>这边又出了问题，按照教程走下来在这一步报错：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl reload nginx</span><br><span class="line">Job <span class="keyword">for</span> nginx.service failed.</span><br><span class="line">See <span class="string">&quot;systemctl status nginx.service&quot;</span> and <span class="string">&quot;journalctl -xe&quot;</span> <span class="keyword">for</span> details.</span><br></pre></td></tr></table></figure>
+
+<p>查看报错信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nginx -t</span><br><span class="line">nginx: [emerg] no <span class="string">&quot;ssl_certificate&quot;</span> is defined <span class="keyword">for</span> the <span class="string">&quot;listen ... ssl&quot;</span> directive <span class="keyword">in</span> /etc/nginx/sites-enabled/example.com.conf:25</span><br><span class="line">nginx: configuration file /etc/nginx/nginx.conf <span class="built_in">test</span> failed</span><br></pre></td></tr></table></figure>
+
+<p>原来是证书没有设置好。这边我把soft link先取消了（否则会报错），运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo rm /etc/nginx/sites-enabled/example.com.conf</span><br><span class="line">sudo certbot certonly --nginx -d example.com</span><br><span class="line">sudo ln -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
+
+<p>然后把example.com.conf 里这两行取消注释（#删掉）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Uncomment these lines once you acquire a certificate:</span><br><span class="line">ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;</span><br><span class="line">ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;</span><br></pre></td></tr></table></figure>
+
+<p>记得上面的example.com实际上应该是你的域名。</p>
+<p>参考资料：</p>
+<p><a target="_blank" rel="noopener" href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4">https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4</a></p>
+<p><a target="_blank" rel="noopener" href="https://peterbabic.dev/blog/running-mastodon-with-docker-compose/">https://peterbabic.dev/blog/running-mastodon-with-docker-compose/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/">https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.alibabacloud.com/blog/how-to-install-mastodon-using-docker-on-alibaba-cloud-ecs_595049">https://www.alibabacloud.com/blog/how-to-install-mastodon-using-docker-on-alibaba-cloud-ecs_595049</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.linode.com/docs/guides/install-mastodon-on-ubuntu-2004/">https://www.linode.com/docs/guides/install-mastodon-on-ubuntu-2004/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.notion.so/Mastodon-042a05ee29a048df8b2c1afd49e4c49b">https://www.notion.so/Mastodon-042a05ee29a048df8b2c1afd49e4c49b</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1174,144 +1311,6 @@
 <p>conda install ffmpeg</p>
 <p>conda install -c conda-forge librosa=0.6.3</p>
 <p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a target="_blank" rel="noopener" href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://tech.konata.co/2019-07-08-kmeans/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Konata Izumi">
-      <meta itemprop="description" content="堆满了debug记录的笔记本">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Konata Tech Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019-07-08-kmeans/" class="post-title-link" itemprop="url">python实现聚类算法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2019-07-08 00:19:34" itemprop="dateCreated datePublished" datetime="2019-07-08T00:19:34+08:00">2019-07-08</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-08-09 01:03:18" itemprop="dateModified" datetime="2021-08-09T01:03:18+08:00">2021-08-09</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">Algorithm</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <meta name="referrer" content="no-referrer"/>
-
-<h1 id="sklearn包中的K-Means算法"><a href="#sklearn包中的K-Means算法" class="headerlink" title="sklearn包中的K-Means算法"></a>sklearn包中的K-Means算法</h1><p>1.  函数：<code>sklearn.cluster.``KMeans</code></p>
-<p>*class *<code>sklearn.cluster.``KMeans</code>(<em>n_clusters=8</em>, <em>init=’k-means++’</em>, <em>n_init=10</em>, <em>max_iter=300</em>, <em>tol=0.0001</em>, <em>precompute_distances=’auto’</em>, <em>verbose=0</em>, <em>random_state=None</em>, <em>copy_x=True</em>, <em>n_jobs=None</em>, <em>algorithm=’auto’</em>)</p>
-<ol start="2">
-<li>主要参数</li>
-</ol>
-<p>n_clusters：要进行的分类的个数，即上文中k值，默认是8</p>
-<p>init：‘k-means++’, ‘random’ or an ndarray</p>
-<p>‘k-means ++’：使用k-means++算法，默认选项</p>
-<p>‘random’:从初始质心数据中随机选择k个观察值</p>
-<p>第三个是数组形式的参数</p>
-<p><em>n_init</em>：使用不同的初始化运行算法的次数</p>
-<p>max_iter  ：最大迭代次数。默认300</p>
-<p><em>random_state：</em>设置某个整数使得结果固定</p>
-<p>n_jobs: 设置并行量 （-1表示使用所有CPU）</p>
-<ol start="3">
-<li>主要属性：</li>
-</ol>
-<p>cluster_centers_ ：集群中心的坐标</p>
-<p>labels_ : 每个点的标签</p>
-<ol start="4">
-<li>官网示例：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from sklearn.cluster import KMeans</span><br><span class="line">&gt;&gt;&gt; import numpy as np</span><br><span class="line">&gt;&gt;&gt; X = np.array([[1, 2], [1, 4], [1, 0],</span><br><span class="line">...               [10, 2], [10, 4], [10, 0]])</span><br><span class="line">&gt;&gt;&gt; kmeans = KMeans(n_clusters=2, random_state=0).fit(X)</span><br><span class="line">&gt;&gt;&gt; kmeans.labels_</span><br><span class="line">array([1, 1, 1, 0, 0, 0], dtype=int32)</span><br><span class="line">&gt;&gt;&gt; kmeans.predict([[0, 0], [12, 3]])</span><br><span class="line">array([1, 0], dtype=int32)</span><br><span class="line">&gt;&gt;&gt; kmeans.cluster_centers_</span><br><span class="line">array([[10.,  2.],</span><br><span class="line">       [ 1.,  2.]])</span><br></pre></td></tr></table></figure>
-
-<p>5.  My code：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">%matplotlib inline</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from sklearn.cluster import KMeans</span><br><span class="line">import numpy as np</span><br><span class="line">X = np.array([[1, 2], [1, 4], [1, 0], [4, 2], [4, 4], [4, 0]])</span><br><span class="line">plt.plot(X[:,0],X[:,1],&#x27;x&#x27;)</span><br><span class="line">kmeans = KMeans(n_clusters=2).fit(X)</span><br><span class="line">print(kmeans.labels_)</span><br><span class="line">print(kmeans.predict([[0, 0], [4, 4]]))</span><br><span class="line">print(kmeans.cluster_centers_)</span><br></pre></td></tr></table></figure>
-
-<h1 id="聚类算法衡量指标"><a href="#聚类算法衡量指标" class="headerlink" title="聚类算法衡量指标"></a>聚类算法衡量指标</h1><p>1.  函数：<code>sklearn.metrics.``silhouette_score</code></p>
-<p><code>sklearn.metrics.``silhouette_score</code>(<em>X</em>, <em>labels</em>, <em>metric=’euclidean’</em>, <em>sample_size=None</em>, <em>random_state=None</em>, **<em>kwds</em>)</p>
-<ol start="2">
-<li>实例：</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
-<h1 id="sklearn包中的K-Means算法-1"><a href="#sklearn包中的K-Means算法-1" class="headerlink" title="sklearn包中的K-Means算法"></a>sklearn包中的K-Means算法</h1><p>1.  函数：<code>sklearn.mixture.``GaussianMixture</code></p>
-<p><code>sklearn.mixture.``GaussianMixture</code>(<em>n_components=1</em>, <em>covariance_type=’full’</em>, <em>tol=0.001</em>, <em>reg_covar=1e-06</em>, <em>max_iter=100</em>, <em>n_init=1</em>, <em>init_params=’kmeans’</em>, <em>weights_init=None</em>, <em>means_init=None</em>, <em>precisions_init=None</em>, <em>random_state=None</em>, <em>warm_start=False</em>, <em>verbose=0</em>, <em>verbose_interval=10</em>)</p>
-<ol start="2">
-<li>实例：</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py">https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py</a></p>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
-<h2 id="聚类结果可视化"><a href="#聚类结果可视化" class="headerlink" title="聚类结果可视化"></a>聚类结果可视化</h2><p>参考代码：<a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">A demo of K-Means clustering on the handwritten digits data</a><br>直接plot出来点太密集了，所以考虑随机抽取5k个点来plot，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zsc201825/article/details/80918450">np.random.randint、np.random.choice、random.sample三种随机函数的用法案例</a><br>结果如下：<br><img src="https://upload-images.jianshu.io/upload_images/12583080-5ace24c52806cac3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<h2 id="先聚类后PCA"><a href="#先聚类后PCA" class="headerlink" title="先聚类后PCA"></a>先聚类后PCA</h2><p>直接对原始的数据进行聚类，结果如下：<br><img src="https://upload-images.jianshu.io/upload_images/12583080-741759f135d8b287.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<h2 id="Weighted-k-means"><a href="#Weighted-k-means" class="headerlink" title="Weighted k-means"></a>Weighted k-means</h2><h3 id="第一个方法"><a href="#第一个方法" class="headerlink" title="第一个方法"></a>第一个方法</h3><p><a target="_blank" rel="noopener" href="https://towardsdatascience.com/clustering-the-us-population-observation-weighted-k-means-f4d58b370002">Clustering the US population: observation-weighted k-means</a><br><a target="_blank" rel="noopener" href="https://github.com/leapingllamas/medium_posts/tree/master/observation_weighted_kmeans">github-observation_weighted_kmeans</a></p>
-<p>这是直接对data加权值，有对应的代码，但是数据结构用的是它自己的project，需要改写。</p>
-<h3 id="第二个方法：weighted-kernel-kmeans"><a href="#第二个方法：weighted-kernel-kmeans" class="headerlink" title="第二个方法：weighted kernel kmeans"></a>第二个方法：weighted kernel kmeans</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/subaiBlog/p/6271315.html">WEIGHTED KERNEL K-MEANS 加权核K均值算法理解及其实现（一）</a><br>上文中提到，[1]中使用了这个方法，这个方法最初在[2]提到。有现成的代码库实现：<br><a target="_blank" rel="noopener" href="https://tslearn.readthedocs.io/en/latest/gen_modules/clustering/tslearn.clustering.GlobalAlignmentKernelKMeans.html#tslearn.clustering.GlobalAlignmentKernelKMeans">tslearn.clustering.GlobalAlignmentKernelKMeans</a><br>这个是现成的工具包，若要直接使用可以设置一个最简单的y=x的kernel即可。</p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>[1]<a target="_blank" rel="noopener" href="https://www.cs.utexas.edu/users/inderjit/public_papers/multilevel_pami.pdf">Weighted Graph Cuts without Eigenvectors:A Multilevel Approach</a></p>
-<p>[2]<a target="_blank" rel="noopener" href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=00B899D4EBC282CC18487FE587FAD753?doi=10.1.1.140.3081&rep=rep1&type=pdf">Kernel k-means, Spectral Clustering and Normalized Cuts</a></p>
-<h2 id="聚类算法一览"><a href="#聚类算法一览" class="headerlink" title="聚类算法一览"></a>聚类算法一览</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lc1217/p/6893924.html">https://www.cnblogs.com/lc1217/p/6893924.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lc1217/p/6908031.html">https://www.cnblogs.com/lc1217/p/6908031.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lc1217/p/6963687.html">https://www.cnblogs.com/lc1217/p/6963687.html</a></p>
-<h2 id="GMM-vs-K-means"><a href="#GMM-vs-K-means" class="headerlink" title="GMM vs K-means"></a>GMM vs K-means</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a4d8fa39c762">https://www.jianshu.com/p/a4d8fa39c762</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/13898e68c5c6">https://www.jianshu.com/p/13898e68c5c6</a></p>
-<h2 id="sklearn"><a href="#sklearn" class="headerlink" title="sklearn"></a>sklearn</h2><p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html">https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html">https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html">https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
 
       
     </div>
