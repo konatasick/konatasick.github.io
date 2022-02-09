@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tech.konata.co/about/index.html</loc>
+    
+    <lastmod>2022-02-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/categories/index.html</loc>
+    
+    <lastmod>2022-02-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/index.html</loc>
+    
+    <lastmod>2022-02-09</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tech.konata.co/2022-02-10-build-a-mastodon/</loc>
     
     <lastmod>2022-02-09</lastmod>
@@ -85,27 +106,6 @@
     
   </url>
   
-  <url>
-    <loc>https://tech.konata.co/about/index.html</loc>
-    
-    <lastmod>2021-08-08</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/categories/index.html</loc>
-    
-    <lastmod>2021-08-08</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/index.html</loc>
-    
-    <lastmod>2021-08-08</lastmod>
-    
-  </url>
-  
 
   <url>
     <loc>https://tech.konata.co/</loc>
@@ -137,20 +137,6 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/git/</loc>
-    <lastmod>2022-02-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/GitHub/</loc>
-    <lastmod>2022-02-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://tech.konata.co/tags/conda/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
@@ -165,6 +151,20 @@
   </url>
   
   <url>
+    <loc>https://tech.konata.co/tags/git/</loc>
+    <lastmod>2022-02-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/GitHub/</loc>
+    <lastmod>2022-02-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://tech.konata.co/tags/ffmpeg/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
@@ -173,20 +173,6 @@
   
   <url>
     <loc>https://tech.konata.co/tags/bash/</loc>
-    <lastmod>2022-02-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/vscode/</loc>
-    <lastmod>2022-02-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/JupyterNotebook/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -228,14 +214,21 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/Hexo/</loc>
+    <loc>https://tech.konata.co/tags/vscode/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/docker/</loc>
+    <loc>https://tech.konata.co/tags/JupyterNotebook/</loc>
+    <lastmod>2022-02-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/Hexo/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -257,6 +250,13 @@
   
   <url>
     <loc>https://tech.konata.co/tags/wordpress/</loc>
+    <lastmod>2022-02-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/docker/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
