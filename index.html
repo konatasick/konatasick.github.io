@@ -245,7 +245,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2022-02-12 19:58:43" itemprop="dateModified" datetime="2022-02-12T19:58:43+08:00">2022-02-12</time>
+        <time title="Modified: 2022-02-12 21:12:22" itemprop="dateModified" datetime="2022-02-12T21:12:22+08:00">2022-02-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -319,10 +319,12 @@
 <p>原来是证书没有设置好。这边我把soft link先取消了（否则会报错），运行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo rm /etc/nginx/sites-enabled/example.com.conf</span><br><span class="line">sudo certbot certonly --nginx -d example.com</span><br><span class="line">sudo ln -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
 
+<p>（这边一定要加 <strong>certonly</strong> 这个参数！我因为这一步debug了一整天）</p>
 <p>然后把example.com.conf 里这两行取消注释（#删掉）</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Uncomment these lines once you acquire a certificate:</span><br><span class="line">ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;</span><br><span class="line">ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;</span><br></pre></td></tr></table></figure>
 
 <p>记得上面的example.com实际上应该是你的域名。</p>
+<p>要确保你的<code>nginx -t</code>没有任何问题，我遇到了warning结果最后真的是那个warning导致的错误，不要忽略warning！</p>
 <p>参考资料：</p>
 <p><a target="_blank" rel="noopener" href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html</a></p>
 <p><a target="_blank" rel="noopener" href="https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4">https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4</a></p>
