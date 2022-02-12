@@ -165,6 +165,13 @@
   </url>
   
   <url>
+    <loc>https://tech.konata.co/tags/kmeans/</loc>
+    <lastmod>2022-02-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://tech.konata.co/tags/git/</loc>
     <lastmod>2022-02-12</lastmod>
     <changefreq>daily</changefreq>
@@ -173,20 +180,6 @@
   
   <url>
     <loc>https://tech.konata.co/tags/GitHub/</loc>
-    <lastmod>2022-02-12</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/vscode/</loc>
-    <lastmod>2022-02-12</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/JupyterNotebook/</loc>
     <lastmod>2022-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -207,21 +200,21 @@
   </url>
   
   <url>
+    <loc>https://tech.konata.co/tags/vscode/</loc>
+    <lastmod>2022-02-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/JupyterNotebook/</loc>
+    <lastmod>2022-02-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://tech.konata.co/tags/mac/</loc>
-    <lastmod>2022-02-12</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/kmeans/</loc>
-    <lastmod>2022-02-12</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/Hexo/</loc>
     <lastmod>2022-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -250,6 +243,13 @@
   
   <url>
     <loc>https://tech.konata.co/tags/MPI-IS/</loc>
+    <lastmod>2022-02-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/Hexo/</loc>
     <lastmod>2022-02-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
