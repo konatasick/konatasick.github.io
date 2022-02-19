@@ -104,6 +104,55 @@
       </tags>
   </entry>
   <entry>
+    <title>Git操作速查</title>
+    <url>/2019-07-12-git/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
+<ol>
+<li><p>未add时<br><code>git checkout .</code></p>
+</li>
+<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
+</li>
+<li><p>commit后</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
+<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
+<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
+<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
+<p><code>git reset --hard</code></p>
+<p>即可</p>
+<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
+<ol>
+<li><p>添加远程仓库到本地remote分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure></li>
+<li><p>查看当前仓库的远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></li>
+<li><p>fetch 远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure></li>
+<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure></li>
+<li><p>推送本地到远程仓库（自己fork的仓库）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote rm origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>GitHub</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python实现聚类算法</title>
     <url>/2019-07-08-kmeans/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -176,90 +225,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Git操作速查</title>
-    <url>/2019-07-12-git/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
-<ol>
-<li><p>未add时<br><code>git checkout .</code></p>
-</li>
-<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
-</li>
-<li><p>commit后</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
-<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
-<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
-<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
-<p><code>git reset --hard</code></p>
-<p>即可</p>
-<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
-<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
-<ol>
-<li><p>添加远程仓库到本地remote分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure></li>
-<li><p>查看当前仓库的远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></li>
-<li><p>fetch 远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure></li>
-<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure></li>
-<li><p>推送本地到远程仓库（自己fork的仓库）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote rm origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>GitHub</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ffmpeg操作速查</title>
-    <url>/2019-11-28-ffmpeg/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
-<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
-<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
-<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
-<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
-<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
-<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
-<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose=1” output.mp4</p>
-<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
-<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
-<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
-<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale=1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
-<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop=480:480:186:0 output</p>
-<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
-<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
-<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert/multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
-<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
-<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
-<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-        <tag>bash</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>大型vscode真香现场</title>
     <url>/2020-01-16-vscode/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -326,6 +291,41 @@
         <tag>python</tag>
         <tag>vscode</tag>
         <tag>JupyterNotebook</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ffmpeg操作速查</title>
+    <url>/2019-11-28-ffmpeg/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
+<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
+<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
+<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
+<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
+<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
+<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
+<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose=1” output.mp4</p>
+<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
+<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
+<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
+<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale=1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
+<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop=480:480:186:0 output</p>
+<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
+<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
+<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert/multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
+<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
+<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
+<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+        <tag>bash</tag>
       </tags>
   </entry>
   <entry>
@@ -541,7 +541,26 @@
 <li>域名映射到服务器ip</li>
 <li>安装成功 docker 和 docker-compose </li>
 </ul>
-<h2 id="Postgres-database"><a href="#Postgres-database" class="headerlink" title="Postgres database"></a>Postgres database</h2><p>在设置mastodon的时候，运行：</p>
+<h2 id="Postgres-database"><a href="#Postgres-database" class="headerlink" title="Postgres database"></a>Postgres database</h2><p><strong>Update 2022.2.19：</strong></p>
+<p>这一步我已经找到原因了，是因为在原教程中，写的是：</p>
+<blockquote>
+<p>刚才docker-compose.yml文件中，数据库（db）部分的地址为./postgres:/var/lib/postgresql/data，因此你的数据库绝对地址为/home/mastodon/mastodon/postgres。</p>
+</blockquote>
+<p>然后我发现我wget最新的docker-compose配置，这边已经变成了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres14:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
+
+<p>所以我当时按照教程运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name postgres12 -v /home/mastodon/mastodon/postgres:/var/lib/postgresql/data -e   POSTGRES_PASSWORD=设置数据库管理员密码 --rm -d postgres:12.5-alpine</span><br></pre></td></tr></table></figure>
+<p>实际上是在<code>./postgres</code>里操作，但我应该在<code>./postgres14</code>里操作才能真的把数据写进docker。所以这里应该把命令改为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name postgres12 -v /home/mastodon/mastodon/postgres14:/var/lib/postgresql/data -e   POSTGRES_PASSWORD=设置数据库管理员密码 --rm -d postgres:12.5-alpine</span><br></pre></td></tr></table></figure>
+<p>或者把docker-compose中的</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres14:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
+<p>改回</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
+<p>总之目的都是让我们能真的实际操作到postgres的数据并让docker能访问到。</p>
+<p>这里因为我还是按照之前的路径操作，后来直接进入<code>mastodon_db_1</code>才真正写到了<code>./postgres14</code>里，所以我的<code>./postgres</code>实际上是没有用的，我就把整个文件夹删掉了。</p>
+<p><strong>原文：</strong></p>
+<p>在设置mastodon的时候，运行：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker-compose run --rm web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
 
 <p>我在这个地方卡住了非常久，在postgres那里尝试了各种版本教程的排列组合最后的结果都是：</p>
@@ -591,6 +610,11 @@
 
 <p>记得上面的example.com实际上应该是你的域名。</p>
 <p>要确保你的<code>nginx -t</code>没有任何问题，我遇到了warning结果最后真的是那个warning导致的错误，不要忽略warning！</p>
+<p>最后可以通过</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">certbot renew --dry_run</span><br></pre></td></tr></table></figure>
+
+<p>测试证书的自动更新是否起效，<code>--dry_run</code>就是仅打印信息，不实际执行。</p>
+<p>这一步很多教程会教你设置定期任务来更新，但实际上certbot是会自动更新的（参考<a href="https://blog.csdn.net/AlistairEd/article/details/113804554">这篇文章</a> ）。</p>
 <p>参考资料：</p>
 <p><a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html</a></p>
 <p><a href="https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4">https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4</a></p>
