@@ -636,7 +636,7 @@
   <entry>
     <title>Mastodon 媒体存储和数据库备份</title>
     <url>/2022-02-20-mastodon-backup/</url>
-    <content><![CDATA[<p>** 写在前面： **<br>本文备份方法我还在验证中，请谨慎使用，最好以防万一多导出一份<code>backup.dump</code> 。</p>
+    <content><![CDATA[<p><strong>写在前面：</strong><br>本文备份方法我还在验证中，请谨慎使用，最好以防万一多导出一份<code>backup.dump</code> 。</p>
 <h2 id="Why：为什么要备份"><a href="#Why：为什么要备份" class="headerlink" title="Why：为什么要备份"></a>Why：为什么要备份</h2><p>定期备份是好习惯，自从体验过一次wordpress搬家以后深刻感受到，有（异地）备份走遍天下都不怕。因为各种教备份的资料都比较全，本文主要是个人记录+学习用，如果想深入了解备份究竟在做什么也可以参考这篇文章。</p>
 <p>当你有一份长毛象的异地备份，你可以：</p>
 <ul>
