@@ -104,55 +104,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Git操作速查</title>
-    <url>/2019-07-12-git/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
-<ol>
-<li><p>未add时<br><code>git checkout .</code></p>
-</li>
-<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
-</li>
-<li><p>commit后</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
-<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
-<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
-<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
-<p><code>git reset --hard</code></p>
-<p>即可</p>
-<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
-<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
-<ol>
-<li><p>添加远程仓库到本地remote分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure></li>
-<li><p>查看当前仓库的远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></li>
-<li><p>fetch 远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure></li>
-<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure></li>
-<li><p>推送本地到远程仓库（自己fork的仓库）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote rm origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>GitHub</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python实现聚类算法</title>
     <url>/2019-07-08-kmeans/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -225,6 +176,90 @@
       </tags>
   </entry>
   <entry>
+    <title>Git操作速查</title>
+    <url>/2019-07-12-git/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
+<ol>
+<li><p>未add时<br><code>git checkout .</code></p>
+</li>
+<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
+</li>
+<li><p>commit后</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
+<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
+<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
+<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
+<p><code>git reset --hard</code></p>
+<p>即可</p>
+<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
+<ol>
+<li><p>添加远程仓库到本地remote分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure></li>
+<li><p>查看当前仓库的远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></li>
+<li><p>fetch 远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure></li>
+<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure></li>
+<li><p>推送本地到远程仓库（自己fork的仓库）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote rm origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>GitHub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ffmpeg操作速查</title>
+    <url>/2019-11-28-ffmpeg/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
+<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
+<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
+<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
+<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
+<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
+<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
+<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose=1” output.mp4</p>
+<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
+<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
+<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
+<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale=1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
+<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop=480:480:186:0 output</p>
+<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
+<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
+<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert/multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
+<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
+<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
+<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+        <tag>bash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>大型vscode真香现场</title>
     <url>/2020-01-16-vscode/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -294,38 +329,28 @@
       </tags>
   </entry>
   <entry>
-    <title>ffmpeg操作速查</title>
-    <url>/2019-11-28-ffmpeg/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+    <title>COMA 环境配置记录</title>
+    <url>/2021-07-23-COMA/</url>
+    <content><![CDATA[<p><a href="https://github.com/anuragranj/coma">https://github.com/anuragranj/coma</a></p>
+<h2 id="Tensorflow-1-3"><a href="#Tensorflow-1-3" class="headerlink" title="Tensorflow 1.3"></a>Tensorflow 1.3</h2><p>这一步由于tensorflow1的环境非常难配置，使用现成docker，版本对应关系如下：</p>
+<p><a href="https://blog.csdn.net/qq_41936559/article/details/104226333">https://blog.csdn.net/qq_41936559/article/details/104226333</a></p>
+<h2 id="opendr安装"><a href="#opendr安装" class="headerlink" title="opendr安装"></a>opendr安装</h2><p>opendr安装对python3的支持比较麻烦，参考：</p>
+<p><a href="https://www.codenong.com/cs110955392/">https://www.codenong.com/cs110955392/</a></p>
+<h2 id="MPI-IS-mesh配置"><a href="#MPI-IS-mesh配置" class="headerlink" title="MPI-IS / mesh配置"></a>MPI-IS / mesh配置</h2><p><a href="https://github.com/MPI-IS/mesh">https://github.com/MPI-IS/mesh</a></p>
+<p>经常要用到的mesh渲染工具</p>
+<p>配置过程：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install boost-devel</span><br><span class="line">BOOST_INCLUDE_DIRS=/usr/include/boost make all</span><br><span class="line">make tests</span><br></pre></td></tr></table></figure>
 
-<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
-<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
-<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
-<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
-<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
-<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
-<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
-<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose=1” output.mp4</p>
-<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
-<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
-<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
-<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale=1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
-<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop=480:480:186:0 output</p>
-<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
-<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
-<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert/multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
-<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
-<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
-<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
+<p>遇到报错：<br>ImportError: No module named psbody.mesh.mesh<br>但是在python3下import是可以的，后来发现是在make tests时默认是python，而在docker环境下要改成python3，测试通过。</p>
 ]]></content>
       <categories>
-        <category>Workshop</category>
+        <category>Project</category>
       </categories>
       <tags>
-        <tag>ffmpeg</tag>
-        <tag>bash</tag>
+        <tag>COMA</tag>
+        <tag>opendr</tag>
+        <tag>Tensorflow</tag>
+        <tag>MPI-IS</tag>
       </tags>
   </entry>
   <entry>
@@ -358,31 +383,6 @@
       </categories>
       <tags>
         <tag>mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>COMA 环境配置记录</title>
-    <url>/2021-07-23-COMA/</url>
-    <content><![CDATA[<p><a href="https://github.com/anuragranj/coma">https://github.com/anuragranj/coma</a></p>
-<h2 id="Tensorflow-1-3"><a href="#Tensorflow-1-3" class="headerlink" title="Tensorflow 1.3"></a>Tensorflow 1.3</h2><p>这一步由于tensorflow1的环境非常难配置，使用现成docker，版本对应关系如下：</p>
-<p><a href="https://blog.csdn.net/qq_41936559/article/details/104226333">https://blog.csdn.net/qq_41936559/article/details/104226333</a></p>
-<h2 id="opendr安装"><a href="#opendr安装" class="headerlink" title="opendr安装"></a>opendr安装</h2><p>opendr安装对python3的支持比较麻烦，参考：</p>
-<p><a href="https://www.codenong.com/cs110955392/">https://www.codenong.com/cs110955392/</a></p>
-<h2 id="MPI-IS-mesh配置"><a href="#MPI-IS-mesh配置" class="headerlink" title="MPI-IS / mesh配置"></a>MPI-IS / mesh配置</h2><p><a href="https://github.com/MPI-IS/mesh">https://github.com/MPI-IS/mesh</a></p>
-<p>经常要用到的mesh渲染工具</p>
-<p>配置过程：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install boost-devel</span><br><span class="line">BOOST_INCLUDE_DIRS=/usr/include/boost make all</span><br><span class="line">make tests</span><br></pre></td></tr></table></figure>
-
-<p>遇到报错：<br>ImportError: No module named psbody.mesh.mesh<br>但是在python3下import是可以的，后来发现是在make tests时默认是python，而在docker环境下要改成python3，测试通过。</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>COMA</tag>
-        <tag>opendr</tag>
-        <tag>Tensorflow</tag>
-        <tag>MPI-IS</tag>
       </tags>
   </entry>
   <entry>
@@ -487,6 +487,72 @@
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mastodon 媒体存储和数据库备份</title>
+    <url>/2021-08-13-mastodon-backup/</url>
+    <content><![CDATA[<h2 id="Why：为什么要备份"><a href="#Why：为什么要备份" class="headerlink" title="Why：为什么要备份"></a>Why：为什么要备份</h2><p>定期备份是好习惯，自从体验过一次wordpress搬家以后深刻感受到，有（异地）备份走遍天下都不怕。因为各种教备份的资料都比较全，本文主要是个人记录+学习用，如果想深入了解备份究竟在做什么也可以参考这篇文章。</p>
+<p>当你有一份长毛象的异地备份，你可以：</p>
+<ul>
+<li>迁移站点到其他服务器</li>
+<li>在服务器完全瘫痪时或不小心重装后，依然可以还原所有数据库内容</li>
+</ul>
+<h2 id="What：备份哪些内容"><a href="#What：备份哪些内容" class="headerlink" title="What：备份哪些内容"></a>What：备份哪些内容</h2><p>俗话说得好，没有经过检验的备份不是好备份。那么最快让我们清楚需要备份什么的方式就是看还原/迁移站点需要什么。</p>
+<p>这里参考了<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">非docker站点迁移到docker</a> 和 <a href="https://blog.tantalum.life/posts/migrate-mastodon-to-docker/">docker迁移到docker</a> 两篇资料，大致上分为三步：</p>
+<h3 id="1-转移配置文件"><a href="#1-转移配置文件" class="headerlink" title="1. 转移配置文件"></a>1. 转移配置文件</h3><p>配置文件也就是你的mastodon安装目录（按照pullopen的教程的话应该是<code>/home/mastodon/mastodon</code>）下的：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.env.production </span><br><span class="line">docker-compose.yml </span><br></pre></td></tr></table></figure>
+
+<p>也就是在更改站点设置中最常用的两个文件。</p>
+<h3 id="2-转移数据库"><a href="#2-转移数据库" class="headerlink" title="2. 转移数据库"></a>2. 转移数据库</h3><p>这里有两个方法：</p>
+<ul>
+<li><p>通过备份文件<code>backup.dump</code> 进行转移，也就是备份的最关键内容，通常通过<code>pg_dump</code>导出备份，再通过<code>pg_restore</code>进行还原。</p>
+</li>
+<li><p>如果是docker，可以直接复制<code>./postgres/</code>和<code>./redis/</code>，并对<code>./postgres/</code>赋权，参考<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">将站点从Docker迁移至Docker</a> </p>
+</li>
+</ul>
+<h3 id="3-转移媒体文件"><a href="#3-转移媒体文件" class="headerlink" title="3. 转移媒体文件"></a>3. 转移媒体文件</h3><p>这里分为两种情况，如果你已经配置了媒体文件在云存储，这一步是不需要的。如果你没有配置过，那么你的所有文件都在<code>./public/system/</code>目录下。具体而言有：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd /home/mastodon/mastodon/public/system</span><br><span class="line">$ du -h --max-depth=1</span><br><span class="line">9.6M    ./media_attachments</span><br><span class="line">3.3G    ./cache</span><br><span class="line">20M     ./custom_emojis</span><br><span class="line">13M     ./accounts</span><br><span class="line">3.4G    .</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>./cache</code>是外站存储，其他都是本站的数据。我们当然希望除了外站存储以外，对本站的所有数据都做好备份。</p>
+<p>关于定期清除外站存储，请参考<a href="https://moe.cat/@AstroProfundis/104527119128844099">这个嘟文</a>，我的crontab设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl media remove --days=14 &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl media remove-orphans &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl statuses remove --days=180 &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>我是直接启动容器执行tootctl命令，更多相关内容可以通过<a href="https://mantyke.icu/2022/mastodon-media-file-cleanup/">使用脚本的tootctl</a>或者<a href="https://www.notion.so/3f645c4a2ab14f34aef37703ee286d3a#d9a3235086fc44ceb3293cf26100a5ae">非docker安装的tootctl</a>了解。</p>
+<p><strong>总结：如果是docker的话，直接对除<code>./public/system/cache</code>以外整个文件夹和个别配置文件进行备份即可。</strong></p>
+<h2 id="Where：备份放在哪里"><a href="#Where：备份放在哪里" class="headerlink" title="Where：备份放在哪里"></a>Where：备份放在哪里</h2><h3 id="本地备份"><a href="#本地备份" class="headerlink" title="本地备份"></a>本地备份</h3><p>本文将备份文件和备份脚本都放在<code>/opt/mastodon-backup</code> 下，你也可以选择任何你喜欢的安全位置。</p>
+<h3 id="异地备份"><a href="#异地备份" class="headerlink" title="异地备份"></a>异地备份</h3><p>最好的备份一定是异地备份。<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">pullopen</a> 和 <a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53">o3o</a> 都推荐了Scaleway云备份，并附上了详细的资料。</p>
+<h2 id="When：什么时候备份"><a href="#When：什么时候备份" class="headerlink" title="When：什么时候备份"></a>When：什么时候备份</h2><p>建议设置每天晚上自动备份一次，可以使用crontab创建定时任务。</p>
+<h2 id="Who：谁来备份"><a href="#Who：谁来备份" class="headerlink" title="Who：谁来备份"></a>Who：谁来备份</h2><p>当然是站长啊还有谁！</p>
+<h2 id="How：如何备份"><a href="#How：如何备份" class="headerlink" title="How：如何备份"></a>How：如何备份</h2><p>啰嗦了这么久终于到了这一步，我只是希望在我真正操作之前能够明白我在做什么。</p>
+<p>这一节脚本主要参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> 。</p>
+<h3 id="本地备份-1"><a href="#本地备份-1" class="headerlink" title="本地备份"></a>本地备份</h3><p>只看脚本的前半部分：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">source /etc/profile</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">target=&quot;scaleway:backup.retirenow.top&quot;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/docker exec mastodon_db_1 pg_dump -U postgres -Fc mastodon_production &gt; $&#123;origin&#125;/backup.dump &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; succeed and upload to s3 now&quot;</span><br><span class="line">/usr/bin/zip -P back-up-password $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;origin&#125;/backup.dump </span><br></pre></td></tr></table></figure>
+
+<p>前面定义了一些路径和时间等，先通过<code>pg_dump</code>导出<code>backup.dump</code>，再将其加密压缩为<code>backup_$&#123;now&#125;.zip</code>，但从上文可见，对于docker安装的情况，直接copy文件夹即可，所以我对这部分做了一些改动并参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">o3o的配置备份脚本</a>，增加了一些关键信息的备份，我的完整<strong>本地备份</strong>脚本如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup_local.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * /bin/bash /opt/mastodon-backup/backup_local.sh &gt; /opt/mastodon-backup/logs/backup_local.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">#Loading /etc/profile</span><br><span class="line"># source /etc/profile</span><br><span class="line"></span><br><span class="line">#Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line">backup_folder_name=&quot;$(date +&quot;%Y_%m_%d_%I_%M_%p&quot;)&quot;</span><br><span class="line"></span><br><span class="line">#Clean up old db dump</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line">#Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line">#Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; done!&quot;</span><br></pre></td></tr></table></figure>
+
+<p>可以单独运行一次脚本看看是否正确备份，运行后查看备份目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ls /opt/mastodon-backup/dbbackup/ -lh</span><br><span class="line">total 76M</span><br><span class="line">-rw-r--r-- 1 root root  76M Feb 20 00:09 backup_20220220-000931.zip</span><br><span class="line">drwxr-xr-x 2 root root 4.0K Feb 20 00:09 sites-available</span><br></pre></td></tr></table></figure>
+
+<p>我将这个脚本存为<code>backup_local.sh</code>，在我配置好Scaleway之前守护我的数据，将其放在crontab下定期运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">0 5 * * * bash /opt/mastodon-backup/backup_local.sh.sh &gt; /opt/mastodon-backup/logs/backup_local.sh.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>备份时间设在清除外部缓存半小时后。</p>
+<h3 id="异地备份-1"><a href="#异地备份-1" class="headerlink" title="异地备份"></a>异地备份</h3><p>再看原脚本的后半部分</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/usr/bin/rclone copy $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;target&#125; &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; ok all done&quot;</span><br><span class="line">rm -f $&#123;origin&#125;/backup.dump $&#123;origin&#125;/backup_$&#123;now&#125;.zip</span><br><span class="line">/usr/bin/rclone --min-age 7d  delete $&#123;target&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>rclone copy</code>是将压缩后的备份文件按照配置好的设置上传至Scaleway，之后<code>rm -f</code>删除本地的备份文件，最后设置rclone删除大于7天的备份文件。这一步也可以直接在Scaleway删除，参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">循环销毁备份文件</a>。</p>
+<p>在我更改后的脚本，我采取的方法是每次先删除上一次的备份文件，而不是在上传后删除，这样可以在本地和Scaleway都有一个备份。</p>
+<p>Scaleway和<code>rclone</code>的设置请直接参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> ，等我配好Scaleway会更新这个部分。</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>Mastodon</tag>
+        <tag>postgres</tag>
+        <tag>Scaleway</tag>
       </tags>
   </entry>
   <entry>
@@ -628,9 +694,9 @@
         <category>Project</category>
       </categories>
       <tags>
+        <tag>mastodon</tag>
         <tag>nginx</tag>
         <tag>certbot</tag>
-        <tag>mastodon</tag>
       </tags>
   </entry>
 </search>
