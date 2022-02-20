@@ -6,7 +6,7 @@
   <link href="https://tech.konata.co/atom.xml" rel="self"/>
   
   <link href="https://tech.konata.co/"/>
-  <updated>2022-02-19T16:43:40.665Z</updated>
+  <updated>2022-02-20T10:14:45.143Z</updated>
   <id>https://tech.konata.co/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>给 Hexo 配置 Giscus 评论系统</title>
+    <link href="https://tech.konata.co/2022-02-20-add-comment-to-hexo/"/>
+    <id>https://tech.konata.co/2022-02-20-add-comment-to-hexo/</id>
+    <published>2022-02-20T10:14:45.000Z</published>
+    <updated>2022-02-20T10:14:45.143Z</updated>
+    
+    <content type="html"><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p><p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p><p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure><p>然后在 hexo 的 _config.yml 添加：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure><p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p><p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p><p>最后：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure><p>刷新页面后就可以看到评论页面啦！</p><p>快来给我评论吧～～</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”&lt;/p&gt;
+&lt;p&gt;一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考&lt;a href=&quot;https://blog.southfox.me/2022</summary>
+      
+    
+    
+    
+    <category term="Project" scheme="https://tech.konata.co/categories/Project/"/>
+    
+    
+    <category term="Hexo" scheme="https://tech.konata.co/tags/Hexo/"/>
+    
+    <category term="Next" scheme="https://tech.konata.co/tags/Next/"/>
+    
+    <category term="Giscus" scheme="https://tech.konata.co/tags/Giscus/"/>
+    
+  </entry>
   
   <entry>
     <title>Mastodon 媒体存储和数据库备份</title>
@@ -149,9 +178,9 @@
     <category term="Project" scheme="https://tech.konata.co/categories/Project/"/>
     
     
-    <category term="Hexo" scheme="https://tech.konata.co/tags/Hexo/"/>
-    
     <category term="GitHub" scheme="https://tech.konata.co/tags/GitHub/"/>
+    
+    <category term="Hexo" scheme="https://tech.konata.co/tags/Hexo/"/>
     
   </entry>
   
@@ -345,9 +374,9 @@
     <category term="Algorithm" scheme="https://tech.konata.co/categories/Algorithm/"/>
     
     
-    <category term="python" scheme="https://tech.konata.co/tags/python/"/>
-    
     <category term="scikit-learn" scheme="https://tech.konata.co/tags/scikit-learn/"/>
+    
+    <category term="python" scheme="https://tech.konata.co/tags/python/"/>
     
     <category term="kmeans" scheme="https://tech.konata.co/tags/kmeans/"/>
     
@@ -375,9 +404,9 @@
     <category term="Algorithm" scheme="https://tech.konata.co/categories/Algorithm/"/>
     
     
-    <category term="python" scheme="https://tech.konata.co/tags/python/"/>
-    
     <category term="scikit-learn" scheme="https://tech.konata.co/tags/scikit-learn/"/>
+    
+    <category term="python" scheme="https://tech.konata.co/tags/python/"/>
     
     <category term="PCA" scheme="https://tech.konata.co/tags/PCA/"/>
     
