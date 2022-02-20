@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
@@ -16,16 +15,17 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="sklearn包中的K-Means算法1.  函数：sklearn.cluster.&#96;&#96;KMeans *class *sklearn.cluster.&#96;&#96;KMeans(n_clusters&#x3D;8, init&#x3D;’k-means++’, n_init&#x3D;10, max_iter&#x3D;300, tol&#x3D;0.0001, precompute_distances&#x3D;’auto’, verbose&#x3D;0, rando">
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="sklearn包中的K-Means算法1.  函数：sklearn.cluster.&#96;&#96;KMeans *class *sklearn.cluster.&#96;&#96;KMeans(n_clusters&#x3D;8, init&#x3D;’k-means++’, n_init&#x3D;10, max_iter&#x3D;300, tol&#x3D;0.0001, precompute_distances">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python实现聚类算法">
 <meta property="og:url" content="https://tech.konata.co/2019-07-08-kmeans/index.html">
 <meta property="og:site_name" content="Konata Tech Blog">
-<meta property="og:description" content="sklearn包中的K-Means算法1.  函数：sklearn.cluster.&#96;&#96;KMeans *class *sklearn.cluster.&#96;&#96;KMeans(n_clusters&#x3D;8, init&#x3D;’k-means++’, n_init&#x3D;10, max_iter&#x3D;300, tol&#x3D;0.0001, precompute_distances&#x3D;’auto’, verbose&#x3D;0, rando">
+<meta property="og:description" content="sklearn包中的K-Means算法1.  函数：sklearn.cluster.&#96;&#96;KMeans *class *sklearn.cluster.&#96;&#96;KMeans(n_clusters&#x3D;8, init&#x3D;’k-means++’, n_init&#x3D;10, max_iter&#x3D;300, tol&#x3D;0.0001, precompute_distances">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12583080-5ace24c52806cac3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12583080-741759f135d8b287.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -55,6 +55,7 @@
 
 
 
+
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
@@ -79,7 +80,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Konata Tech Blog</h1>
+      <p class="site-title">Konata Tech Blog</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">No bug no life!</p>
@@ -162,8 +163,7 @@
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
-          <div class="site-overview">
-            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Konata Izumi"
       src="/images/avatar.gif">
   <p class="site-author-name" itemprop="name">Konata Izumi</p>
@@ -192,7 +192,6 @@
 
 
 
-          </div>
         </div>
       </div>
     </div>
@@ -250,13 +249,13 @@
 
       <time title="Created: 2019-07-08 00:19:34" itemprop="dateCreated datePublished" datetime="2019-07-08T00:19:34+08:00">2019-07-08</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2022-02-10 04:45:45" itemprop="dateModified" datetime="2022-02-10T04:45:45+08:00">2022-02-10</time>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
       </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-02-10 04:45:45" itemprop="dateModified" datetime="2022-02-10T04:45:45+08:00">2022-02-10</time>
+    </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -287,7 +286,7 @@
         <meta name="referrer" content="no-referrer"/>
 
 <h1 id="sklearn包中的K-Means算法"><a href="#sklearn包中的K-Means算法" class="headerlink" title="sklearn包中的K-Means算法"></a>sklearn包中的K-Means算法</h1><p>1.  函数：<code>sklearn.cluster.``KMeans</code></p>
-<p>*class *<code>sklearn.cluster.``KMeans</code>(<em>n_clusters=8</em>, <em>init=’k-means++’</em>, <em>n_init=10</em>, <em>max_iter=300</em>, <em>tol=0.0001</em>, <em>precompute_distances=’auto’</em>, <em>verbose=0</em>, <em>random_state=None</em>, <em>copy_x=True</em>, <em>n_jobs=None</em>, <em>algorithm=’auto’</em>)</p>
+<p>*class *<code>sklearn.cluster.``KMeans</code>(<em>n_clusters&#x3D;8</em>, <em>init&#x3D;’k-means++’</em>, <em>n_init&#x3D;10</em>, <em>max_iter&#x3D;300</em>, <em>tol&#x3D;0.0001</em>, <em>precompute_distances&#x3D;’auto’</em>, <em>verbose&#x3D;0</em>, <em>random_state&#x3D;None</em>, <em>copy_x&#x3D;True</em>, <em>n_jobs&#x3D;None</em>, <em>algorithm&#x3D;’auto’</em>)</p>
 <ol start="2">
 <li>主要参数</li>
 </ol>
@@ -314,23 +313,23 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">%matplotlib inline</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from sklearn.cluster import KMeans</span><br><span class="line">import numpy as np</span><br><span class="line">X = np.array([[1, 2], [1, 4], [1, 0], [4, 2], [4, 4], [4, 0]])</span><br><span class="line">plt.plot(X[:,0],X[:,1],&#x27;x&#x27;)</span><br><span class="line">kmeans = KMeans(n_clusters=2).fit(X)</span><br><span class="line">print(kmeans.labels_)</span><br><span class="line">print(kmeans.predict([[0, 0], [4, 4]]))</span><br><span class="line">print(kmeans.cluster_centers_)</span><br></pre></td></tr></table></figure>
 
 <h1 id="聚类算法衡量指标"><a href="#聚类算法衡量指标" class="headerlink" title="聚类算法衡量指标"></a>聚类算法衡量指标</h1><p>1.  函数：<code>sklearn.metrics.``silhouette_score</code></p>
-<p><code>sklearn.metrics.``silhouette_score</code>(<em>X</em>, <em>labels</em>, <em>metric=’euclidean’</em>, <em>sample_size=None</em>, <em>random_state=None</em>, **<em>kwds</em>)</p>
+<p><code>sklearn.metrics.``silhouette_score</code>(<em>X</em>, <em>labels</em>, <em>metric&#x3D;’euclidean’</em>, <em>sample_size&#x3D;None</em>, <em>random_state&#x3D;None</em>, **<em>kwds</em>)</p>
 <ol start="2">
 <li>实例：</li>
 </ol>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
+<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples&#x2F;cluster&#x2F;plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
 <h1 id="sklearn包中的K-Means算法-1"><a href="#sklearn包中的K-Means算法-1" class="headerlink" title="sklearn包中的K-Means算法"></a>sklearn包中的K-Means算法</h1><p>1.  函数：<code>sklearn.mixture.``GaussianMixture</code></p>
-<p><code>sklearn.mixture.``GaussianMixture</code>(<em>n_components=1</em>, <em>covariance_type=’full’</em>, <em>tol=0.001</em>, <em>reg_covar=1e-06</em>, <em>max_iter=100</em>, <em>n_init=1</em>, <em>init_params=’kmeans’</em>, <em>weights_init=None</em>, <em>means_init=None</em>, <em>precisions_init=None</em>, <em>random_state=None</em>, <em>warm_start=False</em>, <em>verbose=0</em>, <em>verbose_interval=10</em>)</p>
+<p><code>sklearn.mixture.``GaussianMixture</code>(<em>n_components&#x3D;1</em>, <em>covariance_type&#x3D;’full’</em>, <em>tol&#x3D;0.001</em>, <em>reg_covar&#x3D;1e-06</em>, <em>max_iter&#x3D;100</em>, <em>n_init&#x3D;1</em>, <em>init_params&#x3D;’kmeans’</em>, <em>weights_init&#x3D;None</em>, <em>means_init&#x3D;None</em>, <em>precisions_init&#x3D;None</em>, <em>random_state&#x3D;None</em>, <em>warm_start&#x3D;False</em>, <em>verbose&#x3D;0</em>, <em>verbose_interval&#x3D;10</em>)</p>
 <ol start="2">
 <li>实例：</li>
 </ol>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py">https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py</a></p>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
+<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py">https://scikit-learn.org/stable/auto_examples&#x2F;mixture&#x2F;plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py</a></p>
+<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples&#x2F;mixture&#x2F;plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
 <h2 id="聚类结果可视化"><a href="#聚类结果可视化" class="headerlink" title="聚类结果可视化"></a>聚类结果可视化</h2><p>参考代码：<a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">A demo of K-Means clustering on the handwritten digits data</a><br>直接plot出来点太密集了，所以考虑随机抽取5k个点来plot，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zsc201825/article/details/80918450">np.random.randint、np.random.choice、random.sample三种随机函数的用法案例</a><br>结果如下：<br><img src="https://upload-images.jianshu.io/upload_images/12583080-5ace24c52806cac3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
 <h2 id="先聚类后PCA"><a href="#先聚类后PCA" class="headerlink" title="先聚类后PCA"></a>先聚类后PCA</h2><p>直接对原始的数据进行聚类，结果如下：<br><img src="https://upload-images.jianshu.io/upload_images/12583080-741759f135d8b287.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
 <h2 id="Weighted-k-means"><a href="#Weighted-k-means" class="headerlink" title="Weighted k-means"></a>Weighted k-means</h2><h3 id="第一个方法"><a href="#第一个方法" class="headerlink" title="第一个方法"></a>第一个方法</h3><p><a target="_blank" rel="noopener" href="https://towardsdatascience.com/clustering-the-us-population-observation-weighted-k-means-f4d58b370002">Clustering the US population: observation-weighted k-means</a><br><a target="_blank" rel="noopener" href="https://github.com/leapingllamas/medium_posts/tree/master/observation_weighted_kmeans">github-observation_weighted_kmeans</a></p>
 <p>这是直接对data加权值，有对应的代码，但是数据结构用的是它自己的project，需要改写。</p>
-<h3 id="第二个方法：weighted-kernel-kmeans"><a href="#第二个方法：weighted-kernel-kmeans" class="headerlink" title="第二个方法：weighted kernel kmeans"></a>第二个方法：weighted kernel kmeans</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/subaiBlog/p/6271315.html">WEIGHTED KERNEL K-MEANS 加权核K均值算法理解及其实现（一）</a><br>上文中提到，[1]中使用了这个方法，这个方法最初在[2]提到。有现成的代码库实现：<br><a target="_blank" rel="noopener" href="https://tslearn.readthedocs.io/en/latest/gen_modules/clustering/tslearn.clustering.GlobalAlignmentKernelKMeans.html#tslearn.clustering.GlobalAlignmentKernelKMeans">tslearn.clustering.GlobalAlignmentKernelKMeans</a><br>这个是现成的工具包，若要直接使用可以设置一个最简单的y=x的kernel即可。</p>
+<h3 id="第二个方法：weighted-kernel-kmeans"><a href="#第二个方法：weighted-kernel-kmeans" class="headerlink" title="第二个方法：weighted kernel kmeans"></a>第二个方法：weighted kernel kmeans</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/subaiBlog/p/6271315.html">WEIGHTED KERNEL K-MEANS 加权核K均值算法理解及其实现（一）</a><br>上文中提到，[1]中使用了这个方法，这个方法最初在[2]提到。有现成的代码库实现：<br><a target="_blank" rel="noopener" href="https://tslearn.readthedocs.io/en/latest/gen_modules/clustering/tslearn.clustering.GlobalAlignmentKernelKMeans.html#tslearn.clustering.GlobalAlignmentKernelKMeans">tslearn.clustering.GlobalAlignmentKernelKMeans</a><br>这个是现成的工具包，若要直接使用可以设置一个最简单的y&#x3D;x的kernel即可。</p>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>[1]<a target="_blank" rel="noopener" href="https://www.cs.utexas.edu/users/inderjit/public_papers/multilevel_pami.pdf">Weighted Graph Cuts without Eigenvectors:A Multilevel Approach</a></p>
 <p>[2]<a target="_blank" rel="noopener" href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=00B899D4EBC282CC18487FE587FAD753?doi=10.1.1.140.3081&rep=rep1&type=pdf">Kernel k-means, Spectral Clustering and Normalized Cuts</a></p>
 <h2 id="聚类算法一览"><a href="#聚类算法一览" class="headerlink" title="聚类算法一览"></a>聚类算法一览</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lc1217/p/6893924.html">https://www.cnblogs.com/lc1217/p/6893924.html</a></p>
@@ -340,9 +339,9 @@
 <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/13898e68c5c6">https://www.jianshu.com/p/13898e68c5c6</a></p>
 <h2 id="sklearn"><a href="#sklearn" class="headerlink" title="sklearn"></a>sklearn</h2><p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html">https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html</a></p>
 <p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html">https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
+<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples&#x2F;cluster&#x2F;plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
 <p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html">https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
+<p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples&#x2F;mixture&#x2F;plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
 
     </div>
 
@@ -397,6 +396,7 @@
 
 
 
+    <div class="comments gitalk-container"></div>
 </div>
   </main>
 
@@ -441,7 +441,9 @@
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
 
   
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
 <script src="/js/third-party/search/local-search.js"></script>
+
 
 
 
@@ -452,6 +454,10 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"konatasick@gmail.com","repo":"https://github.com/konatasick/tech_blog_gitalk.git","client_id":"ef33f16b6f8c0c5123bf","client_secret":"54be8b2b0bdddc25e3773be66b9e753561f96b72","admin_user":"konatasick@gmail.com","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"67ca0da7aec062068fcb62230cf801db"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>

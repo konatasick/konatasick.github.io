@@ -13,13 +13,13 @@
 
 <h2 id="scikit-learn的sklearn-decomposition-PCA参数介绍"><a href="#scikit-learn的sklearn-decomposition-PCA参数介绍" class="headerlink" title="scikit-learn的sklearn.decomposition.PCA参数介绍"></a>scikit-learn的sklearn.decomposition.PCA参数介绍</h2><p>官方文档：<a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html">https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html</a></p>
 <p>Parameters:</p>
-<p>n_components：这个代表了需要降维的维度。当它是整数时，代表了保留的维度数量。当它是一个介于0~1之间的数时，代表了主成分的方差所占的最小比例，例如0.95代表取超过95%的量的维度。当它为’mle’;，同时svd_solver == ‘full’;时，系统会根据MLE算法自动选择维度。（此时svd_solver == ‘auto’;将会被解读为svd_solver == ‘full’;）</p>
+<p>n_components：这个代表了需要降维的维度。当它是整数时，代表了保留的维度数量。当它是一个介于0~1之间的数时，代表了主成分的方差所占的最小比例，例如0.95代表取超过95%的量的维度。当它为’mle’;，同时svd_solver &#x3D;&#x3D; ‘full’;时，系统会根据MLE算法自动选择维度。（此时svd_solver &#x3D;&#x3D; ‘auto’;将会被解读为svd_solver &#x3D;&#x3D; ‘full’;）</p>
 <p>svd_solver：默认是’auto’;，即在剩下的’full’;, ‘arpack’;, ‘randomized’;中根据情况选一个。’full’;是传统的PCA，’arpack’;, ‘randomized’;适用于数据量大的场景，其区别在于前者是通过scipy.sparse.linalg.svds实现。</p>
 <p>Attributes*:</p>
 <p>components_ : 主成分的投影坐标，代表了数据的最大方差的方向，根据explained_variance_由大到小排列。维度是m*n，其中n是原始数据的维度，m是降维后的维度。</p>
 <p>explained_variance_和explained_variance_ratio_：前者是每一维的方差，后者是所占比例：</p>
-<p>explained_variance_ratio_=explained_variance/sum（explained_variance_）</p>
-<p>维度是m, 当m=n时，sum（explained_variance_ratio_）=1。</p>
+<p>explained_variance_ratio_&#x3D;explained_variance&#x2F;sum（explained_variance_）</p>
+<p>维度是m, 当m&#x3D;n时，sum（explained_variance_ratio_）&#x3D;1。</p>
 <p>mean_：每个feature的平均值。在pca算法的第一步，需要对feature归一化，此时的平均值保留在这里。</p>
 <p>n_components_：模型实际的降维数，即m。</p>
 <h2 id="PCA实例"><a href="#PCA实例" class="headerlink" title="PCA实例"></a>PCA实例</h2><p><a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 中示范了降维的操作。</p>
@@ -38,7 +38,7 @@
 <p>输出如图：</p>
 <p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104805898-1186449046.png"></p>
 <p>在很多应用中，当我们将数据降维并用于训练后，训练出来的模型之后的输出也是降维后的数据，需要还原回原始维度。这时候需要将pca算法进行逆运算：</p>
-<p>X_old=np.dot(X_new,pca.components_)+pca.mean_</p>
+<p>X_old&#x3D;np.dot(X_new,pca.components_)+pca.mean_</p>
 <p>即将新数据和components_相乘并加上平均值。</p>
 <p>使用上文的例子，代码如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">X_old=np.dot(X_new,pca.components_)+pca.mean_</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X_old[:, 0], X_old[:, 1], X_old[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
@@ -59,48 +59,6 @@
         <tag>python</tag>
         <tag>scikit-learn</tag>
         <tag>PCA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在服务器用conda创建python环境</title>
-    <url>/2019-07-08-conda-create-env/</url>
-    <content><![CDATA[<p>2019年11月27日更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
-
-<p>可以导出environment配置环境：</p>
-<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
-<p>另外，home/xxx/.conda/pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
-<p>删除环境：conda remove -n your_env_name –all</p>
-<hr>
-<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
-<p>首先，尝试conda list，提示not command，解决方法：</p>
-<p>在.bashrc 的末尾添加如下一行：</p>
-<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
-<p>之后conda list，正常。</p>
-<p>创建：</p>
-<p>conda create -n vso python=2.7</p>
-<p>激活：</p>
-<p>source activate vso</p>
-<p>然后就可以开始安装需要的package</p>
-<p>pip install imutils</p>
-<p>pip install numpy</p>
-<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
-<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
-<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
-<p>pip install scipy</p>
-<p>pip install matplotlib</p>
-<p>pip install sklearn</p>
-<p>pip install ffmpeg-normalize</p>
-<p>conda install ffmpeg</p>
-<p>conda install -c conda-forge librosa=0.6.3</p>
-<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -128,18 +86,22 @@
 <p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
 <ol>
 <li><p>添加远程仓库到本地remote分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>查看当前仓库的远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>fetch 远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>推送本地到远程仓库（自己fork的仓库）</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
 </ol>
 <h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote rm origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote <span class="built_in">rm</span> origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
 
 
 
@@ -153,12 +115,54 @@
       </tags>
   </entry>
   <entry>
+    <title>在服务器用conda创建python环境</title>
+    <url>/2019-07-08-conda-create-env/</url>
+    <content><![CDATA[<p>2019年11月27日更新：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
+
+<p>可以导出environment配置环境：</p>
+<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
+<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
+<p>删除环境：conda remove -n your_env_name –all</p>
+<hr>
+<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
+<p>首先，尝试conda list，提示not command，解决方法：</p>
+<p>在.bashrc 的末尾添加如下一行：</p>
+<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
+<p>之后conda list，正常。</p>
+<p>创建：</p>
+<p>conda create -n vso python&#x3D;2.7</p>
+<p>激活：</p>
+<p>source activate vso</p>
+<p>然后就可以开始安装需要的package</p>
+<p>pip install imutils</p>
+<p>pip install numpy</p>
+<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
+<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
+<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
+<p>pip install scipy</p>
+<p>pip install matplotlib</p>
+<p>pip install sklearn</p>
+<p>pip install ffmpeg-normalize</p>
+<p>conda install ffmpeg</p>
+<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
+<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>conda</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python实现聚类算法</title>
     <url>/2019-07-08-kmeans/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
 
 <h1 id="sklearn包中的K-Means算法"><a href="#sklearn包中的K-Means算法" class="headerlink" title="sklearn包中的K-Means算法"></a>sklearn包中的K-Means算法</h1><p>1.  函数：<code>sklearn.cluster.``KMeans</code></p>
-<p>*class *<code>sklearn.cluster.``KMeans</code>(<em>n_clusters=8</em>, <em>init=’k-means++’</em>, <em>n_init=10</em>, <em>max_iter=300</em>, <em>tol=0.0001</em>, <em>precompute_distances=’auto’</em>, <em>verbose=0</em>, <em>random_state=None</em>, <em>copy_x=True</em>, <em>n_jobs=None</em>, <em>algorithm=’auto’</em>)</p>
+<p>*class *<code>sklearn.cluster.``KMeans</code>(<em>n_clusters&#x3D;8</em>, <em>init&#x3D;’k-means++’</em>, <em>n_init&#x3D;10</em>, <em>max_iter&#x3D;300</em>, <em>tol&#x3D;0.0001</em>, <em>precompute_distances&#x3D;’auto’</em>, <em>verbose&#x3D;0</em>, <em>random_state&#x3D;None</em>, <em>copy_x&#x3D;True</em>, <em>n_jobs&#x3D;None</em>, <em>algorithm&#x3D;’auto’</em>)</p>
 <ol start="2">
 <li>主要参数</li>
 </ol>
@@ -185,23 +189,23 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">%matplotlib inline</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from sklearn.cluster import KMeans</span><br><span class="line">import numpy as np</span><br><span class="line">X = np.array([[1, 2], [1, 4], [1, 0], [4, 2], [4, 4], [4, 0]])</span><br><span class="line">plt.plot(X[:,0],X[:,1],&#x27;x&#x27;)</span><br><span class="line">kmeans = KMeans(n_clusters=2).fit(X)</span><br><span class="line">print(kmeans.labels_)</span><br><span class="line">print(kmeans.predict([[0, 0], [4, 4]]))</span><br><span class="line">print(kmeans.cluster_centers_)</span><br></pre></td></tr></table></figure>
 
 <h1 id="聚类算法衡量指标"><a href="#聚类算法衡量指标" class="headerlink" title="聚类算法衡量指标"></a>聚类算法衡量指标</h1><p>1.  函数：<code>sklearn.metrics.``silhouette_score</code></p>
-<p><code>sklearn.metrics.``silhouette_score</code>(<em>X</em>, <em>labels</em>, <em>metric=’euclidean’</em>, <em>sample_size=None</em>, <em>random_state=None</em>, **<em>kwds</em>)</p>
+<p><code>sklearn.metrics.``silhouette_score</code>(<em>X</em>, <em>labels</em>, <em>metric&#x3D;’euclidean’</em>, <em>sample_size&#x3D;None</em>, <em>random_state&#x3D;None</em>, **<em>kwds</em>)</p>
 <ol start="2">
 <li>实例：</li>
 </ol>
-<p><a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
+<p><a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples&#x2F;cluster&#x2F;plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
 <h1 id="sklearn包中的K-Means算法-1"><a href="#sklearn包中的K-Means算法-1" class="headerlink" title="sklearn包中的K-Means算法"></a>sklearn包中的K-Means算法</h1><p>1.  函数：<code>sklearn.mixture.``GaussianMixture</code></p>
-<p><code>sklearn.mixture.``GaussianMixture</code>(<em>n_components=1</em>, <em>covariance_type=’full’</em>, <em>tol=0.001</em>, <em>reg_covar=1e-06</em>, <em>max_iter=100</em>, <em>n_init=1</em>, <em>init_params=’kmeans’</em>, <em>weights_init=None</em>, <em>means_init=None</em>, <em>precisions_init=None</em>, <em>random_state=None</em>, <em>warm_start=False</em>, <em>verbose=0</em>, <em>verbose_interval=10</em>)</p>
+<p><code>sklearn.mixture.``GaussianMixture</code>(<em>n_components&#x3D;1</em>, <em>covariance_type&#x3D;’full’</em>, <em>tol&#x3D;0.001</em>, <em>reg_covar&#x3D;1e-06</em>, <em>max_iter&#x3D;100</em>, <em>n_init&#x3D;1</em>, <em>init_params&#x3D;’kmeans’</em>, <em>weights_init&#x3D;None</em>, <em>means_init&#x3D;None</em>, <em>precisions_init&#x3D;None</em>, <em>random_state&#x3D;None</em>, <em>warm_start&#x3D;False</em>, <em>verbose&#x3D;0</em>, <em>verbose_interval&#x3D;10</em>)</p>
 <ol start="2">
 <li>实例：</li>
 </ol>
-<p><a href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py">https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py</a></p>
-<p><a href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
+<p><a href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py">https://scikit-learn.org/stable/auto_examples&#x2F;mixture&#x2F;plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py</a></p>
+<p><a href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples&#x2F;mixture&#x2F;plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
 <h2 id="聚类结果可视化"><a href="#聚类结果可视化" class="headerlink" title="聚类结果可视化"></a>聚类结果可视化</h2><p>参考代码：<a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">A demo of K-Means clustering on the handwritten digits data</a><br>直接plot出来点太密集了，所以考虑随机抽取5k个点来plot，参考：<a href="https://blog.csdn.net/zsc201825/article/details/80918450">np.random.randint、np.random.choice、random.sample三种随机函数的用法案例</a><br>结果如下：<br><img src="https://upload-images.jianshu.io/upload_images/12583080-5ace24c52806cac3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
 <h2 id="先聚类后PCA"><a href="#先聚类后PCA" class="headerlink" title="先聚类后PCA"></a>先聚类后PCA</h2><p>直接对原始的数据进行聚类，结果如下：<br><img src="https://upload-images.jianshu.io/upload_images/12583080-741759f135d8b287.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
 <h2 id="Weighted-k-means"><a href="#Weighted-k-means" class="headerlink" title="Weighted k-means"></a>Weighted k-means</h2><h3 id="第一个方法"><a href="#第一个方法" class="headerlink" title="第一个方法"></a>第一个方法</h3><p><a href="https://towardsdatascience.com/clustering-the-us-population-observation-weighted-k-means-f4d58b370002">Clustering the US population: observation-weighted k-means</a><br><a href="https://github.com/leapingllamas/medium_posts/tree/master/observation_weighted_kmeans">github-observation_weighted_kmeans</a></p>
 <p>这是直接对data加权值，有对应的代码，但是数据结构用的是它自己的project，需要改写。</p>
-<h3 id="第二个方法：weighted-kernel-kmeans"><a href="#第二个方法：weighted-kernel-kmeans" class="headerlink" title="第二个方法：weighted kernel kmeans"></a>第二个方法：weighted kernel kmeans</h3><p><a href="https://www.cnblogs.com/subaiBlog/p/6271315.html">WEIGHTED KERNEL K-MEANS 加权核K均值算法理解及其实现（一）</a><br>上文中提到，[1]中使用了这个方法，这个方法最初在[2]提到。有现成的代码库实现：<br><a href="https://tslearn.readthedocs.io/en/latest/gen_modules/clustering/tslearn.clustering.GlobalAlignmentKernelKMeans.html#tslearn.clustering.GlobalAlignmentKernelKMeans">tslearn.clustering.GlobalAlignmentKernelKMeans</a><br>这个是现成的工具包，若要直接使用可以设置一个最简单的y=x的kernel即可。</p>
+<h3 id="第二个方法：weighted-kernel-kmeans"><a href="#第二个方法：weighted-kernel-kmeans" class="headerlink" title="第二个方法：weighted kernel kmeans"></a>第二个方法：weighted kernel kmeans</h3><p><a href="https://www.cnblogs.com/subaiBlog/p/6271315.html">WEIGHTED KERNEL K-MEANS 加权核K均值算法理解及其实现（一）</a><br>上文中提到，[1]中使用了这个方法，这个方法最初在[2]提到。有现成的代码库实现：<br><a href="https://tslearn.readthedocs.io/en/latest/gen_modules/clustering/tslearn.clustering.GlobalAlignmentKernelKMeans.html#tslearn.clustering.GlobalAlignmentKernelKMeans">tslearn.clustering.GlobalAlignmentKernelKMeans</a><br>这个是现成的工具包，若要直接使用可以设置一个最简单的y&#x3D;x的kernel即可。</p>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>[1]<a href="https://www.cs.utexas.edu/users/inderjit/public_papers/multilevel_pami.pdf">Weighted Graph Cuts without Eigenvectors:A Multilevel Approach</a></p>
 <p>[2]<a href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=00B899D4EBC282CC18487FE587FAD753?doi=10.1.1.140.3081&rep=rep1&type=pdf">Kernel k-means, Spectral Clustering and Normalized Cuts</a></p>
 <h2 id="聚类算法一览"><a href="#聚类算法一览" class="headerlink" title="聚类算法一览"></a>聚类算法一览</h2><p><a href="https://www.cnblogs.com/lc1217/p/6893924.html">https://www.cnblogs.com/lc1217/p/6893924.html</a></p>
@@ -211,9 +215,9 @@
 <p><a href="https://www.jianshu.com/p/13898e68c5c6">https://www.jianshu.com/p/13898e68c5c6</a></p>
 <h2 id="sklearn"><a href="#sklearn" class="headerlink" title="sklearn"></a>sklearn</h2><p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html">https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html</a></p>
 <p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html">https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html</a></p>
-<p><a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
+<p><a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples&#x2F;cluster&#x2F;plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
 <p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html">https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html</a></p>
-<p><a href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
+<p><a href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples&#x2F;mixture&#x2F;plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
 ]]></content>
       <categories>
         <category>Algorithm</category>
@@ -222,6 +226,41 @@
         <tag>python</tag>
         <tag>scikit-learn</tag>
         <tag>kmeans</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ffmpeg操作速查</title>
+    <url>/2019-11-28-ffmpeg/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
+<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
+<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
+<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
+<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
+<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
+<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
+<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
+<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
+<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
+<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
+<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
+<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
+<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
+<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
+<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
+<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
+<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
+<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+        <tag>bash</tag>
       </tags>
   </entry>
   <entry>
@@ -268,12 +307,12 @@
 <ol start="2">
 <li>上传公钥</li>
 </ol>
-<p>这边我是直接在服务器新建了/.ssh/authorized_keys然后手动把id_rsa.pub里的内容复制进去。</p>
+<p>这边我是直接在服务器新建了&#x2F;.ssh&#x2F;authorized_keys然后手动把id_rsa.pub里的内容复制进去。</p>
 <p>接下来再连接就不需要输入密码了。</p>
 <h2 id="在远程中调试"><a href="#在远程中调试" class="headerlink" title="在远程中调试"></a>在远程中调试</h2><p>首先就是把python插件再安装一次，然后重新连接，这时候会重新也安装一下pylint。</p>
-<h1 id="在vscode里用jupyter-notebook"><a href="#在vscode里用jupyter-notebook" class="headerlink" title="在vscode里用jupyter notebook"></a>在vscode里用jupyter notebook</h1><p>这个我之前想复杂了，其实直接新建一个.ipynb文件，打开并且运行，就会提示你没有装，然后你选择一下安装方式conda/pip就可以装好了。</p>
+<h1 id="在vscode里用jupyter-notebook"><a href="#在vscode里用jupyter-notebook" class="headerlink" title="在vscode里用jupyter notebook"></a>在vscode里用jupyter notebook</h1><p>这个我之前想复杂了，其实直接新建一个.ipynb文件，打开并且运行，就会提示你没有装，然后你选择一下安装方式conda&#x2F;pip就可以装好了。</p>
 <h2 id="连接本地的jupyter-notebook"><a href="#连接本地的jupyter-notebook" class="headerlink" title="连接本地的jupyter notebook"></a>连接本地的jupyter notebook</h2><p>用不上，理论上同下</p>
-<h2 id="连接服务器上的jupyter-notebook"><a href="#连接服务器上的jupyter-notebook" class="headerlink" title="连接服务器上的jupyter notebook"></a>连接服务器上的jupyter notebook</h2><p>意外也很容易，在想要的目录上<code>jupyter notebook</code>，出来的链接点进去就可以打开了<br>（之前的坑是用<code>jupyter notebook list</code>，结果出来的目录是home/yourname）</p>
+<h2 id="连接服务器上的jupyter-notebook"><a href="#连接服务器上的jupyter-notebook" class="headerlink" title="连接服务器上的jupyter notebook"></a>连接服务器上的jupyter notebook</h2><p>意外也很容易，在想要的目录上<code>jupyter notebook</code>，出来的链接点进去就可以打开了<br>（之前的坑是用<code>jupyter notebook list</code>，结果出来的目录是home&#x2F;yourname）</p>
 <hr>
 <p>2020年6月12日更新<br>用上述方法做断连就打不开了，需要用</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jupyter notebook --ip=0.0.0.0 --port=xxxx</span><br></pre></td></tr></table></figure>
@@ -326,41 +365,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ffmpeg操作速查</title>
-    <url>/2019-11-28-ffmpeg/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
-<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
-<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
-<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
-<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
-<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
-<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
-<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose=1” output.mp4</p>
-<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
-<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
-<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
-<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale=1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
-<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop=480:480:186:0 output</p>
-<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
-<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
-<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert/multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
-<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
-<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
-<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-        <tag>bash</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>COMA 环境配置记录</title>
     <url>/2021-07-23-COMA/</url>
     <content><![CDATA[<p><a href="https://github.com/anuragranj/coma">https://github.com/anuragranj/coma</a></p>
@@ -368,7 +372,7 @@
 <p><a href="https://blog.csdn.net/qq_41936559/article/details/104226333">https://blog.csdn.net/qq_41936559/article/details/104226333</a></p>
 <h2 id="opendr安装"><a href="#opendr安装" class="headerlink" title="opendr安装"></a>opendr安装</h2><p>opendr安装对python3的支持比较麻烦，参考：</p>
 <p><a href="https://www.codenong.com/cs110955392/">https://www.codenong.com/cs110955392/</a></p>
-<h2 id="MPI-IS-mesh配置"><a href="#MPI-IS-mesh配置" class="headerlink" title="MPI-IS / mesh配置"></a>MPI-IS / mesh配置</h2><p><a href="https://github.com/MPI-IS/mesh">https://github.com/MPI-IS/mesh</a></p>
+<h2 id="MPI-IS-x2F-mesh配置"><a href="#MPI-IS-x2F-mesh配置" class="headerlink" title="MPI-IS &#x2F; mesh配置"></a>MPI-IS &#x2F; mesh配置</h2><p><a href="https://github.com/MPI-IS/mesh">https://github.com/MPI-IS/mesh</a></p>
 <p>经常要用到的mesh渲染工具</p>
 <p>配置过程：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install boost-devel</span><br><span class="line">BOOST_INCLUDE_DIRS=/usr/include/boost make all</span><br><span class="line">make tests</span><br></pre></td></tr></table></figure>
@@ -410,8 +414,8 @@
         <category>Project</category>
       </categories>
       <tags>
-        <tag>GitHub</tag>
         <tag>Hexo</tag>
+        <tag>GitHub</tag>
       </tags>
   </entry>
   <entry>
@@ -421,7 +425,7 @@
 <ol>
 <li>使用<code>df -h</code> 查看磁盘状况：</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ df -h</span><br><span class="line">Filesystem                    Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/vda1                      99G   91G  3.4G  97% /</span><br><span class="line">/dev/vdb1                     493G   62G  406G  14% /data</span><br><span class="line">overlay                        99G   91G  3.4G  97% /var/lib/docker/overlay2/xxx</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">df</span> -h</span><br><span class="line">Filesystem                    Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/vda1                      99G   91G  3.4G  97% /</span><br><span class="line">/dev/vdb1                     493G   62G  406G  14% /data</span><br><span class="line">overlay                        99G   91G  3.4G  97% /var/lib/docker/overlay2/xxx</span><br></pre></td></tr></table></figure>
 
 <p>可以看到<code>/var/lib/docker/</code>放满了，可以移到<code>data</code>目录下。</p>
 <p>同时可以先确认一下目前的 docker 目录：</p>
@@ -433,7 +437,7 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker system prune</span><br></pre></td></tr></table></figure>
 
 <p>可添加<code>-a</code>清除得更彻底。之后查看磁盘状况：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ df -h</span><br><span class="line">Filesystem                    Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/vda1                      99G   83G   12G  88% /</span><br><span class="line">/dev/vdb1                     493G   62G  406G  14% /data</span><br><span class="line">overlay                        99G   83G   12G  88% /var/lib/docker/overlay2/xxx</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">df</span> -h</span><br><span class="line">Filesystem                    Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/vda1                      99G   83G   12G  88% /</span><br><span class="line">/dev/vdb1                     493G   62G  406G  14% /data</span><br><span class="line">overlay                        99G   83G   12G  88% /var/lib/docker/overlay2/xxx</span><br></pre></td></tr></table></figure>
 
 <p>有所缓解，但12G依然不够用，需要更改 docker 目录到 <code>/data</code>下。</p>
 <ol start="3">
@@ -444,12 +448,12 @@
 <ol start="4">
 <li>创建新的docker工作目录</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ mkdir -p /data/dockerlib</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> -p /data/dockerlib</span><br></pre></td></tr></table></figure>
 
 <ol start="5">
-<li>迁移/var/lib/docker</li>
+<li>迁移&#x2F;var&#x2F;lib&#x2F;docker</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rsync -avz /var/lib/docker /data/dockerlib</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">rsync -avz /var/lib/docker /data/dockerlib</span><br></pre></td></tr></table></figure>
 
 <ol start="6">
 <li>改动配置文件</li>
@@ -457,7 +461,7 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ vim /etc/docker/daemon.json</span><br></pre></td></tr></table></figure>
 
 <p>在文件中更改</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">&quot;data-root&quot;</span>: <span class="string">&quot;/data/dockerlib/docker&quot;,</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;data-root&quot;</span>: <span class="string">&quot;/data/dockerlib/docker&quot;,</span></span><br></pre></td></tr></table></figure>
 
 <ol start="7">
 <li>重启docker服务</li>
@@ -473,13 +477,13 @@
 <li>确认 docker 已经成功转移</li>
 </ol>
 <p>修改原 docker 路径名，再进行一些操作</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ mv /var/lib/docker /var/lib/docker_temp</span><br><span class="line">$ docker image list</span><br><span class="line">$ docker container list</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">mv</span> /var/lib/docker /var/lib/docker_temp</span><br><span class="line">$ docker image list</span><br><span class="line">$ docker container list</span><br></pre></td></tr></table></figure>
 
 <p>在这一步我发现之前的 container 进去会有问题，但是重启后可以重新进入：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker stop xxx</span><br><span class="line">$ docker start xxx</span><br><span class="line">$ docker <span class="built_in">exec</span> -it xxx /bin/bash</span><br></pre></td></tr></table></figure>
 
 <p>确认无误后可以删除，为了防止出错可以用一阵子再删</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ rm -rf /var/lib/docker_temp</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">rm</span> -rf /var/lib/docker_temp</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -531,6 +535,109 @@
       </tags>
   </entry>
   <entry>
+    <title>Mastodon 建站笔记</title>
+    <url>/2022-02-10-build-a-mastodon/</url>
+    <content><![CDATA[<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">蓝盒子站长的教程</a> ，一直进行到把 docker 和 docker-compose 装好。</p>
+<p>Checklist：</p>
+<ul>
+<li>ssh-key设置并关闭密码登录</li>
+<li>开启防火墙</li>
+<li>域名映射到服务器ip</li>
+<li>安装成功 docker 和 docker-compose</li>
+</ul>
+<h2 id="Postgres-database"><a href="#Postgres-database" class="headerlink" title="Postgres database"></a>Postgres database</h2><p><strong>Update 2022.2.19：</strong></p>
+<p>这一步我已经找到原因了，是因为在原教程中，写的是：</p>
+<blockquote>
+<p>刚才docker-compose.yml文件中，数据库（db）部分的地址为.&#x2F;postgres:&#x2F;var&#x2F;lib&#x2F;postgresql&#x2F;data，因此你的数据库绝对地址为&#x2F;home&#x2F;mastodon&#x2F;mastodon&#x2F;postgres。</p>
+</blockquote>
+<p>然后我发现我wget最新的docker-compose配置，这边已经变成了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres14:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
+
+<p>所以我当时按照教程运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name postgres12 -v /home/mastodon/mastodon/postgres:/var/lib/postgresql/data -e   POSTGRES_PASSWORD=设置数据库管理员密码 --rm -d postgres:12.5-alpine</span><br></pre></td></tr></table></figure>
+<p>实际上是在<code>./postgres</code>里操作，但我应该在<code>./postgres14</code>里操作才能真的把数据写进docker。所以这里应该把命令改为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name postgres12 -v /home/mastodon/mastodon/postgres14:/var/lib/postgresql/data -e   POSTGRES_PASSWORD=设置数据库管理员密码 --rm -d postgres:12.5-alpine</span><br></pre></td></tr></table></figure>
+<p>或者把docker-compose中的</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres14:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
+<p>改回</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
+<p>总之目的都是让我们能真的实际操作到postgres的数据并让docker能访问到。</p>
+<p>这里因为我还是按照之前的路径操作，后来直接进入<code>mastodon_db_1</code>才真正写到了<code>./postgres14</code>里，所以我的<code>./postgres</code>实际上是没有用的，我就把整个文件夹删掉了。</p>
+<p><strong>原文：</strong></p>
+<p>在设置mastodon的时候，运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker-compose run --<span class="built_in">rm</span> web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
+
+<p>我在这个地方卡住了非常久，在postgres那里尝试了各种版本教程的排列组合最后的结果都是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Database connection could not be established with this configuration, try again.</span><br><span class="line">FATAL:  role <span class="string">&quot;mastodon&quot;</span> does not exist</span><br></pre></td></tr></table></figure>
+
+<p>后来我认真看了一下这一步，它的输出是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Starting mastodon_db_1    ... <span class="keyword">done</span></span><br><span class="line">Starting mastodon_redis_1 ... <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>查看docker container也是这两个docker在跑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker container list -a</span><br><span class="line">CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS                    PORTS     NAMES</span><br><span class="line">bd7debf13a49   redis:6-alpine         <span class="string">&quot;docker-entrypoint.s…&quot;</span>   31 minutes ago   Up 31 minutes (healthy)             mastodon_redis_1</span><br><span class="line">30c6e3b74c40   postgres:12.5-alpine   <span class="string">&quot;docker-entrypoint.s…&quot;</span>   31 minutes ago   Up 31 minutes (healthy)             mastodon_db_1</span><br></pre></td></tr></table></figure>
+
+<p>于是我尝试把教程中4. 初始化PostgreSQL的这句话：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it postgres12 psql -U postgres</span><br></pre></td></tr></table></figure>
+
+<p>改成</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br></pre></td></tr></table></figure>
+
+<p>之后再添加mastodon用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; CREATE USER mastodon WITH PASSWORD <span class="string">&#x27;your_password&#x27;</span> CREATEDB;</span><br><span class="line">&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+
+<p>完整操作看起来是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br><span class="line">psql (12.5)</span><br><span class="line">Type <span class="string">&quot;help&quot;</span> <span class="keyword">for</span> <span class="built_in">help</span>.</span><br><span class="line"></span><br><span class="line">postgres=<span class="comment"># CREATE USER mastodon WITH PASSWORD &#x27;your_password&#x27; CREATEDB;</span></span><br><span class="line">CREATE ROLE</span><br><span class="line">postgres=<span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
+
+<p>这时候再运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker-compose run --<span class="built_in">rm</span> web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
+
+<p>按照下列输出就可以通过验证了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Domain name: example.com</span><br><span class="line"></span><br><span class="line">Single user mode disables registrations and redirects the landing page to your public profile.</span><br><span class="line">Do you want to <span class="built_in">enable</span> single user mode? No</span><br><span class="line"></span><br><span class="line">Are you using Docker to run Mastodon? Yes</span><br><span class="line"></span><br><span class="line">PostgreSQL host: mastodon_db_1</span><br><span class="line">PostgreSQL port: 5432</span><br><span class="line">Name of PostgreSQL database: mastodon</span><br><span class="line">Name of PostgreSQL user: mastodon</span><br><span class="line">Password of PostgreSQL user: （这里写上面你给mastodon设置的your_passwords）</span><br><span class="line">Database configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Redis host: mastodon_redis_1</span><br><span class="line">Redis port: 6379</span><br><span class="line">Redis password: （这里是直接回车，没有密码）</span><br><span class="line">Redis configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Do you want to store uploaded files on the cloud? No</span><br><span class="line"></span><br><span class="line">Do you want to send e-mails from localhost? No</span><br><span class="line">SMTP server: smtp.zoho.eu</span><br><span class="line">SMTP port: 587</span><br><span class="line">SMTP username: 你的zoho管理员邮箱地址</span><br><span class="line">SMTP password: 你的zoho管理员密码</span><br><span class="line">SMTP authentication: plain</span><br><span class="line">SMTP OpenSSL verify mode: none</span><br><span class="line">E-mail address to send e-mails <span class="string">&quot;from&quot;</span>: 你的zoho管理员邮箱地址</span><br><span class="line">Send a <span class="built_in">test</span> e-mail with this configuration right now? no</span><br><span class="line"></span><br><span class="line">This configuration will be written to .env.production</span><br><span class="line">Save configuration? Yes</span><br><span class="line">Below is your configuration, save it to an .env.production file outside Docker:</span><br></pre></td></tr></table></figure>
+
+<p>把接下来的部分一直到</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">It is also saved within this container so you can proceed with this wizard.</span><br></pre></td></tr></table></figure>
+
+<p>两行绿字中间的所有内容都复制下来。</p>
+<p>接下来依然按照蓝盒子教程走，两个问题选yes，输入管理员账号。</p>
+<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>这边又出了问题，按照教程走下来在这一步报错：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo systemctl reload nginx</span><br><span class="line">Job <span class="keyword">for</span> nginx.service failed.</span><br><span class="line">See <span class="string">&quot;systemctl status nginx.service&quot;</span> and <span class="string">&quot;journalctl -xe&quot;</span> <span class="keyword">for</span> details.</span><br></pre></td></tr></table></figure>
+
+<p>查看报错信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo nginx -t</span><br><span class="line">nginx: [emerg] no <span class="string">&quot;ssl_certificate&quot;</span> is defined <span class="keyword">for</span> the <span class="string">&quot;listen ... ssl&quot;</span> directive <span class="keyword">in</span> /etc/nginx/sites-enabled/example.com.conf:25</span><br><span class="line">nginx: configuration file /etc/nginx/nginx.conf <span class="built_in">test</span> failed</span><br></pre></td></tr></table></figure>
+
+<p>原来是证书没有设置好。这边我把soft link先取消了（否则会报错），运行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">rm</span> /etc/nginx/sites-enabled/example.com.conf</span><br><span class="line">sudo certbot certonly --nginx -d example.com</span><br><span class="line">sudo <span class="built_in">ln</span> -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
+
+<p>（这边一定要加 <strong>certonly</strong> 这个参数！我因为这一步debug了一整天）</p>
+<p>然后把example.com.conf 里这两行取消注释（#删掉）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Uncomment these lines once you acquire a certificate:</span><br><span class="line">ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;</span><br><span class="line">ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;</span><br></pre></td></tr></table></figure>
+
+<p>记得上面的example.com实际上应该是你的域名。</p>
+<p>要确保你的<code>nginx -t</code>没有任何问题，我遇到了warning结果最后真的是那个warning导致的错误，不要忽略warning！</p>
+<p>最后可以通过</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">certbot renew --dry_run</span><br></pre></td></tr></table></figure>
+
+<p>测试证书的自动更新是否起效，<code>--dry_run</code>就是仅打印信息，不实际执行。</p>
+<p>这一步很多教程会教你设置定期任务来更新，但实际上certbot是会自动更新的（参考<a href="https://blog.csdn.net/AlistairEd/article/details/113804554">这篇文章</a> ）。</p>
+<p>参考资料：</p>
+<p><a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html</a></p>
+<p><a href="https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4">https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4</a></p>
+<p><a href="https://peterbabic.dev/blog/running-mastodon-with-docker-compose/">https://peterbabic.dev/blog/running-mastodon-with-docker-compose/</a></p>
+<p><a href="https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/">https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/</a></p>
+<p><a href="https://www.alibabacloud.com/blog/how-to-install-mastodon-using-docker-on-alibaba-cloud-ecs_595049">https://www.alibabacloud.com/blog/how-to-install-mastodon-using-docker-on-alibaba-cloud-ecs_595049</a></p>
+<p><a href="https://www.linode.com/docs/guides/install-mastodon-on-ubuntu-2004/">https://www.linode.com/docs/guides/install-mastodon-on-ubuntu-2004/</a></p>
+<p><a href="https://www.notion.so/Mastodon-042a05ee29a048df8b2c1afd49e4c49b">https://www.notion.so/Mastodon-042a05ee29a048df8b2c1afd49e4c49b</a></p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>certbot</tag>
+        <tag>mastodon</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mastodon 媒体存储和数据库备份</title>
     <url>/2022-02-20-mastodon-backup/</url>
     <content><![CDATA[<p><strong>写在前面：</strong><br>本文备份方法我还在验证中，请谨慎使用，最好以防万一多导出一份<code>backup.dump</code> 。</p>
@@ -540,7 +647,7 @@
 <li>迁移站点到其他服务器</li>
 <li>在服务器完全瘫痪时或不小心重装后，依然可以还原所有数据库内容</li>
 </ul>
-<h2 id="What：备份哪些内容"><a href="#What：备份哪些内容" class="headerlink" title="What：备份哪些内容"></a>What：备份哪些内容</h2><p>俗话说得好，没有经过检验的备份不是好备份。那么最快让我们清楚需要备份什么的方式就是看还原/迁移站点需要什么。</p>
+<h2 id="What：备份哪些内容"><a href="#What：备份哪些内容" class="headerlink" title="What：备份哪些内容"></a>What：备份哪些内容</h2><p>俗话说得好，没有经过检验的备份不是好备份。那么最快让我们清楚需要备份什么的方式就是看还原&#x2F;迁移站点需要什么。</p>
 <p>这里参考了<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">非docker站点迁移到docker</a> 和 <a href="https://blog.tantalum.life/posts/migrate-mastodon-to-docker/">docker迁移到docker</a> 两篇资料，大致上分为三步：</p>
 <h3 id="1-转移配置文件"><a href="#1-转移配置文件" class="headerlink" title="1. 转移配置文件"></a>1. 转移配置文件</h3><p>配置文件也就是你的mastodon安装目录（按照pullopen的教程的话应该是<code>/home/mastodon/mastodon</code>）下的：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.env.production </span><br><span class="line">docker-compose.yml </span><br></pre></td></tr></table></figure>
@@ -550,7 +657,7 @@
 <ul>
 <li><p>通过备份文件<code>backup.dump</code> 进行转移，也就是备份的最关键内容，通常通过<code>pg_dump</code>导出备份，再通过<code>pg_restore</code>进行还原。</p>
 </li>
-<li><p>如果是docker，可以直接复制<code>./postgres/</code>和<code>./redis/</code>，并对<code>./postgres/</code>赋权，参考<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">将站点从Docker迁移至Docker</a> </p>
+<li><p>如果是docker，可以直接复制<code>./postgres/</code>和<code>./redis/</code>，并对<code>./postgres/</code>赋权，参考<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">将站点从Docker迁移至Docker</a></p>
 </li>
 </ul>
 <h3 id="3-转移媒体文件"><a href="#3-转移媒体文件" class="headerlink" title="3. 转移媒体文件"></a>3. 转移媒体文件</h3><p>这里分为两种情况，如果你已经配置了媒体文件在云存储，这一步是不需要的。如果你没有配置过，那么你的所有文件都在<code>./public/system/</code>目录下。具体而言有：</p>
@@ -595,109 +702,6 @@
         <tag>Mastodon</tag>
         <tag>postgres</tag>
         <tag>Scaleway</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mastodon 建站笔记</title>
-    <url>/2022-02-10-build-a-mastodon/</url>
-    <content><![CDATA[<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">蓝盒子站长的教程</a> ，一直进行到把 docker 和 docker-compose 装好。</p>
-<p>Checklist：</p>
-<ul>
-<li>ssh-key设置并关闭密码登录</li>
-<li>开启防火墙</li>
-<li>域名映射到服务器ip</li>
-<li>安装成功 docker 和 docker-compose </li>
-</ul>
-<h2 id="Postgres-database"><a href="#Postgres-database" class="headerlink" title="Postgres database"></a>Postgres database</h2><p><strong>Update 2022.2.19：</strong></p>
-<p>这一步我已经找到原因了，是因为在原教程中，写的是：</p>
-<blockquote>
-<p>刚才docker-compose.yml文件中，数据库（db）部分的地址为./postgres:/var/lib/postgresql/data，因此你的数据库绝对地址为/home/mastodon/mastodon/postgres。</p>
-</blockquote>
-<p>然后我发现我wget最新的docker-compose配置，这边已经变成了：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres14:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
-
-<p>所以我当时按照教程运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name postgres12 -v /home/mastodon/mastodon/postgres:/var/lib/postgresql/data -e   POSTGRES_PASSWORD=设置数据库管理员密码 --rm -d postgres:12.5-alpine</span><br></pre></td></tr></table></figure>
-<p>实际上是在<code>./postgres</code>里操作，但我应该在<code>./postgres14</code>里操作才能真的把数据写进docker。所以这里应该把命令改为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name postgres12 -v /home/mastodon/mastodon/postgres14:/var/lib/postgresql/data -e   POSTGRES_PASSWORD=设置数据库管理员密码 --rm -d postgres:12.5-alpine</span><br></pre></td></tr></table></figure>
-<p>或者把docker-compose中的</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres14:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
-<p>改回</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
-<p>总之目的都是让我们能真的实际操作到postgres的数据并让docker能访问到。</p>
-<p>这里因为我还是按照之前的路径操作，后来直接进入<code>mastodon_db_1</code>才真正写到了<code>./postgres14</code>里，所以我的<code>./postgres</code>实际上是没有用的，我就把整个文件夹删掉了。</p>
-<p><strong>原文：</strong></p>
-<p>在设置mastodon的时候，运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker-compose run --rm web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
-
-<p>我在这个地方卡住了非常久，在postgres那里尝试了各种版本教程的排列组合最后的结果都是：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Database connection could not be established with this configuration, try again.</span><br><span class="line">FATAL:  role <span class="string">&quot;mastodon&quot;</span> does not exist</span><br></pre></td></tr></table></figure>
-
-<p>后来我认真看了一下这一步，它的输出是：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Starting mastodon_db_1    ... <span class="keyword">done</span></span><br><span class="line">Starting mastodon_redis_1 ... <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-
-<p>查看docker container也是这两个docker在跑：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker container list -a</span><br><span class="line">CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS                    PORTS     NAMES</span><br><span class="line">bd7debf13a49   redis:6-alpine         <span class="string">&quot;docker-entrypoint.s…&quot;</span>   31 minutes ago   Up 31 minutes (healthy)             mastodon_redis_1</span><br><span class="line">30c6e3b74c40   postgres:12.5-alpine   <span class="string">&quot;docker-entrypoint.s…&quot;</span>   31 minutes ago   Up 31 minutes (healthy)             mastodon_db_1</span><br></pre></td></tr></table></figure>
-
-<p>于是我尝试把教程中4. 初始化PostgreSQL的这句话：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it postgres12 psql -U postgres</span><br></pre></td></tr></table></figure>
-
-<p>改成</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br></pre></td></tr></table></figure>
-
-<p>之后再添加mastodon用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; CREATE USER mastodon WITH PASSWORD <span class="string">&#x27;your_password&#x27;</span> CREATEDB;</span><br><span class="line">&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-
-<p>完整操作看起来是这样的：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br><span class="line">psql (12.5)</span><br><span class="line">Type <span class="string">&quot;help&quot;</span> <span class="keyword">for</span> <span class="built_in">help</span>.</span><br><span class="line"></span><br><span class="line">postgres=<span class="comment"># CREATE USER mastodon WITH PASSWORD &#x27;your_password&#x27; CREATEDB;</span></span><br><span class="line">CREATE ROLE</span><br><span class="line">postgres=<span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
-
-<p>这时候再运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker-compose run --rm web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
-
-<p>按照下列输出就可以通过验证了：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Domain name: example.com</span><br><span class="line"></span><br><span class="line">Single user mode disables registrations and redirects the landing page to your public profile.</span><br><span class="line">Do you want to <span class="built_in">enable</span> single user mode? No</span><br><span class="line"></span><br><span class="line">Are you using Docker to run Mastodon? Yes</span><br><span class="line"></span><br><span class="line">PostgreSQL host: mastodon_db_1</span><br><span class="line">PostgreSQL port: 5432</span><br><span class="line">Name of PostgreSQL database: mastodon</span><br><span class="line">Name of PostgreSQL user: mastodon</span><br><span class="line">Password of PostgreSQL user: （这里写上面你给mastodon设置的your_passwords）</span><br><span class="line">Database configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Redis host: mastodon_redis_1</span><br><span class="line">Redis port: 6379</span><br><span class="line">Redis password: （这里是直接回车，没有密码）</span><br><span class="line">Redis configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Do you want to store uploaded files on the cloud? No</span><br><span class="line"></span><br><span class="line">Do you want to send e-mails from localhost? No</span><br><span class="line">SMTP server: smtp.zoho.eu</span><br><span class="line">SMTP port: 587</span><br><span class="line">SMTP username: 你的zoho管理员邮箱地址</span><br><span class="line">SMTP password: 你的zoho管理员密码</span><br><span class="line">SMTP authentication: plain</span><br><span class="line">SMTP OpenSSL verify mode: none</span><br><span class="line">E-mail address to send e-mails <span class="string">&quot;from&quot;</span>: 你的zoho管理员邮箱地址</span><br><span class="line">Send a <span class="built_in">test</span> e-mail with this configuration right now? no</span><br><span class="line"></span><br><span class="line">This configuration will be written to .env.production</span><br><span class="line">Save configuration? Yes</span><br><span class="line">Below is your configuration, save it to an .env.production file outside Docker:</span><br></pre></td></tr></table></figure>
-
-<p>把接下来的部分一直到</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">It is also saved within this container so you can proceed with this wizard.</span><br></pre></td></tr></table></figure>
-
-<p>两行绿字中间的所有内容都复制下来。</p>
-<p>接下来依然按照蓝盒子教程走，两个问题选yes，输入管理员账号。</p>
-<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>这边又出了问题，按照教程走下来在这一步报错：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo systemctl reload nginx</span><br><span class="line">Job <span class="keyword">for</span> nginx.service failed.</span><br><span class="line">See <span class="string">&quot;systemctl status nginx.service&quot;</span> and <span class="string">&quot;journalctl -xe&quot;</span> <span class="keyword">for</span> details.</span><br></pre></td></tr></table></figure>
-
-<p>查看报错信息：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo nginx -t</span><br><span class="line">nginx: [emerg] no <span class="string">&quot;ssl_certificate&quot;</span> is defined <span class="keyword">for</span> the <span class="string">&quot;listen ... ssl&quot;</span> directive <span class="keyword">in</span> /etc/nginx/sites-enabled/example.com.conf:25</span><br><span class="line">nginx: configuration file /etc/nginx/nginx.conf <span class="built_in">test</span> failed</span><br></pre></td></tr></table></figure>
-
-<p>原来是证书没有设置好。这边我把soft link先取消了（否则会报错），运行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo rm /etc/nginx/sites-enabled/example.com.conf</span><br><span class="line">sudo certbot certonly --nginx -d example.com</span><br><span class="line">sudo ln -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
-
-<p>（这边一定要加 <strong>certonly</strong> 这个参数！我因为这一步debug了一整天）</p>
-<p>然后把example.com.conf 里这两行取消注释（#删掉）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Uncomment these lines once you acquire a certificate:</span><br><span class="line">ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;</span><br><span class="line">ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;</span><br></pre></td></tr></table></figure>
-
-<p>记得上面的example.com实际上应该是你的域名。</p>
-<p>要确保你的<code>nginx -t</code>没有任何问题，我遇到了warning结果最后真的是那个warning导致的错误，不要忽略warning！</p>
-<p>最后可以通过</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">certbot renew --dry_run</span><br></pre></td></tr></table></figure>
-
-<p>测试证书的自动更新是否起效，<code>--dry_run</code>就是仅打印信息，不实际执行。</p>
-<p>这一步很多教程会教你设置定期任务来更新，但实际上certbot是会自动更新的（参考<a href="https://blog.csdn.net/AlistairEd/article/details/113804554">这篇文章</a> ）。</p>
-<p>参考资料：</p>
-<p><a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html</a></p>
-<p><a href="https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4">https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4</a></p>
-<p><a href="https://peterbabic.dev/blog/running-mastodon-with-docker-compose/">https://peterbabic.dev/blog/running-mastodon-with-docker-compose/</a></p>
-<p><a href="https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/">https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/</a></p>
-<p><a href="https://www.alibabacloud.com/blog/how-to-install-mastodon-using-docker-on-alibaba-cloud-ecs_595049">https://www.alibabacloud.com/blog/how-to-install-mastodon-using-docker-on-alibaba-cloud-ecs_595049</a></p>
-<p><a href="https://www.linode.com/docs/guides/install-mastodon-on-ubuntu-2004/">https://www.linode.com/docs/guides/install-mastodon-on-ubuntu-2004/</a></p>
-<p><a href="https://www.notion.so/Mastodon-042a05ee29a048df8b2c1afd49e4c49b">https://www.notion.so/Mastodon-042a05ee29a048df8b2c1afd49e4c49b</a></p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-        <tag>certbot</tag>
-        <tag>mastodon</tag>
       </tags>
   </entry>
 </search>

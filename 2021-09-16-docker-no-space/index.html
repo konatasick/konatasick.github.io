@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
@@ -16,11 +15,12 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="操作系统为 CentOS Linux release 7.2，试过网上的一些方法例如软链接，增加graph路径都没有用，自己摸索找到了配置路径的位置，记录一下。  使用df -h 查看磁盘状况：  12345$ df -hFilesystem                    Size  Used Avail Use% Mounted on&#x2F;dev&#x2F;vda1">
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="操作系统为 CentOS Linux release 7.2，试过网上的一些方法例如软链接，增加graph路径都没有用，自己摸索找到了配置路径的位置，记录一下。  使用df -h 查看磁盘状况：  12345$ df -hFilesystem                    Size  Used Avail Use% Mounted on&#x2F;dev&#x2F;vda1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决 docker no space left on device">
 <meta property="og:url" content="https://tech.konata.co/2021-09-16-docker-no-space/index.html">
@@ -50,6 +50,7 @@
 
 
 
+
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
@@ -74,7 +75,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Konata Tech Blog</h1>
+      <p class="site-title">Konata Tech Blog</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">No bug no life!</p>
@@ -156,8 +157,7 @@
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
-          <div class="site-overview">
-            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Konata Izumi"
       src="/images/avatar.gif">
   <p class="site-author-name" itemprop="name">Konata Izumi</p>
@@ -186,7 +186,6 @@
 
 
 
-          </div>
         </div>
       </div>
     </div>
@@ -244,13 +243,13 @@
 
       <time title="Created: 2021-09-16 15:14:57" itemprop="dateCreated datePublished" datetime="2021-09-16T15:14:57+08:00">2021-09-16</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2022-02-10 04:46:18" itemprop="dateModified" datetime="2022-02-10T04:46:18+08:00">2022-02-10</time>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
       </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-02-10 04:46:18" itemprop="dateModified" datetime="2022-02-10T04:46:18+08:00">2022-02-10</time>
+    </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -282,7 +281,7 @@
 <ol>
 <li>使用<code>df -h</code> 查看磁盘状况：</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ df -h</span><br><span class="line">Filesystem                    Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/vda1                      99G   91G  3.4G  97% /</span><br><span class="line">/dev/vdb1                     493G   62G  406G  14% /data</span><br><span class="line">overlay                        99G   91G  3.4G  97% /var/lib/docker/overlay2/xxx</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">df</span> -h</span><br><span class="line">Filesystem                    Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/vda1                      99G   91G  3.4G  97% /</span><br><span class="line">/dev/vdb1                     493G   62G  406G  14% /data</span><br><span class="line">overlay                        99G   91G  3.4G  97% /var/lib/docker/overlay2/xxx</span><br></pre></td></tr></table></figure>
 
 <p>可以看到<code>/var/lib/docker/</code>放满了，可以移到<code>data</code>目录下。</p>
 <p>同时可以先确认一下目前的 docker 目录：</p>
@@ -294,7 +293,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker system prune</span><br></pre></td></tr></table></figure>
 
 <p>可添加<code>-a</code>清除得更彻底。之后查看磁盘状况：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ df -h</span><br><span class="line">Filesystem                    Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/vda1                      99G   83G   12G  88% /</span><br><span class="line">/dev/vdb1                     493G   62G  406G  14% /data</span><br><span class="line">overlay                        99G   83G   12G  88% /var/lib/docker/overlay2/xxx</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">df</span> -h</span><br><span class="line">Filesystem                    Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/vda1                      99G   83G   12G  88% /</span><br><span class="line">/dev/vdb1                     493G   62G  406G  14% /data</span><br><span class="line">overlay                        99G   83G   12G  88% /var/lib/docker/overlay2/xxx</span><br></pre></td></tr></table></figure>
 
 <p>有所缓解，但12G依然不够用，需要更改 docker 目录到 <code>/data</code>下。</p>
 <ol start="3">
@@ -305,12 +304,12 @@
 <ol start="4">
 <li>创建新的docker工作目录</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p /data/dockerlib</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> -p /data/dockerlib</span><br></pre></td></tr></table></figure>
 
 <ol start="5">
-<li>迁移/var/lib/docker</li>
+<li>迁移&#x2F;var&#x2F;lib&#x2F;docker</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -avz /var/lib/docker /data/dockerlib</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -avz /var/lib/docker /data/dockerlib</span><br></pre></td></tr></table></figure>
 
 <ol start="6">
 <li>改动配置文件</li>
@@ -318,7 +317,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/docker/daemon.json</span><br></pre></td></tr></table></figure>
 
 <p>在文件中更改</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&quot;data-root&quot;</span>: <span class="string">&quot;/data/dockerlib/docker&quot;,</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;data-root&quot;</span>: <span class="string">&quot;/data/dockerlib/docker&quot;,</span></span><br></pre></td></tr></table></figure>
 
 <ol start="7">
 <li>重启docker服务</li>
@@ -334,13 +333,13 @@
 <li>确认 docker 已经成功转移</li>
 </ol>
 <p>修改原 docker 路径名，再进行一些操作</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mv /var/lib/docker /var/lib/docker_temp</span><br><span class="line">$ docker image list</span><br><span class="line">$ docker container list</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mv</span> /var/lib/docker /var/lib/docker_temp</span><br><span class="line">$ docker image list</span><br><span class="line">$ docker container list</span><br></pre></td></tr></table></figure>
 
 <p>在这一步我发现之前的 container 进去会有问题，但是重启后可以重新进入：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker stop xxx</span><br><span class="line">$ docker start xxx</span><br><span class="line">$ docker <span class="built_in">exec</span> -it xxx /bin/bash</span><br></pre></td></tr></table></figure>
 
 <p>确认无误后可以删除，为了防止出错可以用一阵子再删</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rm -rf /var/lib/docker_temp</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">rm</span> -rf /var/lib/docker_temp</span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -394,6 +393,7 @@
 
 
 
+    <div class="comments gitalk-container"></div>
 </div>
   </main>
 
@@ -438,7 +438,9 @@
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
 
   
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
 <script src="/js/third-party/search/local-search.js"></script>
+
 
 
 
@@ -449,6 +451,10 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"konatasick@gmail.com","repo":"https://github.com/konatasick/tech_blog_gitalk.git","client_id":"ef33f16b6f8c0c5123bf","client_secret":"54be8b2b0bdddc25e3773be66b9e753561f96b72","admin_user":"konatasick@gmail.com","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"679554c5640013f975cf8623365827f0"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>

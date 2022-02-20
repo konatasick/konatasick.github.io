@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
@@ -16,11 +15,12 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="本文在 http:&#x2F;&#x2F;www.cnblogs.com&#x2F;pinard&#x2F;p&#x2F;6239403.html 和 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;pinard&#x2F;p&#x2F;6243025.html 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。 Jupiter notebook版本参见我的github:  https:&#x2F;&#x2F;github.com&#x2F;konatasick&#x2F;">
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="本文在 http:&#x2F;&#x2F;www.cnblogs.com&#x2F;pinard&#x2F;p&#x2F;6239403.html 和 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;pinard&#x2F;p&#x2F;6243025.html 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。 Jupiter notebook版本参见我的github:  https:&#x2F;&#x2F;github.com&#x2F;konatasick&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="scikit-learn使用PCA降维小结">
 <meta property="og:url" content="https://tech.konata.co/2018-11-30-pca/index.html">
@@ -56,6 +56,7 @@
 
 
 
+
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
@@ -80,7 +81,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Konata Tech Blog</h1>
+      <p class="site-title">Konata Tech Blog</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">No bug no life!</p>
@@ -163,8 +164,7 @@
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
-          <div class="site-overview">
-            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Konata Izumi"
       src="/images/avatar.gif">
   <p class="site-author-name" itemprop="name">Konata Izumi</p>
@@ -193,7 +193,6 @@
 
 
 
-          </div>
         </div>
       </div>
     </div>
@@ -251,13 +250,13 @@
 
       <time title="Created: 2018-11-30 00:19:38" itemprop="dateCreated datePublished" datetime="2018-11-30T00:19:38+08:00">2018-11-30</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2022-02-10 04:45:31" itemprop="dateModified" datetime="2022-02-10T04:45:31+08:00">2022-02-10</time>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
       </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-02-10 04:45:31" itemprop="dateModified" datetime="2022-02-10T04:45:31+08:00">2022-02-10</time>
+    </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -295,13 +294,13 @@
 
 <h2 id="scikit-learn的sklearn-decomposition-PCA参数介绍"><a href="#scikit-learn的sklearn-decomposition-PCA参数介绍" class="headerlink" title="scikit-learn的sklearn.decomposition.PCA参数介绍"></a>scikit-learn的sklearn.decomposition.PCA参数介绍</h2><p>官方文档：<a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html">https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html</a></p>
 <p>Parameters:</p>
-<p>n_components：这个代表了需要降维的维度。当它是整数时，代表了保留的维度数量。当它是一个介于0~1之间的数时，代表了主成分的方差所占的最小比例，例如0.95代表取超过95%的量的维度。当它为’mle’;，同时svd_solver == ‘full’;时，系统会根据MLE算法自动选择维度。（此时svd_solver == ‘auto’;将会被解读为svd_solver == ‘full’;）</p>
+<p>n_components：这个代表了需要降维的维度。当它是整数时，代表了保留的维度数量。当它是一个介于0~1之间的数时，代表了主成分的方差所占的最小比例，例如0.95代表取超过95%的量的维度。当它为’mle’;，同时svd_solver &#x3D;&#x3D; ‘full’;时，系统会根据MLE算法自动选择维度。（此时svd_solver &#x3D;&#x3D; ‘auto’;将会被解读为svd_solver &#x3D;&#x3D; ‘full’;）</p>
 <p>svd_solver：默认是’auto’;，即在剩下的’full’;, ‘arpack’;, ‘randomized’;中根据情况选一个。’full’;是传统的PCA，’arpack’;, ‘randomized’;适用于数据量大的场景，其区别在于前者是通过scipy.sparse.linalg.svds实现。</p>
 <p>Attributes*:</p>
 <p>components_ : 主成分的投影坐标，代表了数据的最大方差的方向，根据explained_variance_由大到小排列。维度是m*n，其中n是原始数据的维度，m是降维后的维度。</p>
 <p>explained_variance_和explained_variance_ratio_：前者是每一维的方差，后者是所占比例：</p>
-<p>explained_variance_ratio_=explained_variance/sum（explained_variance_）</p>
-<p>维度是m, 当m=n时，sum（explained_variance_ratio_）=1。</p>
+<p>explained_variance_ratio_&#x3D;explained_variance&#x2F;sum（explained_variance_）</p>
+<p>维度是m, 当m&#x3D;n时，sum（explained_variance_ratio_）&#x3D;1。</p>
 <p>mean_：每个feature的平均值。在pca算法的第一步，需要对feature归一化，此时的平均值保留在这里。</p>
 <p>n_components_：模型实际的降维数，即m。</p>
 <h2 id="PCA实例"><a href="#PCA实例" class="headerlink" title="PCA实例"></a>PCA实例</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 中示范了降维的操作。</p>
@@ -320,7 +319,7 @@
 <p>输出如图：</p>
 <p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104805898-1186449046.png"></p>
 <p>在很多应用中，当我们将数据降维并用于训练后，训练出来的模型之后的输出也是降维后的数据，需要还原回原始维度。这时候需要将pca算法进行逆运算：</p>
-<p>X_old=np.dot(X_new,pca.components_)+pca.mean_</p>
+<p>X_old&#x3D;np.dot(X_new,pca.components_)+pca.mean_</p>
 <p>即将新数据和components_相乘并加上平均值。</p>
 <p>使用上文的例子，代码如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X_old=np.dot(X_new,pca.components_)+pca.mean_</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X_old[:, 0], X_old[:, 1], X_old[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
@@ -384,6 +383,7 @@
 
 
 
+    <div class="comments gitalk-container"></div>
 </div>
   </main>
 
@@ -428,7 +428,9 @@
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
 
   
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
 <script src="/js/third-party/search/local-search.js"></script>
+
 
 
 
@@ -439,6 +441,10 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"konatasick@gmail.com","repo":"https://github.com/konatasick/tech_blog_gitalk.git","client_id":"ef33f16b6f8c0c5123bf","client_secret":"54be8b2b0bdddc25e3773be66b9e753561f96b72","admin_user":"konatasick@gmail.com","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"17283f07c9bb2f50b82344e9a35582a7"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>

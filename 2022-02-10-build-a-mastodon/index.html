@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
@@ -16,16 +15,17 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="Prerequisites参考蓝盒子站长的教程 ，一直进行到把 docker 和 docker-compose 装好。 Checklist：  ssh-key设置并关闭密码登录 开启防火墙 域名映射到服务器ip 安装成功 docker 和 docker-compose   Postgres databaseUpdate 2022.2.19： 这一步我已经找到原因了，是因为在原教程中，写的是：  刚">
+<script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+  <meta name="description" content="Prerequisites参考蓝盒子站长的教程 ，一直进行到把 docker 和 docker-compose 装好。 Checklist：  ssh-key设置并关闭密码登录 开启防火墙 域名映射到服务器ip 安装成功 docker 和 docker-compose  Postgres databaseUpdate 2022.2.19： 这一步我已经找到原因了，是因为在原教程中，写的是：  刚才">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mastodon 建站笔记">
 <meta property="og:url" content="https://tech.konata.co/2022-02-10-build-a-mastodon/index.html">
 <meta property="og:site_name" content="Konata Tech Blog">
-<meta property="og:description" content="Prerequisites参考蓝盒子站长的教程 ，一直进行到把 docker 和 docker-compose 装好。 Checklist：  ssh-key设置并关闭密码登录 开启防火墙 域名映射到服务器ip 安装成功 docker 和 docker-compose   Postgres databaseUpdate 2022.2.19： 这一步我已经找到原因了，是因为在原教程中，写的是：  刚">
+<meta property="og:description" content="Prerequisites参考蓝盒子站长的教程 ，一直进行到把 docker 和 docker-compose 装好。 Checklist：  ssh-key设置并关闭密码登录 开启防火墙 域名映射到服务器ip 安装成功 docker 和 docker-compose  Postgres databaseUpdate 2022.2.19： 这一步我已经找到原因了，是因为在原教程中，写的是：  刚才">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-02-09T20:38:33.000Z">
 <meta property="article:modified_time" content="2022-02-19T14:02:38.686Z">
@@ -48,6 +48,7 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=282155994"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":282155994,"only_pageview":false}</script>
   <script src="/js/third-party/analytics/google-analytics.js"></script>
+
 
 
 
@@ -76,7 +77,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Konata Tech Blog</h1>
+      <p class="site-title">Konata Tech Blog</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">No bug no life!</p>
@@ -159,8 +160,7 @@
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
-          <div class="site-overview">
-            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Konata Izumi"
       src="/images/avatar.gif">
   <p class="site-author-name" itemprop="name">Konata Izumi</p>
@@ -189,7 +189,6 @@
 
 
 
-          </div>
         </div>
       </div>
     </div>
@@ -247,13 +246,13 @@
 
       <time title="Created: 2022-02-10 04:38:33" itemprop="dateCreated datePublished" datetime="2022-02-10T04:38:33+08:00">2022-02-10</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2022-02-19 22:02:38" itemprop="dateModified" datetime="2022-02-19T22:02:38+08:00">2022-02-19</time>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
       </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-02-19 22:02:38" itemprop="dateModified" datetime="2022-02-19T22:02:38+08:00">2022-02-19</time>
+    </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -287,12 +286,12 @@
 <li>ssh-key设置并关闭密码登录</li>
 <li>开启防火墙</li>
 <li>域名映射到服务器ip</li>
-<li>安装成功 docker 和 docker-compose </li>
+<li>安装成功 docker 和 docker-compose</li>
 </ul>
 <h2 id="Postgres-database"><a href="#Postgres-database" class="headerlink" title="Postgres database"></a>Postgres database</h2><p><strong>Update 2022.2.19：</strong></p>
 <p>这一步我已经找到原因了，是因为在原教程中，写的是：</p>
 <blockquote>
-<p>刚才docker-compose.yml文件中，数据库（db）部分的地址为./postgres:/var/lib/postgresql/data，因此你的数据库绝对地址为/home/mastodon/mastodon/postgres。</p>
+<p>刚才docker-compose.yml文件中，数据库（db）部分的地址为.&#x2F;postgres:&#x2F;var&#x2F;lib&#x2F;postgresql&#x2F;data，因此你的数据库绝对地址为&#x2F;home&#x2F;mastodon&#x2F;mastodon&#x2F;postgres。</p>
 </blockquote>
 <p>然后我发现我wget最新的docker-compose配置，这边已经变成了：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres14:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
@@ -309,7 +308,7 @@
 <p>这里因为我还是按照之前的路径操作，后来直接进入<code>mastodon_db_1</code>才真正写到了<code>./postgres14</code>里，所以我的<code>./postgres</code>实际上是没有用的，我就把整个文件夹删掉了。</p>
 <p><strong>原文：</strong></p>
 <p>在设置mastodon的时候，运行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker-compose run --rm web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker-compose run --<span class="built_in">rm</span> web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
 
 <p>我在这个地方卡住了非常久，在postgres那里尝试了各种版本教程的排列组合最后的结果都是：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Database connection could not be established with this configuration, try again.</span><br><span class="line">FATAL:  role <span class="string">&quot;mastodon&quot;</span> does not exist</span><br></pre></td></tr></table></figure>
@@ -333,7 +332,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br><span class="line">psql (12.5)</span><br><span class="line">Type <span class="string">&quot;help&quot;</span> <span class="keyword">for</span> <span class="built_in">help</span>.</span><br><span class="line"></span><br><span class="line">postgres=<span class="comment"># CREATE USER mastodon WITH PASSWORD &#x27;your_password&#x27; CREATEDB;</span></span><br><span class="line">CREATE ROLE</span><br><span class="line">postgres=<span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
 
 <p>这时候再运行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker-compose run --rm web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker-compose run --<span class="built_in">rm</span> web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
 
 <p>按照下列输出就可以通过验证了：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">Domain name: example.com</span><br><span class="line"></span><br><span class="line">Single user mode disables registrations and redirects the landing page to your public profile.</span><br><span class="line">Do you want to <span class="built_in">enable</span> single user mode? No</span><br><span class="line"></span><br><span class="line">Are you using Docker to run Mastodon? Yes</span><br><span class="line"></span><br><span class="line">PostgreSQL host: mastodon_db_1</span><br><span class="line">PostgreSQL port: 5432</span><br><span class="line">Name of PostgreSQL database: mastodon</span><br><span class="line">Name of PostgreSQL user: mastodon</span><br><span class="line">Password of PostgreSQL user: （这里写上面你给mastodon设置的your_passwords）</span><br><span class="line">Database configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Redis host: mastodon_redis_1</span><br><span class="line">Redis port: 6379</span><br><span class="line">Redis password: （这里是直接回车，没有密码）</span><br><span class="line">Redis configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Do you want to store uploaded files on the cloud? No</span><br><span class="line"></span><br><span class="line">Do you want to send e-mails from localhost? No</span><br><span class="line">SMTP server: smtp.zoho.eu</span><br><span class="line">SMTP port: 587</span><br><span class="line">SMTP username: 你的zoho管理员邮箱地址</span><br><span class="line">SMTP password: 你的zoho管理员密码</span><br><span class="line">SMTP authentication: plain</span><br><span class="line">SMTP OpenSSL verify mode: none</span><br><span class="line">E-mail address to send e-mails <span class="string">&quot;from&quot;</span>: 你的zoho管理员邮箱地址</span><br><span class="line">Send a <span class="built_in">test</span> e-mail with this configuration right now? no</span><br><span class="line"></span><br><span class="line">This configuration will be written to .env.production</span><br><span class="line">Save configuration? Yes</span><br><span class="line">Below is your configuration, save it to an .env.production file outside Docker:</span><br></pre></td></tr></table></figure>
@@ -350,7 +349,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nginx -t</span><br><span class="line">nginx: [emerg] no <span class="string">&quot;ssl_certificate&quot;</span> is defined <span class="keyword">for</span> the <span class="string">&quot;listen ... ssl&quot;</span> directive <span class="keyword">in</span> /etc/nginx/sites-enabled/example.com.conf:25</span><br><span class="line">nginx: configuration file /etc/nginx/nginx.conf <span class="built_in">test</span> failed</span><br></pre></td></tr></table></figure>
 
 <p>原来是证书没有设置好。这边我把soft link先取消了（否则会报错），运行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo rm /etc/nginx/sites-enabled/example.com.conf</span><br><span class="line">sudo certbot certonly --nginx -d example.com</span><br><span class="line">sudo ln -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">rm</span> /etc/nginx/sites-enabled/example.com.conf</span><br><span class="line">sudo certbot certonly --nginx -d example.com</span><br><span class="line">sudo <span class="built_in">ln</span> -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
 
 <p>（这边一定要加 <strong>certonly</strong> 这个参数！我因为这一步debug了一整天）</p>
 <p>然后把example.com.conf 里这两行取消注释（#删掉）</p>
@@ -425,6 +424,7 @@
 
 
 
+    <div class="comments gitalk-container"></div>
 </div>
   </main>
 
@@ -469,7 +469,9 @@
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
 
   
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
 <script src="/js/third-party/search/local-search.js"></script>
+
 
 
 
@@ -480,6 +482,10 @@
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"konatasick@gmail.com","repo":"https://github.com/konatasick/tech_blog_gitalk.git","client_id":"ef33f16b6f8c0c5123bf","client_secret":"54be8b2b0bdddc25e3773be66b9e753561f96b72","admin_user":"konatasick@gmail.com","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":null,"js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"c9598a96f6a3cae2612657875d5b74c6"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>
 </html>
