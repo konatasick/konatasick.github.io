@@ -65,11 +65,11 @@
     <category term="Project" scheme="https://tech.konata.co/categories/Project/"/>
     
     
-    <category term="mastodon" scheme="https://tech.konata.co/tags/mastodon/"/>
-    
     <category term="nginx" scheme="https://tech.konata.co/tags/nginx/"/>
     
     <category term="certbot" scheme="https://tech.konata.co/tags/certbot/"/>
+    
+    <category term="mastodon" scheme="https://tech.konata.co/tags/mastodon/"/>
     
   </entry>
   
