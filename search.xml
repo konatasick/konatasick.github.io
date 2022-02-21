@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>在服务器用conda创建python环境</title>
+    <url>/2019-07-08-conda-create-env/</url>
+    <content><![CDATA[<p>2019年11月27日更新：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
+
+<p>可以导出environment配置环境：</p>
+<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
+<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
+<p>删除环境：conda remove -n your_env_name –all</p>
+<hr>
+<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
+<p>首先，尝试conda list，提示not command，解决方法：</p>
+<p>在.bashrc 的末尾添加如下一行：</p>
+<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
+<p>之后conda list，正常。</p>
+<p>创建：</p>
+<p>conda create -n vso python&#x3D;2.7</p>
+<p>激活：</p>
+<p>source activate vso</p>
+<p>然后就可以开始安装需要的package</p>
+<p>pip install imutils</p>
+<p>pip install numpy</p>
+<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
+<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
+<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
+<p>pip install scipy</p>
+<p>pip install matplotlib</p>
+<p>pip install sklearn</p>
+<p>pip install ffmpeg-normalize</p>
+<p>conda install ffmpeg</p>
+<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
+<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>conda</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>scikit-learn使用PCA降维小结</title>
     <url>/2018-11-30-pca/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -59,48 +101,6 @@
         <tag>python</tag>
         <tag>scikit-learn</tag>
         <tag>PCA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在服务器用conda创建python环境</title>
-    <url>/2019-07-08-conda-create-env/</url>
-    <content><![CDATA[<p>2019年11月27日更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
-
-<p>可以导出environment配置环境：</p>
-<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
-<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
-<p>删除环境：conda remove -n your_env_name –all</p>
-<hr>
-<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
-<p>首先，尝试conda list，提示not command，解决方法：</p>
-<p>在.bashrc 的末尾添加如下一行：</p>
-<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
-<p>之后conda list，正常。</p>
-<p>创建：</p>
-<p>conda create -n vso python&#x3D;2.7</p>
-<p>激活：</p>
-<p>source activate vso</p>
-<p>然后就可以开始安装需要的package</p>
-<p>pip install imutils</p>
-<p>pip install numpy</p>
-<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
-<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
-<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
-<p>pip install scipy</p>
-<p>pip install matplotlib</p>
-<p>pip install sklearn</p>
-<p>pip install ffmpeg-normalize</p>
-<p>conda install ffmpeg</p>
-<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
-<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -535,32 +535,6 @@
       </tags>
   </entry>
   <entry>
-    <title>给 Hexo 配置 Giscus 评论系统</title>
-    <url>/2022-02-20-add-comment-to-hexo/</url>
-    <content><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p>
-<p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p>
-<p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure>
-<p>然后在 hexo 的 _config.yml 添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure>
-<p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p>
-<p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p>
-<p>最后：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>刷新页面后就可以看到评论页面啦！</p>
-<p>快来给我评论吧～～</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Next</tag>
-        <tag>Giscus</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mastodon 建站笔记</title>
     <url>/2022-02-10-build-a-mastodon/</url>
     <content><![CDATA[<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">蓝盒子站长的教程</a> ，一直进行到把 docker 和 docker-compose 装好。</p>
@@ -664,6 +638,32 @@
       </tags>
   </entry>
   <entry>
+    <title>给 Hexo 配置 Giscus 评论系统</title>
+    <url>/2022-02-20-add-comment-to-hexo/</url>
+    <content><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p>
+<p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p>
+<p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure>
+<p>然后在 hexo 的 _config.yml 添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure>
+<p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p>
+<p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p>
+<p>最后：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>刷新页面后就可以看到评论页面啦！</p>
+<p>快来给我评论吧～～</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Next</tag>
+        <tag>Giscus</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mastodon 媒体存储和数据库备份</title>
     <url>/2022-02-20-mastodon-backup/</url>
     <content><![CDATA[<p><strong>写在前面：</strong><br>本文备份方法我还在验证中，请谨慎使用，最好以防万一多导出一份<code>backup.dump</code> 。</p>
@@ -705,7 +705,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">source /etc/profile</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">target=&quot;scaleway:backup.retirenow.top&quot;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/docker exec mastodon_db_1 pg_dump -U postgres -Fc mastodon_production &gt; $&#123;origin&#125;/backup.dump &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; succeed and upload to s3 now&quot;</span><br><span class="line">/usr/bin/zip -P back-up-password $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;origin&#125;/backup.dump </span><br></pre></td></tr></table></figure>
 
 <p>前面定义了一些路径和时间等，先通过<code>pg_dump</code>导出<code>backup.dump</code>，再将其加密压缩为<code>backup_$&#123;now&#125;.zip</code>，但从上文可见，对于docker安装的情况，直接copy文件夹即可，所以我对这部分做了一些改动并参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">o3o的配置备份脚本</a>，增加了一些关键信息的备份，我的完整<strong>本地备份</strong>脚本如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup_local.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh &gt; /opt/mastodon-backup/logs/backup_local.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">#Loading /etc/profile</span><br><span class="line"># source /etc/profile</span><br><span class="line"></span><br><span class="line">#Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line"></span><br><span class="line">#Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line">#Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line">#Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; done!&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup_local.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh &gt; /opt/mastodon-backup/logs/backup_local.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; done!&quot;</span><br></pre></td></tr></table></figure>
 
 <p>可以单独运行一次脚本看看是否正确备份，运行后查看备份目录：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ls /opt/mastodon-backup/dbbackup/ -lh</span><br><span class="line">total 76M</span><br><span class="line">-rw-r--r-- 1 root root  76M Feb 20 00:09 backup_20220220-000931.zip</span><br><span class="line">drwxr-xr-x 2 root root 4.0K Feb 20 00:09 sites-available</span><br></pre></td></tr></table></figure>
@@ -719,7 +719,20 @@
 
 <p><code>rclone copy</code>是将压缩后的备份文件按照配置好的设置上传至Scaleway，之后<code>rm -f</code>删除本地的备份文件，最后设置rclone删除大于7天的备份文件。这一步也可以直接在Scaleway删除，参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">循环销毁备份文件</a>。</p>
 <p>在我更改后的脚本，我采取的方法是每次先删除上一次的备份文件，而不是在上传后删除，这样可以在本地和Scaleway都有一个备份。</p>
-<p>Scaleway和<code>rclone</code>的设置请直接参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> ，等我配好Scaleway会更新这个部分。</p>
+<p>Scaleway和<code>rclone</code>的设置可参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> ，<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53">设置定期异地备份长毛象数据库和关键配置</a> ，</p>
+<p>注意，备份的<code>bucket</code>要和媒体存储的分开，并且设为<code>private</code>！！</p>
+<p>可以用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rclone ls scaleway:你的bucket名称</span><br></pre></td></tr></table></figure>
+<p>查看bucket里的文件，确认是否正常上传和删除。</p>
+<p>最终我的完整脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup.sh &gt; /opt/mastodon-backup/logs/backup.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Loading /etc/profile</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line">target_bucket=&quot;scaleway:你的bucket名称&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available/ $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; local backup done!&quot;</span><br><span class="line"></span><br><span class="line"># upload to scaleway</span><br><span class="line">/usr/bin/rclone copy $&#123;backup_folder&#125;/ $&#123;target_bucket&#125; </span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; ok all done&quot;</span><br><span class="line"></span><br><span class="line"># delete backup longer than 7d</span><br><span class="line">/usr/bin/rclone --min-age 7d  delete $&#123;target_bucket&#125; </span><br></pre></td></tr></table></figure>
+<p>单独运行一遍可以成功后，就可以把<code>crontab</code>中的<code>backup_local.sh</code>改为<code>backup.sh</code>啦！这样你就有了一个：</p>
+<ul>
+<li>本地和scaleway双重备份</li>
+<li>本地保留一天，scaleway保留7天</li>
+<li>包含nginx设置和整个mastodon目录</li>
+</ul>
+<p>的备份啦！</p>
 ]]></content>
       <categories>
         <category>Project</category>
