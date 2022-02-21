@@ -20,32 +20,30 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="舍弃本地修改git 撤销，放弃本地修改  未add时git checkout .  add后，commit前git reset HEAD . 回到1，继续git checkout .  commit后 12git loggit reset --hard  commitid   处理git push文件过大的办法在进行git push的时候，遇到了报错HTTP 413 curl 22 The r">
+  <meta name="description" content="Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。 常用命令1234service cron status # 查看运行状态和报错信息service cron reload # 重新载入 service cron restart # 重启vim &#x2F;etc&#x2F;crontab #编辑 crontab  DebugMissing newline before EOF报错内">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git操作速查">
-<meta property="og:url" content="https://tech.konata.co/2019-07-12-git/index.html">
+<meta property="og:title" content="Crontab 各种运行不成功和解决方法">
+<meta property="og:url" content="https://tech.konata.co/2022-02-22-crontab-debug/index.html">
 <meta property="og:site_name" content="Konata Tech Blog">
-<meta property="og:description" content="舍弃本地修改git 撤销，放弃本地修改  未add时git checkout .  add后，commit前git reset HEAD . 回到1，继续git checkout .  commit后 12git loggit reset --hard  commitid   处理git push文件过大的办法在进行git push的时候，遇到了报错HTTP 413 curl 22 The r">
+<meta property="og:description" content="Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。 常用命令1234service cron status # 查看运行状态和报错信息service cron reload # 重新载入 service cron restart # 重启vim &#x2F;etc&#x2F;crontab #编辑 crontab  DebugMissing newline before EOF报错内">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="article:published_time" content="2019-07-12T15:56:59.000Z">
-<meta property="article:modified_time" content="2022-02-09T20:46:01.576Z">
+<meta property="article:published_time" content="2022-02-21T17:37:15.000Z">
+<meta property="article:modified_time" content="2022-02-21T17:49:35.557Z">
 <meta property="article:author" content="Konata Izumi">
-<meta property="article:tag" content="git">
-<meta property="article:tag" content="GitHub">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Crontab">
+<meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
-<link rel="canonical" href="https://tech.konata.co/2019-07-12-git/">
+<link rel="canonical" href="https://tech.konata.co/2022-02-22-crontab-debug/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://tech.konata.co/2019-07-12-git/","path":"2019-07-12-git/","title":"Git操作速查"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://tech.konata.co/2022-02-22-crontab-debug/","path":"2022-02-22-crontab-debug/","title":"Crontab 各种运行不成功和解决方法"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Git操作速查 | Konata Tech Blog</title>
+<title>Crontab 各种运行不成功和解决方法 | Konata Tech Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=282155994"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":282155994,"only_pageview":false}</script>
@@ -157,7 +155,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%88%8D%E5%BC%83%E6%9C%AC%E5%9C%B0%E4%BF%AE%E6%94%B9"><span class="nav-number">1.</span> <span class="nav-text">舍弃本地修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%84%E7%90%86git-push%E6%96%87%E4%BB%B6%E8%BF%87%E5%A4%A7%E7%9A%84%E5%8A%9E%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">处理git push文件过大的办法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%9D%E6%8C%81%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E5%90%8C%E6%AD%A5"><span class="nav-number">3.</span> <span class="nav-text">保持本地仓库和远程同步</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%9C%B0%E5%9D%80"><span class="nav-number">4.</span> <span class="nav-text">更改远程仓库地址</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug"><span class="nav-number">2.</span> <span class="nav-text">Debug</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Missing-newline-before-EOF"><span class="nav-number">2.1.</span> <span class="nav-text">Missing newline before EOF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session-opened-for-user-root-by-uid-x3D-0"><span class="nav-number">2.2.</span> <span class="nav-text">session opened for user root by (uid&#x3D;0)</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -222,7 +220,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://tech.konata.co/2019-07-12-git/">
+    <link itemprop="mainEntityOfPage" href="https://tech.konata.co/2022-02-22-crontab-debug/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -235,7 +233,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Git操作速查
+          Crontab 各种运行不成功和解决方法
         </h1>
 
         <div class="post-meta-container">
@@ -245,15 +243,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2019-07-12 23:56:59" itemprop="dateCreated datePublished" datetime="2019-07-12T23:56:59+08:00">2019-07-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-02-10 04:46:01" itemprop="dateModified" datetime="2022-02-10T04:46:01+08:00">2022-02-10</time>
+      <time title="Created: 2022-02-22 01:37:15 / Modified: 01:49:35" itemprop="dateCreated datePublished" datetime="2022-02-22T01:37:15+08:00">2022-02-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -282,48 +274,27 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <meta name="referrer" content="no-referrer"/>
+        <p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">service cron status # 查看运行状态和报错信息</span><br><span class="line">service cron reload # 重新载入 </span><br><span class="line">service cron restart # 重启</span><br><span class="line">vim /etc/crontab #编辑 crontab</span><br></pre></td></tr></table></figure>
 
-<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
-<ol>
-<li><p>未add时<br><code>git checkout .</code></p>
-</li>
-<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
-</li>
-<li><p>commit后</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
-<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a target="_blank" rel="noopener" href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
-<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
-<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
-<p><code>git reset --hard</code></p>
-<p>即可</p>
-<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
-<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
-<ol>
-<li><p>添加远程仓库到本地remote分支</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看当前仓库的远程分支</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>fetch 远程分支</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>推送本地到远程仓库（自己fork的仓库）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote <span class="built_in">rm</span> origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-
-
-
-
+<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><h3 id="Missing-newline-before-EOF"><a href="#Missing-newline-before-EOF" class="headerlink" title="Missing newline before EOF"></a>Missing newline before EOF</h3><p>报错内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(*system*) ERROR (Missing newline before EOF, this crontab file will be ignored)</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://cronitor.io/cron-reference/missing-newline-before-eof#:~:text=Fixing%20missing%20newline%20before%20EOF%20errors.%20Correct%20this,always%20added%20and%20are%20not%20%20incorrectly%20stripped.">解决方案</a></p>
+<blockquote>
+<p>Correct this error simply by <strong>adding a blank line</strong> at the end of your crontab. </p>
+</blockquote>
+<p>就是在crontab文件的末尾添加一个新的空行（回车），就离谱……</p>
+<h3 id="session-opened-for-user-root-by-uid-x3D-0"><a href="#session-opened-for-user-root-by-uid-x3D-0" class="headerlink" title="session opened for user root by (uid&#x3D;0)"></a>session opened for user root by (uid&#x3D;0)</h3><p>报错内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pam_unix(cron:session): session opened for user root by (uid=0)</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/questions/weird-cron-logs-appearing-for-no-reasion">解决方案</a>：</p>
+<p>打开文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/pam.d/common-session-noninteractive</span><br></pre></td></tr></table></figure>
+<p>找到这一行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session required pam_unix.so</span><br></pre></td></tr></table></figure>
+<p>并在其上方添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session [success=1 default=ignore] pam_succeed_if.so service in cron quiet use_uid</span><br></pre></td></tr></table></figure>
+<p>然后重启：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service cron restart</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -349,22 +320,20 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/git/" rel="tag"># git</a>
-              <a href="/tags/GitHub/" rel="tag"># GitHub</a>
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/Crontab/" rel="tag"># Crontab</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2019-07-08-conda-create-env/" rel="prev" title="在服务器用conda创建python环境">
-                  <i class="fa fa-chevron-left"></i> 在服务器用conda创建python环境
+                <a href="/2022-02-20-add-comment-to-hexo/" rel="prev" title="给 Hexo 配置 Giscus 评论系统">
+                  <i class="fa fa-chevron-left"></i> 给 Hexo 配置 Giscus 评论系统
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2019-11-28-ffmpeg/" rel="next" title="ffmpeg操作速查">
-                  ffmpeg操作速查 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
