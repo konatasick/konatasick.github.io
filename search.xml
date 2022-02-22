@@ -56,8 +56,8 @@
         <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>scikit-learn</tag>
+        <tag>python</tag>
         <tag>PCA</tag>
       </tags>
   </entry>
@@ -170,8 +170,8 @@
         <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>scikit-learn</tag>
+        <tag>python</tag>
         <tag>kmeans</tag>
       </tags>
   </entry>
@@ -390,35 +390,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用 Hexo + GitHub Page 自建博客</title>
-    <url>/2021-08-08-2021-08-08-build-blog-by-hexo/</url>
-    <content><![CDATA[<h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
-<p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
-<p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
-<h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
-<blockquote>
-<p>注：如果你用了 hexo clean 命令删除本地静态资源，CNAME文件也会被删掉，所以你可以在本地生成的public文件夹中直接创建好，再上传。</p>
-</blockquote>
-<p>也许是typo，应该把CNAME文件放在source里，才不会被删。</p>
-<h1 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h1><p>本站采用next主题：<a href="https://github.com/next-theme/hexo-theme-next">https://github.com/next-theme/hexo-theme-next</a></p>
-<p>因为hexo是5.0+版本，所以安装主题只需：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd hexo-site</span><br><span class="line">$ npm install hexo-theme-next</span><br></pre></td></tr></table></figure>
-<p>再把_config.yml的theme改成next。但这种安装方法比较新，next的中文文档没有更新，需要参考英文文档进行定制：<a href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a> 。</p>
-<p>以改scheme为例，如果按照上面的教程走，那就是npm安装的，运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cp node_modules/hexo-theme-next/_config.yml _config.next.yml</span><br></pre></td></tr></table></figure>
-<p>然后修改Schemes的部分即可。</p>
-<h1 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo generate # 生成本地静态文件</span><br><span class="line">$ hexo deploy   # 部署</span><br><span class="line">$ hexo clean   </span><br><span class="line">$ hexo g &amp; hexo d </span><br><span class="line">$ hexo new post &#x27;title&#x27;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>GitHub</tag>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>解决 docker no space left on device</title>
     <url>/2021-09-16-docker-no-space/</url>
     <content><![CDATA[<p>操作系统为 CentOS Linux release 7.2，试过网上的一些方法例如软链接，增加graph路径都没有用，自己摸索找到了配置路径的位置，记录一下。</p>
@@ -491,6 +462,35 @@
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用 Hexo + GitHub Page 自建博客</title>
+    <url>/2021-08-08-2021-08-08-build-blog-by-hexo/</url>
+    <content><![CDATA[<h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
+<p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
+<p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
+<h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
+<blockquote>
+<p>注：如果你用了 hexo clean 命令删除本地静态资源，CNAME文件也会被删掉，所以你可以在本地生成的public文件夹中直接创建好，再上传。</p>
+</blockquote>
+<p>也许是typo，应该把CNAME文件放在source里，才不会被删。</p>
+<h1 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h1><p>本站采用next主题：<a href="https://github.com/next-theme/hexo-theme-next">https://github.com/next-theme/hexo-theme-next</a></p>
+<p>因为hexo是5.0+版本，所以安装主题只需：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd hexo-site</span><br><span class="line">$ npm install hexo-theme-next</span><br></pre></td></tr></table></figure>
+<p>再把_config.yml的theme改成next。但这种安装方法比较新，next的中文文档没有更新，需要参考英文文档进行定制：<a href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a> 。</p>
+<p>以改scheme为例，如果按照上面的教程走，那就是npm安装的，运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cp node_modules/hexo-theme-next/_config.yml _config.next.yml</span><br></pre></td></tr></table></figure>
+<p>然后修改Schemes的部分即可。</p>
+<h1 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo generate # 生成本地静态文件</span><br><span class="line">$ hexo deploy   # 部署</span><br><span class="line">$ hexo clean   </span><br><span class="line">$ hexo g &amp; hexo d </span><br><span class="line">$ hexo new post &#x27;title&#x27;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>GitHub</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -702,7 +702,7 @@
 <h2 id="How：如何备份"><a href="#How：如何备份" class="headerlink" title="How：如何备份"></a>How：如何备份</h2><p>啰嗦了这么久终于到了这一步，我只是希望在我真正操作之前能够明白我在做什么。</p>
 <p>这一节脚本主要参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> 。</p>
 <h3 id="本地备份-1"><a href="#本地备份-1" class="headerlink" title="本地备份"></a>本地备份</h3><p>只看脚本的前半部分：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">source /etc/profile</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">target=&quot;scaleway:backup.retirenow.top&quot;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/docker exec mastodon_db_1 pg_dump -U postgres -Fc mastodon_production &gt; $&#123;origin&#125;/backup.dump &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; succeed and upload to s3 now&quot;</span><br><span class="line">/usr/bin/zip -P back-up-password $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;origin&#125;/backup.dump </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">source /etc/profile</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">target=&quot;scaleway:你的bucket名字&quot;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/docker exec pg容器名 pg_dump -U postgres -Fc mastodon_production &gt; $&#123;origin&#125;/backup.dump &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; succeed and upload to s3 now&quot;</span><br><span class="line">/usr/bin/zip -P 密码 $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;origin&#125;/backup.dump</span><br></pre></td></tr></table></figure>
 
 <p>前面定义了一些路径和时间等，先通过<code>pg_dump</code>导出<code>backup.dump</code>，再将其加密压缩为<code>backup_$&#123;now&#125;.zip</code>，但从上文可见，对于docker安装的情况，直接copy文件夹即可，所以我对这部分做了一些改动并参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">o3o的配置备份脚本</a>，增加了一些关键信息的备份，我的完整<strong>本地备份</strong>脚本如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup_local.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh &gt; /opt/mastodon-backup/logs/backup_local.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; done!&quot;</span><br></pre></td></tr></table></figure>
