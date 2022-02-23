@@ -1,67 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>scikit-learn使用PCA降维小结</title>
-    <url>/2018-11-30-pca/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<p>本文在 <a href="http://www.cnblogs.com/pinard/p/6239403.html">http://www.cnblogs.com/pinard/p/6239403.html</a> 和 <a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。</p>
-<p>Jupiter notebook版本参见我的github: </p>
-<p><a href="https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb">https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb</a></p>
-<h2 id="PCA的思想"><a href="#PCA的思想" class="headerlink" title="PCA的思想"></a>PCA的思想</h2><p>PCA（Principal components analysis，主成分分析）是一种降维算法，它通过使样本间方差尽量大来尽可能保留原始数据的相关关系。</p>
-<h2 id="PCA的算法"><a href="#PCA的算法" class="headerlink" title="PCA的算法"></a>PCA的算法</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1) 对所有的样本进行中心化</span><br><span class="line"></span><br><span class="line">2) 计算样本的协方差矩阵</span><br><span class="line"></span><br><span class="line">3) 对协方差矩阵进行特征值分解</span><br><span class="line"></span><br><span class="line">4）取出最大的m个特征值对应的特征向量, 将所有的特征向量标准化后，组成特征向量矩阵W。</span><br><span class="line"></span><br><span class="line">5）对样本集中的每一个样本转化为新的样本</span><br></pre></td></tr></table></figure>
-
-<h2 id="scikit-learn的sklearn-decomposition-PCA参数介绍"><a href="#scikit-learn的sklearn-decomposition-PCA参数介绍" class="headerlink" title="scikit-learn的sklearn.decomposition.PCA参数介绍"></a>scikit-learn的sklearn.decomposition.PCA参数介绍</h2><p>官方文档：<a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html">https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html</a></p>
-<p>Parameters:</p>
-<p>n_components：这个代表了需要降维的维度。当它是整数时，代表了保留的维度数量。当它是一个介于0~1之间的数时，代表了主成分的方差所占的最小比例，例如0.95代表取超过95%的量的维度。当它为’mle’;，同时svd_solver &#x3D;&#x3D; ‘full’;时，系统会根据MLE算法自动选择维度。（此时svd_solver &#x3D;&#x3D; ‘auto’;将会被解读为svd_solver &#x3D;&#x3D; ‘full’;）</p>
-<p>svd_solver：默认是’auto’;，即在剩下的’full’;, ‘arpack’;, ‘randomized’;中根据情况选一个。’full’;是传统的PCA，’arpack’;, ‘randomized’;适用于数据量大的场景，其区别在于前者是通过scipy.sparse.linalg.svds实现。</p>
-<p>Attributes*:</p>
-<p>components_ : 主成分的投影坐标，代表了数据的最大方差的方向，根据explained_variance_由大到小排列。维度是m*n，其中n是原始数据的维度，m是降维后的维度。</p>
-<p>explained_variance_和explained_variance_ratio_：前者是每一维的方差，后者是所占比例：</p>
-<p>explained_variance_ratio_&#x3D;explained_variance&#x2F;sum（explained_variance_）</p>
-<p>维度是m, 当m&#x3D;n时，sum（explained_variance_ratio_）&#x3D;1。</p>
-<p>mean_：每个feature的平均值。在pca算法的第一步，需要对feature归一化，此时的平均值保留在这里。</p>
-<p>n_components_：模型实际的降维数，即m。</p>
-<h2 id="PCA实例"><a href="#PCA实例" class="headerlink" title="PCA实例"></a>PCA实例</h2><p><a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 中示范了降维的操作。</p>
-<p>首先我们生成随机数据并可视化，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from mpl_toolkits.mplot3d import Axes3D</span><br><span class="line">%matplotlib inline</span><br><span class="line">from sklearn.datasets.samples_generator import make_blobs</span><br><span class="line"># X为样本特征，Y为样本簇类别， 共1000个样本，每个样本3个特征，共4个簇</span><br><span class="line">X, y = make_blobs(n_samples=10000, n_features=3, centers=[[3,3, 3], [0,0,0], [1,1,1], [2,2,2]], cluster_std=[0.2, 0.1, 0.2, 0.2], </span><br><span class="line">                  random_state =9)</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X[:, 0], X[:, 1], X[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
-
-
-
-<p>输出如图：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104731303-1636187054.png"></p>
-<p>现在我们来进行降维，从3维降到2维，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from sklearn.decomposition import PCA</span><br><span class="line">pca = PCA(n_components=2)</span><br><span class="line">pca.fit(X)</span><br><span class="line">X_new = pca.transform(X)</span><br><span class="line">plt.scatter(X_new[:, 0], X_new[:, 1],marker=&#x27;o&#x27;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-
-
-<p>输出如图：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104805898-1186449046.png"></p>
-<p>在很多应用中，当我们将数据降维并用于训练后，训练出来的模型之后的输出也是降维后的数据，需要还原回原始维度。这时候需要将pca算法进行逆运算：</p>
-<p>X_old&#x3D;np.dot(X_new,pca.components_)+pca.mean_</p>
-<p>即将新数据和components_相乘并加上平均值。</p>
-<p>使用上文的例子，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">X_old=np.dot(X_new,pca.components_)+pca.mean_</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X_old[:, 0], X_old[:, 1], X_old[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>输出如图：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104849634-1533278071.png"></p>
-<p>可以看到，数据即是投影到最大方差方向但并未进行降维时的样子。</p>
-<p>*parameter的命名后面没有下划线，而attribute的命名后面都有下划线，以此区分。</p>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>scikit-learn</tag>
-        <tag>python</tag>
-        <tag>PCA</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>在服务器用conda创建python环境</title>
     <url>/2019-07-08-conda-create-env/</url>
     <content><![CDATA[<p>2019年11月27日更新：</p>
@@ -170,9 +109,105 @@
         <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>scikit-learn</tag>
         <tag>python</tag>
+        <tag>scikit-learn</tag>
         <tag>kmeans</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>scikit-learn使用PCA降维小结</title>
+    <url>/2018-11-30-pca/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<p>本文在 <a href="http://www.cnblogs.com/pinard/p/6239403.html">http://www.cnblogs.com/pinard/p/6239403.html</a> 和 <a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。</p>
+<p>Jupiter notebook版本参见我的github: </p>
+<p><a href="https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb">https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb</a></p>
+<h2 id="PCA的思想"><a href="#PCA的思想" class="headerlink" title="PCA的思想"></a>PCA的思想</h2><p>PCA（Principal components analysis，主成分分析）是一种降维算法，它通过使样本间方差尽量大来尽可能保留原始数据的相关关系。</p>
+<h2 id="PCA的算法"><a href="#PCA的算法" class="headerlink" title="PCA的算法"></a>PCA的算法</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1) 对所有的样本进行中心化</span><br><span class="line"></span><br><span class="line">2) 计算样本的协方差矩阵</span><br><span class="line"></span><br><span class="line">3) 对协方差矩阵进行特征值分解</span><br><span class="line"></span><br><span class="line">4）取出最大的m个特征值对应的特征向量, 将所有的特征向量标准化后，组成特征向量矩阵W。</span><br><span class="line"></span><br><span class="line">5）对样本集中的每一个样本转化为新的样本</span><br></pre></td></tr></table></figure>
+
+<h2 id="scikit-learn的sklearn-decomposition-PCA参数介绍"><a href="#scikit-learn的sklearn-decomposition-PCA参数介绍" class="headerlink" title="scikit-learn的sklearn.decomposition.PCA参数介绍"></a>scikit-learn的sklearn.decomposition.PCA参数介绍</h2><p>官方文档：<a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html">https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html</a></p>
+<p>Parameters:</p>
+<p>n_components：这个代表了需要降维的维度。当它是整数时，代表了保留的维度数量。当它是一个介于0~1之间的数时，代表了主成分的方差所占的最小比例，例如0.95代表取超过95%的量的维度。当它为’mle’;，同时svd_solver &#x3D;&#x3D; ‘full’;时，系统会根据MLE算法自动选择维度。（此时svd_solver &#x3D;&#x3D; ‘auto’;将会被解读为svd_solver &#x3D;&#x3D; ‘full’;）</p>
+<p>svd_solver：默认是’auto’;，即在剩下的’full’;, ‘arpack’;, ‘randomized’;中根据情况选一个。’full’;是传统的PCA，’arpack’;, ‘randomized’;适用于数据量大的场景，其区别在于前者是通过scipy.sparse.linalg.svds实现。</p>
+<p>Attributes*:</p>
+<p>components_ : 主成分的投影坐标，代表了数据的最大方差的方向，根据explained_variance_由大到小排列。维度是m*n，其中n是原始数据的维度，m是降维后的维度。</p>
+<p>explained_variance_和explained_variance_ratio_：前者是每一维的方差，后者是所占比例：</p>
+<p>explained_variance_ratio_&#x3D;explained_variance&#x2F;sum（explained_variance_）</p>
+<p>维度是m, 当m&#x3D;n时，sum（explained_variance_ratio_）&#x3D;1。</p>
+<p>mean_：每个feature的平均值。在pca算法的第一步，需要对feature归一化，此时的平均值保留在这里。</p>
+<p>n_components_：模型实际的降维数，即m。</p>
+<h2 id="PCA实例"><a href="#PCA实例" class="headerlink" title="PCA实例"></a>PCA实例</h2><p><a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 中示范了降维的操作。</p>
+<p>首先我们生成随机数据并可视化，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from mpl_toolkits.mplot3d import Axes3D</span><br><span class="line">%matplotlib inline</span><br><span class="line">from sklearn.datasets.samples_generator import make_blobs</span><br><span class="line"># X为样本特征，Y为样本簇类别， 共1000个样本，每个样本3个特征，共4个簇</span><br><span class="line">X, y = make_blobs(n_samples=10000, n_features=3, centers=[[3,3, 3], [0,0,0], [1,1,1], [2,2,2]], cluster_std=[0.2, 0.1, 0.2, 0.2], </span><br><span class="line">                  random_state =9)</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X[:, 0], X[:, 1], X[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>输出如图：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104731303-1636187054.png"></p>
+<p>现在我们来进行降维，从3维降到2维，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from sklearn.decomposition import PCA</span><br><span class="line">pca = PCA(n_components=2)</span><br><span class="line">pca.fit(X)</span><br><span class="line">X_new = pca.transform(X)</span><br><span class="line">plt.scatter(X_new[:, 0], X_new[:, 1],marker=&#x27;o&#x27;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>输出如图：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104805898-1186449046.png"></p>
+<p>在很多应用中，当我们将数据降维并用于训练后，训练出来的模型之后的输出也是降维后的数据，需要还原回原始维度。这时候需要将pca算法进行逆运算：</p>
+<p>X_old&#x3D;np.dot(X_new,pca.components_)+pca.mean_</p>
+<p>即将新数据和components_相乘并加上平均值。</p>
+<p>使用上文的例子，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">X_old=np.dot(X_new,pca.components_)+pca.mean_</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X_old[:, 0], X_old[:, 1], X_old[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>输出如图：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104849634-1533278071.png"></p>
+<p>可以看到，数据即是投影到最大方差方向但并未进行降维时的样子。</p>
+<p>*parameter的命名后面没有下划线，而attribute的命名后面都有下划线，以此区分。</p>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>scikit-learn</tag>
+        <tag>PCA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ffmpeg操作速查</title>
+    <url>/2019-11-28-ffmpeg/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
+<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
+<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
+<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
+<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
+<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
+<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
+<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
+<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
+<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
+<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
+<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
+<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
+<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
+<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
+<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
+<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
+<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
+<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+        <tag>bash</tag>
       </tags>
   </entry>
   <entry>
@@ -217,8 +252,15 @@
 <h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote <span class="built_in">rm</span> origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
 
-
-
+<h1 id="提PR"><a href="#提PR" class="headerlink" title="提PR"></a>提PR</h1><ol>
+<li>fork repo A&#x2F;code 到自己的 GitHub，称之为 B&#x2F;code</li>
+<li>clone B&#x2F;code 到本地</li>
+<li>增加 A&#x2F;code 作为本地的远程 upstream：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote add upstream https://github.com/A/code.git</span><br></pre></td></tr></table></figure></li>
+<li>新建工作分支<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git  checkout -b my-dev</span><br></pre></td></tr></table></figure></li>
+<li>进行 add，commit，push 到自己的远程分支 B&#x2F;code<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git push --set-upstream origin my-dev</span><br></pre></td></tr></table></figure></li>
+<li>在 GitHub 上发起 Pull Request，会有分支选择</li>
+</ol>
+<p>这里不清楚为什么要添加 upstream 根本没用到，可能为了之后拉代码方便</p>
 ]]></content>
       <categories>
         <category>Workshop</category>
@@ -226,41 +268,6 @@
       <tags>
         <tag>git</tag>
         <tag>GitHub</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ffmpeg操作速查</title>
-    <url>/2019-11-28-ffmpeg/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
-<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
-<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
-<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
-<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
-<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
-<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
-<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
-<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
-<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
-<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
-<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
-<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
-<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
-<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
-<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
-<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
-<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
-<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-        <tag>bash</tag>
       </tags>
   </entry>
   <entry>
@@ -774,6 +781,42 @@
         <tag>Docker</tag>
         <tag>Crontab</tag>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mastodon-debug-in-container</title>
+    <url>/2022-02-23-mastodon-debug-in-container/</url>
+    <content><![CDATA[<p>感谢小柠檬 @<a href="mailto:&#x6c;&#x65;&#109;&#111;&#110;&#64;&#x6e;&#x79;&#97;&#x2e;&#108;&#101;&#109;&#111;&#x6e;&#97;&#x64;&#x65;&#46;&#x6d;&#x6f;&#x65;">&#x6c;&#x65;&#109;&#111;&#110;&#64;&#x6e;&#x79;&#97;&#x2e;&#108;&#101;&#109;&#111;&#x6e;&#97;&#x64;&#x65;&#46;&#x6d;&#x6f;&#x65;</a> 用自己的实例测试研究出这套可行方案！</p>
+<p>一个简短的解释，晚点我写详细一点。</p>
+<p>非docker的魔改方法：</p>
+<p><a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html</a></p>
+<p>修改后运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RAILS_ENV=production bundle exec rails assets:precompile</span><br><span class="line">systemctl restart mastodon-sidekiq</span><br><span class="line">systemctl reload mastodon-web</span><br><span class="line">systemctl restart mastodon-streaming</span><br></pre></td></tr></table></figure>
+<p>对应的docker 魔改方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker exec -it mastodon_web_1 /bin/bash </span><br></pre></td></tr></table></figure>
+<p>进入container改代码，然后编译：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RAILS_ENV=production bundle exec rails assets:precompile</span><br></pre></td></tr></table></figure>
+
+<p>这步不报错之后exit退出，然后：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker-compose restart</span><br></pre></td></tr></table></figure>
+<p>即可代替那几句systemctl restart。</p>
+<p>如果有500之类的报错可以参考：</p>
+<p><a href="https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94">https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94</a></p>
+<p>我暂时没有遇到。</p>
+<p>本方法适合进入docker进行一些调试并且可以快速在网页端看到修改结果，确认无误后还是推荐打包成镜像再重启。</p>
+<p>建议的workflow是：</p>
+<ul>
+<li>在docker中热修代码并restart</li>
+<li>确认代码ok之后在容器外修改代码并走传镜像的流程进行正式更新，即：</li>
+</ul>
+<p><a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html">https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html</a></p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>Mastodon</tag>
+        <tag>Docker</tag>
       </tags>
   </entry>
 </search>
