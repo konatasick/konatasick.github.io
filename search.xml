@@ -43,6 +43,67 @@
       </tags>
   </entry>
   <entry>
+    <title>scikit-learn使用PCA降维小结</title>
+    <url>/2018-11-30-pca/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<p>本文在 <a href="http://www.cnblogs.com/pinard/p/6239403.html">http://www.cnblogs.com/pinard/p/6239403.html</a> 和 <a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。</p>
+<p>Jupiter notebook版本参见我的github: </p>
+<p><a href="https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb">https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb</a></p>
+<h2 id="PCA的思想"><a href="#PCA的思想" class="headerlink" title="PCA的思想"></a>PCA的思想</h2><p>PCA（Principal components analysis，主成分分析）是一种降维算法，它通过使样本间方差尽量大来尽可能保留原始数据的相关关系。</p>
+<h2 id="PCA的算法"><a href="#PCA的算法" class="headerlink" title="PCA的算法"></a>PCA的算法</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1) 对所有的样本进行中心化</span><br><span class="line"></span><br><span class="line">2) 计算样本的协方差矩阵</span><br><span class="line"></span><br><span class="line">3) 对协方差矩阵进行特征值分解</span><br><span class="line"></span><br><span class="line">4）取出最大的m个特征值对应的特征向量, 将所有的特征向量标准化后，组成特征向量矩阵W。</span><br><span class="line"></span><br><span class="line">5）对样本集中的每一个样本转化为新的样本</span><br></pre></td></tr></table></figure>
+
+<h2 id="scikit-learn的sklearn-decomposition-PCA参数介绍"><a href="#scikit-learn的sklearn-decomposition-PCA参数介绍" class="headerlink" title="scikit-learn的sklearn.decomposition.PCA参数介绍"></a>scikit-learn的sklearn.decomposition.PCA参数介绍</h2><p>官方文档：<a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html">https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html</a></p>
+<p>Parameters:</p>
+<p>n_components：这个代表了需要降维的维度。当它是整数时，代表了保留的维度数量。当它是一个介于0~1之间的数时，代表了主成分的方差所占的最小比例，例如0.95代表取超过95%的量的维度。当它为’mle’;，同时svd_solver &#x3D;&#x3D; ‘full’;时，系统会根据MLE算法自动选择维度。（此时svd_solver &#x3D;&#x3D; ‘auto’;将会被解读为svd_solver &#x3D;&#x3D; ‘full’;）</p>
+<p>svd_solver：默认是’auto’;，即在剩下的’full’;, ‘arpack’;, ‘randomized’;中根据情况选一个。’full’;是传统的PCA，’arpack’;, ‘randomized’;适用于数据量大的场景，其区别在于前者是通过scipy.sparse.linalg.svds实现。</p>
+<p>Attributes*:</p>
+<p>components_ : 主成分的投影坐标，代表了数据的最大方差的方向，根据explained_variance_由大到小排列。维度是m*n，其中n是原始数据的维度，m是降维后的维度。</p>
+<p>explained_variance_和explained_variance_ratio_：前者是每一维的方差，后者是所占比例：</p>
+<p>explained_variance_ratio_&#x3D;explained_variance&#x2F;sum（explained_variance_）</p>
+<p>维度是m, 当m&#x3D;n时，sum（explained_variance_ratio_）&#x3D;1。</p>
+<p>mean_：每个feature的平均值。在pca算法的第一步，需要对feature归一化，此时的平均值保留在这里。</p>
+<p>n_components_：模型实际的降维数，即m。</p>
+<h2 id="PCA实例"><a href="#PCA实例" class="headerlink" title="PCA实例"></a>PCA实例</h2><p><a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 中示范了降维的操作。</p>
+<p>首先我们生成随机数据并可视化，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from mpl_toolkits.mplot3d import Axes3D</span><br><span class="line">%matplotlib inline</span><br><span class="line">from sklearn.datasets.samples_generator import make_blobs</span><br><span class="line"># X为样本特征，Y为样本簇类别， 共1000个样本，每个样本3个特征，共4个簇</span><br><span class="line">X, y = make_blobs(n_samples=10000, n_features=3, centers=[[3,3, 3], [0,0,0], [1,1,1], [2,2,2]], cluster_std=[0.2, 0.1, 0.2, 0.2], </span><br><span class="line">                  random_state =9)</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X[:, 0], X[:, 1], X[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>输出如图：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104731303-1636187054.png"></p>
+<p>现在我们来进行降维，从3维降到2维，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from sklearn.decomposition import PCA</span><br><span class="line">pca = PCA(n_components=2)</span><br><span class="line">pca.fit(X)</span><br><span class="line">X_new = pca.transform(X)</span><br><span class="line">plt.scatter(X_new[:, 0], X_new[:, 1],marker=&#x27;o&#x27;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>输出如图：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104805898-1186449046.png"></p>
+<p>在很多应用中，当我们将数据降维并用于训练后，训练出来的模型之后的输出也是降维后的数据，需要还原回原始维度。这时候需要将pca算法进行逆运算：</p>
+<p>X_old&#x3D;np.dot(X_new,pca.components_)+pca.mean_</p>
+<p>即将新数据和components_相乘并加上平均值。</p>
+<p>使用上文的例子，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">X_old=np.dot(X_new,pca.components_)+pca.mean_</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X_old[:, 0], X_old[:, 1], X_old[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>输出如图：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104849634-1533278071.png"></p>
+<p>可以看到，数据即是投影到最大方差方向但并未进行降维时的样子。</p>
+<p>*parameter的命名后面没有下划线，而attribute的命名后面都有下划线，以此区分。</p>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>scikit-learn</tag>
+        <tag>PCA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python实现聚类算法</title>
     <url>/2019-07-08-kmeans/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -112,102 +173,6 @@
         <tag>python</tag>
         <tag>scikit-learn</tag>
         <tag>kmeans</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>scikit-learn使用PCA降维小结</title>
-    <url>/2018-11-30-pca/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<p>本文在 <a href="http://www.cnblogs.com/pinard/p/6239403.html">http://www.cnblogs.com/pinard/p/6239403.html</a> 和 <a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。</p>
-<p>Jupiter notebook版本参见我的github: </p>
-<p><a href="https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb">https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb</a></p>
-<h2 id="PCA的思想"><a href="#PCA的思想" class="headerlink" title="PCA的思想"></a>PCA的思想</h2><p>PCA（Principal components analysis，主成分分析）是一种降维算法，它通过使样本间方差尽量大来尽可能保留原始数据的相关关系。</p>
-<h2 id="PCA的算法"><a href="#PCA的算法" class="headerlink" title="PCA的算法"></a>PCA的算法</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1) 对所有的样本进行中心化</span><br><span class="line"></span><br><span class="line">2) 计算样本的协方差矩阵</span><br><span class="line"></span><br><span class="line">3) 对协方差矩阵进行特征值分解</span><br><span class="line"></span><br><span class="line">4）取出最大的m个特征值对应的特征向量, 将所有的特征向量标准化后，组成特征向量矩阵W。</span><br><span class="line"></span><br><span class="line">5）对样本集中的每一个样本转化为新的样本</span><br></pre></td></tr></table></figure>
-
-<h2 id="scikit-learn的sklearn-decomposition-PCA参数介绍"><a href="#scikit-learn的sklearn-decomposition-PCA参数介绍" class="headerlink" title="scikit-learn的sklearn.decomposition.PCA参数介绍"></a>scikit-learn的sklearn.decomposition.PCA参数介绍</h2><p>官方文档：<a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html">https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html</a></p>
-<p>Parameters:</p>
-<p>n_components：这个代表了需要降维的维度。当它是整数时，代表了保留的维度数量。当它是一个介于0~1之间的数时，代表了主成分的方差所占的最小比例，例如0.95代表取超过95%的量的维度。当它为’mle’;，同时svd_solver &#x3D;&#x3D; ‘full’;时，系统会根据MLE算法自动选择维度。（此时svd_solver &#x3D;&#x3D; ‘auto’;将会被解读为svd_solver &#x3D;&#x3D; ‘full’;）</p>
-<p>svd_solver：默认是’auto’;，即在剩下的’full’;, ‘arpack’;, ‘randomized’;中根据情况选一个。’full’;是传统的PCA，’arpack’;, ‘randomized’;适用于数据量大的场景，其区别在于前者是通过scipy.sparse.linalg.svds实现。</p>
-<p>Attributes*:</p>
-<p>components_ : 主成分的投影坐标，代表了数据的最大方差的方向，根据explained_variance_由大到小排列。维度是m*n，其中n是原始数据的维度，m是降维后的维度。</p>
-<p>explained_variance_和explained_variance_ratio_：前者是每一维的方差，后者是所占比例：</p>
-<p>explained_variance_ratio_&#x3D;explained_variance&#x2F;sum（explained_variance_）</p>
-<p>维度是m, 当m&#x3D;n时，sum（explained_variance_ratio_）&#x3D;1。</p>
-<p>mean_：每个feature的平均值。在pca算法的第一步，需要对feature归一化，此时的平均值保留在这里。</p>
-<p>n_components_：模型实际的降维数，即m。</p>
-<h2 id="PCA实例"><a href="#PCA实例" class="headerlink" title="PCA实例"></a>PCA实例</h2><p><a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 中示范了降维的操作。</p>
-<p>首先我们生成随机数据并可视化，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from mpl_toolkits.mplot3d import Axes3D</span><br><span class="line">%matplotlib inline</span><br><span class="line">from sklearn.datasets.samples_generator import make_blobs</span><br><span class="line"># X为样本特征，Y为样本簇类别， 共1000个样本，每个样本3个特征，共4个簇</span><br><span class="line">X, y = make_blobs(n_samples=10000, n_features=3, centers=[[3,3, 3], [0,0,0], [1,1,1], [2,2,2]], cluster_std=[0.2, 0.1, 0.2, 0.2], </span><br><span class="line">                  random_state =9)</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X[:, 0], X[:, 1], X[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
-
-
-
-<p>输出如图：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104731303-1636187054.png"></p>
-<p>现在我们来进行降维，从3维降到2维，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from sklearn.decomposition import PCA</span><br><span class="line">pca = PCA(n_components=2)</span><br><span class="line">pca.fit(X)</span><br><span class="line">X_new = pca.transform(X)</span><br><span class="line">plt.scatter(X_new[:, 0], X_new[:, 1],marker=&#x27;o&#x27;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-
-
-<p>输出如图：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104805898-1186449046.png"></p>
-<p>在很多应用中，当我们将数据降维并用于训练后，训练出来的模型之后的输出也是降维后的数据，需要还原回原始维度。这时候需要将pca算法进行逆运算：</p>
-<p>X_old&#x3D;np.dot(X_new,pca.components_)+pca.mean_</p>
-<p>即将新数据和components_相乘并加上平均值。</p>
-<p>使用上文的例子，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">X_old=np.dot(X_new,pca.components_)+pca.mean_</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X_old[:, 0], X_old[:, 1], X_old[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>输出如图：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104849634-1533278071.png"></p>
-<p>可以看到，数据即是投影到最大方差方向但并未进行降维时的样子。</p>
-<p>*parameter的命名后面没有下划线，而attribute的命名后面都有下划线，以此区分。</p>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>scikit-learn</tag>
-        <tag>PCA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ffmpeg操作速查</title>
-    <url>/2019-11-28-ffmpeg/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
-<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
-<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
-<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
-<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
-<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
-<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
-<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
-<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
-<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
-<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
-<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
-<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
-<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
-<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
-<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
-<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
-<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
-<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-        <tag>bash</tag>
       </tags>
   </entry>
   <entry>
@@ -340,6 +305,41 @@
       </tags>
   </entry>
   <entry>
+    <title>ffmpeg操作速查</title>
+    <url>/2019-11-28-ffmpeg/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
+<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
+<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
+<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
+<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
+<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
+<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
+<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
+<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
+<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
+<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
+<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
+<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
+<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
+<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
+<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
+<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
+<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
+<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+        <tag>bash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>在Mac上操作文件</title>
     <url>/2021-06-11-mac/</url>
     <content><![CDATA[<h2 id="安装homebrew"><a href="#安装homebrew" class="headerlink" title="安装homebrew"></a>安装homebrew</h2><p><a href="https://www.jianshu.com/p/627b2d462151">https://www.jianshu.com/p/627b2d462151</a></p>
@@ -394,6 +394,35 @@
         <tag>opendr</tag>
         <tag>Tensorflow</tag>
         <tag>MPI-IS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用 Hexo + GitHub Page 自建博客</title>
+    <url>/2021-08-08-2021-08-08-build-blog-by-hexo/</url>
+    <content><![CDATA[<h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
+<p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
+<p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
+<h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
+<blockquote>
+<p>注：如果你用了 hexo clean 命令删除本地静态资源，CNAME文件也会被删掉，所以你可以在本地生成的public文件夹中直接创建好，再上传。</p>
+</blockquote>
+<p>也许是typo，应该把CNAME文件放在source里，才不会被删。</p>
+<h1 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h1><p>本站采用next主题：<a href="https://github.com/next-theme/hexo-theme-next">https://github.com/next-theme/hexo-theme-next</a></p>
+<p>因为hexo是5.0+版本，所以安装主题只需：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd hexo-site</span><br><span class="line">$ npm install hexo-theme-next</span><br></pre></td></tr></table></figure>
+<p>再把_config.yml的theme改成next。但这种安装方法比较新，next的中文文档没有更新，需要参考英文文档进行定制：<a href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a> 。</p>
+<p>以改scheme为例，如果按照上面的教程走，那就是npm安装的，运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cp node_modules/hexo-theme-next/_config.yml _config.next.yml</span><br></pre></td></tr></table></figure>
+<p>然后修改Schemes的部分即可。</p>
+<h1 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo generate # 生成本地静态文件</span><br><span class="line">$ hexo deploy   # 部署</span><br><span class="line">$ hexo clean   </span><br><span class="line">$ hexo g &amp; hexo d </span><br><span class="line">$ hexo new post &#x27;title&#x27;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>GitHub</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -472,35 +501,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用 Hexo + GitHub Page 自建博客</title>
-    <url>/2021-08-08-2021-08-08-build-blog-by-hexo/</url>
-    <content><![CDATA[<h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
-<p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
-<p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
-<h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
-<blockquote>
-<p>注：如果你用了 hexo clean 命令删除本地静态资源，CNAME文件也会被删掉，所以你可以在本地生成的public文件夹中直接创建好，再上传。</p>
-</blockquote>
-<p>也许是typo，应该把CNAME文件放在source里，才不会被删。</p>
-<h1 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h1><p>本站采用next主题：<a href="https://github.com/next-theme/hexo-theme-next">https://github.com/next-theme/hexo-theme-next</a></p>
-<p>因为hexo是5.0+版本，所以安装主题只需：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd hexo-site</span><br><span class="line">$ npm install hexo-theme-next</span><br></pre></td></tr></table></figure>
-<p>再把_config.yml的theme改成next。但这种安装方法比较新，next的中文文档没有更新，需要参考英文文档进行定制：<a href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a> 。</p>
-<p>以改scheme为例，如果按照上面的教程走，那就是npm安装的，运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cp node_modules/hexo-theme-next/_config.yml _config.next.yml</span><br></pre></td></tr></table></figure>
-<p>然后修改Schemes的部分即可。</p>
-<h1 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo generate # 生成本地静态文件</span><br><span class="line">$ hexo deploy   # 部署</span><br><span class="line">$ hexo clean   </span><br><span class="line">$ hexo g &amp; hexo d </span><br><span class="line">$ hexo new post &#x27;title&#x27;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>GitHub</tag>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Wordpress 建站笔记</title>
     <url>/2022-02-09-blog-note/</url>
     <content><![CDATA[<p>参考教程： <a href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose">https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose</a></p>
@@ -539,6 +539,112 @@
         <tag>nginx</tag>
         <tag>certbot</tag>
         <tag>wordpress</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mastodon 媒体存储和数据库备份</title>
+    <url>/2022-02-20-mastodon-backup/</url>
+    <content><![CDATA[<p><strong>写在前面：</strong><br>本文备份方法我还在验证中，请谨慎使用，最好以防万一多导出一份<code>backup.dump</code> 。</p>
+<h2 id="Why：为什么要备份"><a href="#Why：为什么要备份" class="headerlink" title="Why：为什么要备份"></a>Why：为什么要备份</h2><p>定期备份是好习惯，自从体验过一次wordpress搬家以后深刻感受到，有（异地）备份走遍天下都不怕。因为各种教备份的资料都比较全，本文主要是个人记录+学习用，如果想深入了解备份究竟在做什么也可以参考这篇文章。</p>
+<p>当你有一份长毛象的异地备份，你可以：</p>
+<ul>
+<li>迁移站点到其他服务器</li>
+<li>在服务器完全瘫痪时或不小心重装后，依然可以还原所有数据库内容</li>
+</ul>
+<h2 id="What：备份哪些内容"><a href="#What：备份哪些内容" class="headerlink" title="What：备份哪些内容"></a>What：备份哪些内容</h2><p>俗话说得好，没有经过检验的备份不是好备份。那么最快让我们清楚需要备份什么的方式就是看还原&#x2F;迁移站点需要什么。</p>
+<p>这里参考了<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">非docker站点迁移到docker</a> 和 <a href="https://blog.tantalum.life/posts/migrate-mastodon-to-docker/">docker迁移到docker</a> 两篇资料，大致上分为三步：</p>
+<h3 id="1-转移配置文件"><a href="#1-转移配置文件" class="headerlink" title="1. 转移配置文件"></a>1. 转移配置文件</h3><p>配置文件也就是你的mastodon安装目录（按照pullopen的教程的话应该是<code>/home/mastodon/mastodon</code>）下的：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.env.production </span><br><span class="line">docker-compose.yml </span><br></pre></td></tr></table></figure>
+
+<p>也就是在更改站点设置中最常用的两个文件。</p>
+<h3 id="2-转移数据库"><a href="#2-转移数据库" class="headerlink" title="2. 转移数据库"></a>2. 转移数据库</h3><p>这里有两个方法：</p>
+<ul>
+<li><p>通过备份文件<code>backup.dump</code> 进行转移，也就是备份的最关键内容，通常通过<code>pg_dump</code>导出备份，再通过<code>pg_restore</code>进行还原。</p>
+</li>
+<li><p>如果是docker，可以直接复制<code>./postgres/</code>和<code>./redis/</code>，并对<code>./postgres/</code>赋权，参考<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">将站点从Docker迁移至Docker</a></p>
+</li>
+</ul>
+<h3 id="3-转移媒体文件"><a href="#3-转移媒体文件" class="headerlink" title="3. 转移媒体文件"></a>3. 转移媒体文件</h3><p>这里分为两种情况，如果你已经配置了媒体文件在云存储，这一步是不需要的。如果你没有配置过，那么你的所有文件都在<code>./public/system/</code>目录下。具体而言有：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd /home/mastodon/mastodon/public/system</span><br><span class="line">$ du -h --max-depth=1</span><br><span class="line">9.6M    ./media_attachments</span><br><span class="line">3.3G    ./cache</span><br><span class="line">20M     ./custom_emojis</span><br><span class="line">13M     ./accounts</span><br><span class="line">3.4G    .</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>./cache</code>是外站存储，其他都是本站的数据。我们当然希望除了外站存储以外，对本站的所有数据都做好备份。</p>
+<p>关于定期清除外站存储，请参考<a href="https://moe.cat/@AstroProfundis/104527119128844099">这个嘟文</a>，我的crontab设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl media remove --days=14 &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl media remove-orphans &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl statuses remove --days=180 &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>我是直接启动容器执行tootctl命令，更多相关内容可以通过<a href="https://mantyke.icu/2022/mastodon-media-file-cleanup/">使用脚本的tootctl</a>或者<a href="https://www.notion.so/3f645c4a2ab14f34aef37703ee286d3a#d9a3235086fc44ceb3293cf26100a5ae">非docker安装的tootctl</a>了解。</p>
+<p><strong>总结：如果是docker的话，直接对除<code>./public/system/cache</code>以外整个文件夹和个别配置文件进行备份即可。</strong></p>
+<h2 id="Where：备份放在哪里"><a href="#Where：备份放在哪里" class="headerlink" title="Where：备份放在哪里"></a>Where：备份放在哪里</h2><h3 id="本地备份"><a href="#本地备份" class="headerlink" title="本地备份"></a>本地备份</h3><p>本文将备份文件和备份脚本都放在<code>/opt/mastodon-backup</code> 下，你也可以选择任何你喜欢的安全位置。</p>
+<h3 id="异地备份"><a href="#异地备份" class="headerlink" title="异地备份"></a>异地备份</h3><p>最好的备份一定是异地备份。<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">pullopen</a> 和 <a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53">o3o</a> 都推荐了Scaleway云备份，并附上了详细的资料。</p>
+<h2 id="When：什么时候备份"><a href="#When：什么时候备份" class="headerlink" title="When：什么时候备份"></a>When：什么时候备份</h2><p>建议设置每天晚上自动备份一次，可以使用crontab创建定时任务。</p>
+<h2 id="Who：谁来备份"><a href="#Who：谁来备份" class="headerlink" title="Who：谁来备份"></a>Who：谁来备份</h2><p>当然是站长啊还有谁！</p>
+<h2 id="How：如何备份"><a href="#How：如何备份" class="headerlink" title="How：如何备份"></a>How：如何备份</h2><p>啰嗦了这么久终于到了这一步，我只是希望在我真正操作之前能够明白我在做什么。</p>
+<p>这一节脚本主要参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> 。</p>
+<h3 id="本地备份-1"><a href="#本地备份-1" class="headerlink" title="本地备份"></a>本地备份</h3><p>只看脚本的前半部分：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">source /etc/profile</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">target=&quot;scaleway:你的bucket名字&quot;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/docker exec pg容器名 pg_dump -U postgres -Fc mastodon_production &gt; $&#123;origin&#125;/backup.dump &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; succeed and upload to s3 now&quot;</span><br><span class="line">/usr/bin/zip -P 密码 $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;origin&#125;/backup.dump</span><br></pre></td></tr></table></figure>
+
+<p>前面定义了一些路径和时间等，先通过<code>pg_dump</code>导出<code>backup.dump</code>，再将其加密压缩为<code>backup_$&#123;now&#125;.zip</code>，但从上文可见，对于docker安装的情况，直接copy文件夹即可，所以我对这部分做了一些改动并参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">o3o的配置备份脚本</a>，增加了一些关键信息的备份，我的完整<strong>本地备份</strong>脚本如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup_local.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh &gt; /opt/mastodon-backup/logs/backup_local.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; done!&quot;</span><br></pre></td></tr></table></figure>
+
+<p>可以单独运行一次脚本看看是否正确备份，运行后查看备份目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ls /opt/mastodon-backup/dbbackup/ -lh</span><br><span class="line">total 76M</span><br><span class="line">-rw-r--r-- 1 root root  76M Feb 20 00:09 backup_20220220-000931.zip</span><br><span class="line">drwxr-xr-x 2 root root 4.0K Feb 20 00:09 sites-available</span><br></pre></td></tr></table></figure>
+
+<p>我将这个脚本存为<code>backup_local.sh</code>，在我配置好Scaleway之前守护我的数据，将其放在crontab下定期运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh.sh &gt; /opt/mastodon-backup/logs/backup_local.sh.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>备份时间设在清除外部缓存半小时后。</p>
+<h3 id="异地备份-1"><a href="#异地备份-1" class="headerlink" title="异地备份"></a>异地备份</h3><p>再看原脚本的后半部分</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/usr/bin/rclone copy $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;target&#125; &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; ok all done&quot;</span><br><span class="line">rm -f $&#123;origin&#125;/backup.dump $&#123;origin&#125;/backup_$&#123;now&#125;.zip</span><br><span class="line">/usr/bin/rclone --min-age 7d  delete $&#123;target&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>rclone copy</code>是将压缩后的备份文件按照配置好的设置上传至Scaleway，之后<code>rm -f</code>删除本地的备份文件，最后设置rclone删除大于7天的备份文件。这一步也可以直接在Scaleway删除，参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">循环销毁备份文件</a>。</p>
+<p>在我更改后的脚本，我采取的方法是每次先删除上一次的备份文件，而不是在上传后删除，这样可以在本地和Scaleway都有一个备份。</p>
+<p>Scaleway和<code>rclone</code>的设置可参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> ，<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53">设置定期异地备份长毛象数据库和关键配置</a> ，</p>
+<p>注意，备份的<code>bucket</code>要和媒体存储的分开，并且设为<code>private</code>！！</p>
+<p>可以用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rclone ls scaleway:你的bucket名称</span><br></pre></td></tr></table></figure>
+<p>查看bucket里的文件，确认是否正常上传和删除。</p>
+<p>最终我的完整脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup.sh &gt; /opt/mastodon-backup/logs/backup.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Loading /etc/profile</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line">target_bucket=&quot;scaleway:你的bucket名称&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available/ $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; local backup done!&quot;</span><br><span class="line"></span><br><span class="line"># upload to scaleway</span><br><span class="line">/usr/bin/rclone copy $&#123;backup_folder&#125;/ $&#123;target_bucket&#125; </span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; ok all done&quot;</span><br><span class="line"></span><br><span class="line"># delete backup longer than 7d</span><br><span class="line">/usr/bin/rclone --min-age 7d  delete $&#123;target_bucket&#125; </span><br></pre></td></tr></table></figure>
+<p>单独运行一遍可以成功后，就可以把<code>crontab</code>中的<code>backup_local.sh</code>改为<code>backup.sh</code>啦！这样你就有了一个：</p>
+<ul>
+<li>本地和scaleway双重备份</li>
+<li>本地保留一天，scaleway保留7天</li>
+<li>包含nginx设置和整个mastodon目录</li>
+</ul>
+<p>的备份啦！</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>Mastodon</tag>
+        <tag>postgres</tag>
+        <tag>Scaleway</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>给 Hexo 配置 Giscus 评论系统</title>
+    <url>/2022-02-20-add-comment-to-hexo/</url>
+    <content><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p>
+<p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p>
+<p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure>
+<p>然后在 hexo 的 _config.yml 添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure>
+<p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p>
+<p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p>
+<p>最后：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>刷新页面后就可以看到评论页面啦！</p>
+<p>快来给我评论吧～～</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Next</tag>
+        <tag>Giscus</tag>
       </tags>
   </entry>
   <entry>
@@ -645,112 +751,6 @@
       </tags>
   </entry>
   <entry>
-    <title>给 Hexo 配置 Giscus 评论系统</title>
-    <url>/2022-02-20-add-comment-to-hexo/</url>
-    <content><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p>
-<p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p>
-<p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure>
-<p>然后在 hexo 的 _config.yml 添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure>
-<p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p>
-<p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p>
-<p>最后：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>刷新页面后就可以看到评论页面啦！</p>
-<p>快来给我评论吧～～</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Next</tag>
-        <tag>Giscus</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mastodon 媒体存储和数据库备份</title>
-    <url>/2022-02-20-mastodon-backup/</url>
-    <content><![CDATA[<p><strong>写在前面：</strong><br>本文备份方法我还在验证中，请谨慎使用，最好以防万一多导出一份<code>backup.dump</code> 。</p>
-<h2 id="Why：为什么要备份"><a href="#Why：为什么要备份" class="headerlink" title="Why：为什么要备份"></a>Why：为什么要备份</h2><p>定期备份是好习惯，自从体验过一次wordpress搬家以后深刻感受到，有（异地）备份走遍天下都不怕。因为各种教备份的资料都比较全，本文主要是个人记录+学习用，如果想深入了解备份究竟在做什么也可以参考这篇文章。</p>
-<p>当你有一份长毛象的异地备份，你可以：</p>
-<ul>
-<li>迁移站点到其他服务器</li>
-<li>在服务器完全瘫痪时或不小心重装后，依然可以还原所有数据库内容</li>
-</ul>
-<h2 id="What：备份哪些内容"><a href="#What：备份哪些内容" class="headerlink" title="What：备份哪些内容"></a>What：备份哪些内容</h2><p>俗话说得好，没有经过检验的备份不是好备份。那么最快让我们清楚需要备份什么的方式就是看还原&#x2F;迁移站点需要什么。</p>
-<p>这里参考了<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">非docker站点迁移到docker</a> 和 <a href="https://blog.tantalum.life/posts/migrate-mastodon-to-docker/">docker迁移到docker</a> 两篇资料，大致上分为三步：</p>
-<h3 id="1-转移配置文件"><a href="#1-转移配置文件" class="headerlink" title="1. 转移配置文件"></a>1. 转移配置文件</h3><p>配置文件也就是你的mastodon安装目录（按照pullopen的教程的话应该是<code>/home/mastodon/mastodon</code>）下的：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.env.production </span><br><span class="line">docker-compose.yml </span><br></pre></td></tr></table></figure>
-
-<p>也就是在更改站点设置中最常用的两个文件。</p>
-<h3 id="2-转移数据库"><a href="#2-转移数据库" class="headerlink" title="2. 转移数据库"></a>2. 转移数据库</h3><p>这里有两个方法：</p>
-<ul>
-<li><p>通过备份文件<code>backup.dump</code> 进行转移，也就是备份的最关键内容，通常通过<code>pg_dump</code>导出备份，再通过<code>pg_restore</code>进行还原。</p>
-</li>
-<li><p>如果是docker，可以直接复制<code>./postgres/</code>和<code>./redis/</code>，并对<code>./postgres/</code>赋权，参考<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">将站点从Docker迁移至Docker</a></p>
-</li>
-</ul>
-<h3 id="3-转移媒体文件"><a href="#3-转移媒体文件" class="headerlink" title="3. 转移媒体文件"></a>3. 转移媒体文件</h3><p>这里分为两种情况，如果你已经配置了媒体文件在云存储，这一步是不需要的。如果你没有配置过，那么你的所有文件都在<code>./public/system/</code>目录下。具体而言有：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd /home/mastodon/mastodon/public/system</span><br><span class="line">$ du -h --max-depth=1</span><br><span class="line">9.6M    ./media_attachments</span><br><span class="line">3.3G    ./cache</span><br><span class="line">20M     ./custom_emojis</span><br><span class="line">13M     ./accounts</span><br><span class="line">3.4G    .</span><br></pre></td></tr></table></figure>
-
-<p>其中<code>./cache</code>是外站存储，其他都是本站的数据。我们当然希望除了外站存储以外，对本站的所有数据都做好备份。</p>
-<p>关于定期清除外站存储，请参考<a href="https://moe.cat/@AstroProfundis/104527119128844099">这个嘟文</a>，我的crontab设置：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl media remove --days=14 &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl media remove-orphans &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl statuses remove --days=180 &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
-
-<p>我是直接启动容器执行tootctl命令，更多相关内容可以通过<a href="https://mantyke.icu/2022/mastodon-media-file-cleanup/">使用脚本的tootctl</a>或者<a href="https://www.notion.so/3f645c4a2ab14f34aef37703ee286d3a#d9a3235086fc44ceb3293cf26100a5ae">非docker安装的tootctl</a>了解。</p>
-<p><strong>总结：如果是docker的话，直接对除<code>./public/system/cache</code>以外整个文件夹和个别配置文件进行备份即可。</strong></p>
-<h2 id="Where：备份放在哪里"><a href="#Where：备份放在哪里" class="headerlink" title="Where：备份放在哪里"></a>Where：备份放在哪里</h2><h3 id="本地备份"><a href="#本地备份" class="headerlink" title="本地备份"></a>本地备份</h3><p>本文将备份文件和备份脚本都放在<code>/opt/mastodon-backup</code> 下，你也可以选择任何你喜欢的安全位置。</p>
-<h3 id="异地备份"><a href="#异地备份" class="headerlink" title="异地备份"></a>异地备份</h3><p>最好的备份一定是异地备份。<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">pullopen</a> 和 <a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53">o3o</a> 都推荐了Scaleway云备份，并附上了详细的资料。</p>
-<h2 id="When：什么时候备份"><a href="#When：什么时候备份" class="headerlink" title="When：什么时候备份"></a>When：什么时候备份</h2><p>建议设置每天晚上自动备份一次，可以使用crontab创建定时任务。</p>
-<h2 id="Who：谁来备份"><a href="#Who：谁来备份" class="headerlink" title="Who：谁来备份"></a>Who：谁来备份</h2><p>当然是站长啊还有谁！</p>
-<h2 id="How：如何备份"><a href="#How：如何备份" class="headerlink" title="How：如何备份"></a>How：如何备份</h2><p>啰嗦了这么久终于到了这一步，我只是希望在我真正操作之前能够明白我在做什么。</p>
-<p>这一节脚本主要参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> 。</p>
-<h3 id="本地备份-1"><a href="#本地备份-1" class="headerlink" title="本地备份"></a>本地备份</h3><p>只看脚本的前半部分：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">source /etc/profile</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">target=&quot;scaleway:你的bucket名字&quot;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/docker exec pg容器名 pg_dump -U postgres -Fc mastodon_production &gt; $&#123;origin&#125;/backup.dump &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; succeed and upload to s3 now&quot;</span><br><span class="line">/usr/bin/zip -P 密码 $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;origin&#125;/backup.dump</span><br></pre></td></tr></table></figure>
-
-<p>前面定义了一些路径和时间等，先通过<code>pg_dump</code>导出<code>backup.dump</code>，再将其加密压缩为<code>backup_$&#123;now&#125;.zip</code>，但从上文可见，对于docker安装的情况，直接copy文件夹即可，所以我对这部分做了一些改动并参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">o3o的配置备份脚本</a>，增加了一些关键信息的备份，我的完整<strong>本地备份</strong>脚本如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup_local.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh &gt; /opt/mastodon-backup/logs/backup_local.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; done!&quot;</span><br></pre></td></tr></table></figure>
-
-<p>可以单独运行一次脚本看看是否正确备份，运行后查看备份目录：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ls /opt/mastodon-backup/dbbackup/ -lh</span><br><span class="line">total 76M</span><br><span class="line">-rw-r--r-- 1 root root  76M Feb 20 00:09 backup_20220220-000931.zip</span><br><span class="line">drwxr-xr-x 2 root root 4.0K Feb 20 00:09 sites-available</span><br></pre></td></tr></table></figure>
-
-<p>我将这个脚本存为<code>backup_local.sh</code>，在我配置好Scaleway之前守护我的数据，将其放在crontab下定期运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh.sh &gt; /opt/mastodon-backup/logs/backup_local.sh.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
-
-<p>备份时间设在清除外部缓存半小时后。</p>
-<h3 id="异地备份-1"><a href="#异地备份-1" class="headerlink" title="异地备份"></a>异地备份</h3><p>再看原脚本的后半部分</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/usr/bin/rclone copy $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;target&#125; &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; ok all done&quot;</span><br><span class="line">rm -f $&#123;origin&#125;/backup.dump $&#123;origin&#125;/backup_$&#123;now&#125;.zip</span><br><span class="line">/usr/bin/rclone --min-age 7d  delete $&#123;target&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>rclone copy</code>是将压缩后的备份文件按照配置好的设置上传至Scaleway，之后<code>rm -f</code>删除本地的备份文件，最后设置rclone删除大于7天的备份文件。这一步也可以直接在Scaleway删除，参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">循环销毁备份文件</a>。</p>
-<p>在我更改后的脚本，我采取的方法是每次先删除上一次的备份文件，而不是在上传后删除，这样可以在本地和Scaleway都有一个备份。</p>
-<p>Scaleway和<code>rclone</code>的设置可参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> ，<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53">设置定期异地备份长毛象数据库和关键配置</a> ，</p>
-<p>注意，备份的<code>bucket</code>要和媒体存储的分开，并且设为<code>private</code>！！</p>
-<p>可以用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rclone ls scaleway:你的bucket名称</span><br></pre></td></tr></table></figure>
-<p>查看bucket里的文件，确认是否正常上传和删除。</p>
-<p>最终我的完整脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup.sh &gt; /opt/mastodon-backup/logs/backup.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Loading /etc/profile</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line">target_bucket=&quot;scaleway:你的bucket名称&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available/ $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; local backup done!&quot;</span><br><span class="line"></span><br><span class="line"># upload to scaleway</span><br><span class="line">/usr/bin/rclone copy $&#123;backup_folder&#125;/ $&#123;target_bucket&#125; </span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; ok all done&quot;</span><br><span class="line"></span><br><span class="line"># delete backup longer than 7d</span><br><span class="line">/usr/bin/rclone --min-age 7d  delete $&#123;target_bucket&#125; </span><br></pre></td></tr></table></figure>
-<p>单独运行一遍可以成功后，就可以把<code>crontab</code>中的<code>backup_local.sh</code>改为<code>backup.sh</code>啦！这样你就有了一个：</p>
-<ul>
-<li>本地和scaleway双重备份</li>
-<li>本地保留一天，scaleway保留7天</li>
-<li>包含nginx设置和整个mastodon目录</li>
-</ul>
-<p>的备份啦！</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>Mastodon</tag>
-        <tag>postgres</tag>
-        <tag>Scaleway</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Crontab 各种运行不成功和解决方法</title>
     <url>/2022-02-22-crontab-debug/</url>
     <content><![CDATA[<p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
@@ -784,9 +784,9 @@
       </tags>
   </entry>
   <entry>
-    <title>mastodon-debug-in-container</title>
+    <title>Docker 部署的 mastodon 在容器内 debug</title>
     <url>/2022-02-23-mastodon-debug-in-container/</url>
-    <content><![CDATA[<p>感谢小柠檬 @<a href="mailto:&#x6c;&#x65;&#109;&#111;&#110;&#64;&#x6e;&#x79;&#97;&#x2e;&#108;&#101;&#109;&#111;&#x6e;&#97;&#x64;&#x65;&#46;&#x6d;&#x6f;&#x65;">&#x6c;&#x65;&#109;&#111;&#110;&#64;&#x6e;&#x79;&#97;&#x2e;&#108;&#101;&#109;&#111;&#x6e;&#97;&#x64;&#x65;&#46;&#x6d;&#x6f;&#x65;</a> 用自己的实例测试研究出这套可行方案！</p>
+    <content><![CDATA[<p>感谢小柠檬 @<a href="mailto:&#108;&#101;&#109;&#111;&#110;&#64;&#110;&#121;&#x61;&#x2e;&#108;&#x65;&#109;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#x6d;&#111;&#101;">&#108;&#101;&#109;&#111;&#110;&#64;&#110;&#121;&#x61;&#x2e;&#108;&#x65;&#109;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#x6d;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
 <p>一个简短的解释，晚点我写详细一点。</p>
 <p>非docker的魔改方法：</p>
 <p><a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html</a></p>
