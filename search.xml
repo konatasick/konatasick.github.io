@@ -176,41 +176,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ffmpeg操作速查</title>
-    <url>/2019-11-28-ffmpeg/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
-<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
-<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
-<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
-<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
-<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
-<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
-<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
-<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
-<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
-<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
-<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
-<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
-<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
-<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
-<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
-<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
-<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
-<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-        <tag>bash</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Git操作速查</title>
     <url>/2019-07-12-git/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -271,6 +236,41 @@
       </tags>
   </entry>
   <entry>
+    <title>ffmpeg操作速查</title>
+    <url>/2019-11-28-ffmpeg/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
+<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
+<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
+<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
+<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
+<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
+<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
+<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
+<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
+<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
+<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
+<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
+<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
+<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
+<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
+<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
+<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
+<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
+<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+        <tag>bash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>大型vscode真香现场</title>
     <url>/2020-01-16-vscode/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -327,7 +327,7 @@
 <h1 id="断点调试时设置参数"><a href="#断点调试时设置参数" class="headerlink" title="断点调试时设置参数"></a>断点调试时设置参数</h1><p>可以参考这篇文章：<br><a href="https://blog.csdn.net/u012332816/article/details/80801106">https://blog.csdn.net/u012332816/article/details/80801106</a></p>
 <p>打开Run→Open Configurations，添加“args”，类似这样：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;version&quot;: &quot;0.2.0&quot;,</span><br><span class="line">    &quot;configurations&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot;: &quot;Python: 当前文件&quot;,</span><br><span class="line">            &quot;type&quot;: &quot;python&quot;,</span><br><span class="line">            &quot;request&quot;: &quot;launch&quot;,</span><br><span class="line">            &quot;program&quot;: &quot;$&#123;file&#125;&quot;,</span><br><span class="line">            &quot;console&quot;: &quot;integratedTerminal&quot;,</span><br><span class="line">            &quot;args&quot;: [</span><br><span class="line">                &quot;--arg1&quot;,</span><br><span class="line">                &quot;--arg2&quot;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="用VScode连接docker容器"><a href="#用VScode连接docker容器" class="headerlink" title="用VScode连接docker容器"></a>用VScode连接docker容器</h1><p>参考<a href="https://code.visualstudio.com/docs/remote/containers#_quick-start-try-a-development-container">官方文档</a>，<br>需要先配置好免密登陆。</p>
+<h1 id="用VScode连接docker容器"><a href="#用VScode连接docker容器" class="headerlink" title="用VScode连接docker容器"></a>用VScode连接docker容器</h1><p>参考<a href="https://code.visualstudio.com/docs/remote/containers#_quick-start-try-a-development-container">官方文档</a>，需要先配置好免密登陆。</p>
 <p>在本机安装docker，在vscode上安装Remote Development，docker插件。</p>
 <p>接下来要修改vscode 的 docker.host，在Docker插件的设置里打开settings.json，增加一行：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;docker.host&quot;:&quot;ssh://root@ip:36000&quot;</span><br></pre></td></tr></table></figure>
@@ -342,6 +342,35 @@
         <tag>python</tag>
         <tag>vscode</tag>
         <tag>JupyterNotebook</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用 Hexo + GitHub Page 自建博客</title>
+    <url>/2021-08-08-2021-08-08-build-blog-by-hexo/</url>
+    <content><![CDATA[<h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
+<p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
+<p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
+<h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
+<blockquote>
+<p>注：如果你用了 hexo clean 命令删除本地静态资源，CNAME文件也会被删掉，所以你可以在本地生成的public文件夹中直接创建好，再上传。</p>
+</blockquote>
+<p>也许是typo，应该把CNAME文件放在source里，才不会被删。</p>
+<h1 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h1><p>本站采用next主题：<a href="https://github.com/next-theme/hexo-theme-next">https://github.com/next-theme/hexo-theme-next</a></p>
+<p>因为hexo是5.0+版本，所以安装主题只需：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd hexo-site</span><br><span class="line">$ npm install hexo-theme-next</span><br></pre></td></tr></table></figure>
+<p>再把_config.yml的theme改成next。但这种安装方法比较新，next的中文文档没有更新，需要参考英文文档进行定制：<a href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a> 。</p>
+<p>以改scheme为例，如果按照上面的教程走，那就是npm安装的，运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cp node_modules/hexo-theme-next/_config.yml _config.next.yml</span><br></pre></td></tr></table></figure>
+<p>然后修改Schemes的部分即可。</p>
+<h1 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo generate # 生成本地静态文件</span><br><span class="line">$ hexo deploy   # 部署</span><br><span class="line">$ hexo clean   </span><br><span class="line">$ hexo g &amp; hexo d </span><br><span class="line">$ hexo new post &#x27;title&#x27;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>GitHub</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -399,35 +428,6 @@
         <tag>opendr</tag>
         <tag>Tensorflow</tag>
         <tag>MPI-IS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用 Hexo + GitHub Page 自建博客</title>
-    <url>/2021-08-08-2021-08-08-build-blog-by-hexo/</url>
-    <content><![CDATA[<h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
-<p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
-<p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
-<h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
-<blockquote>
-<p>注：如果你用了 hexo clean 命令删除本地静态资源，CNAME文件也会被删掉，所以你可以在本地生成的public文件夹中直接创建好，再上传。</p>
-</blockquote>
-<p>也许是typo，应该把CNAME文件放在source里，才不会被删。</p>
-<h1 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h1><p>本站采用next主题：<a href="https://github.com/next-theme/hexo-theme-next">https://github.com/next-theme/hexo-theme-next</a></p>
-<p>因为hexo是5.0+版本，所以安装主题只需：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd hexo-site</span><br><span class="line">$ npm install hexo-theme-next</span><br></pre></td></tr></table></figure>
-<p>再把_config.yml的theme改成next。但这种安装方法比较新，next的中文文档没有更新，需要参考英文文档进行定制：<a href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a> 。</p>
-<p>以改scheme为例，如果按照上面的教程走，那就是npm安装的，运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cp node_modules/hexo-theme-next/_config.yml _config.next.yml</span><br></pre></td></tr></table></figure>
-<p>然后修改Schemes的部分即可。</p>
-<h1 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo generate # 生成本地静态文件</span><br><span class="line">$ hexo deploy   # 部署</span><br><span class="line">$ hexo clean   </span><br><span class="line">$ hexo g &amp; hexo d </span><br><span class="line">$ hexo new post &#x27;title&#x27;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>GitHub</tag>
-        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -544,109 +544,6 @@
         <tag>nginx</tag>
         <tag>certbot</tag>
         <tag>wordpress</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mastodon 建站笔记</title>
-    <url>/2022-02-10-build-a-mastodon/</url>
-    <content><![CDATA[<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">蓝盒子站长的教程</a> ，一直进行到把 docker 和 docker-compose 装好。</p>
-<p>Checklist：</p>
-<ul>
-<li>ssh-key设置并关闭密码登录</li>
-<li>开启防火墙</li>
-<li>域名映射到服务器ip</li>
-<li>安装成功 docker 和 docker-compose</li>
-</ul>
-<h2 id="Postgres-database"><a href="#Postgres-database" class="headerlink" title="Postgres database"></a>Postgres database</h2><p><strong>Update 2022.2.19：</strong></p>
-<p>这一步我已经找到原因了，是因为在原教程中，写的是：</p>
-<blockquote>
-<p>刚才docker-compose.yml文件中，数据库（db）部分的地址为.&#x2F;postgres:&#x2F;var&#x2F;lib&#x2F;postgresql&#x2F;data，因此你的数据库绝对地址为&#x2F;home&#x2F;mastodon&#x2F;mastodon&#x2F;postgres。</p>
-</blockquote>
-<p>然后我发现我wget最新的docker-compose配置，这边已经变成了：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres14:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
-
-<p>所以我当时按照教程运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name postgres12 -v /home/mastodon/mastodon/postgres:/var/lib/postgresql/data -e   POSTGRES_PASSWORD=设置数据库管理员密码 --rm -d postgres:12.5-alpine</span><br></pre></td></tr></table></figure>
-<p>实际上是在<code>./postgres</code>里操作，但我应该在<code>./postgres14</code>里操作才能真的把数据写进docker。所以这里应该把命令改为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name postgres12 -v /home/mastodon/mastodon/postgres14:/var/lib/postgresql/data -e   POSTGRES_PASSWORD=设置数据库管理员密码 --rm -d postgres:12.5-alpine</span><br></pre></td></tr></table></figure>
-<p>或者把docker-compose中的</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres14:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
-<p>改回</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
-<p>总之目的都是让我们能真的实际操作到postgres的数据并让docker能访问到。</p>
-<p>这里因为我还是按照之前的路径操作，后来直接进入<code>mastodon_db_1</code>才真正写到了<code>./postgres14</code>里，所以我的<code>./postgres</code>实际上是没有用的，我就把整个文件夹删掉了。</p>
-<p><strong>原文：</strong></p>
-<p>在设置mastodon的时候，运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker-compose run --<span class="built_in">rm</span> web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
-
-<p>我在这个地方卡住了非常久，在postgres那里尝试了各种版本教程的排列组合最后的结果都是：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Database connection could not be established with this configuration, try again.</span><br><span class="line">FATAL:  role <span class="string">&quot;mastodon&quot;</span> does not exist</span><br></pre></td></tr></table></figure>
-
-<p>后来我认真看了一下这一步，它的输出是：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Starting mastodon_db_1    ... <span class="keyword">done</span></span><br><span class="line">Starting mastodon_redis_1 ... <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-
-<p>查看docker container也是这两个docker在跑：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker container list -a</span><br><span class="line">CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS                    PORTS     NAMES</span><br><span class="line">bd7debf13a49   redis:6-alpine         <span class="string">&quot;docker-entrypoint.s…&quot;</span>   31 minutes ago   Up 31 minutes (healthy)             mastodon_redis_1</span><br><span class="line">30c6e3b74c40   postgres:12.5-alpine   <span class="string">&quot;docker-entrypoint.s…&quot;</span>   31 minutes ago   Up 31 minutes (healthy)             mastodon_db_1</span><br></pre></td></tr></table></figure>
-
-<p>于是我尝试把教程中4. 初始化PostgreSQL的这句话：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it postgres12 psql -U postgres</span><br></pre></td></tr></table></figure>
-
-<p>改成</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br></pre></td></tr></table></figure>
-
-<p>之后再添加mastodon用户：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; CREATE USER mastodon WITH PASSWORD <span class="string">&#x27;your_password&#x27;</span> CREATEDB;</span><br><span class="line">&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-
-<p>完整操作看起来是这样的：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br><span class="line">psql (12.5)</span><br><span class="line">Type <span class="string">&quot;help&quot;</span> <span class="keyword">for</span> <span class="built_in">help</span>.</span><br><span class="line"></span><br><span class="line">postgres=<span class="comment"># CREATE USER mastodon WITH PASSWORD &#x27;your_password&#x27; CREATEDB;</span></span><br><span class="line">CREATE ROLE</span><br><span class="line">postgres=<span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
-
-<p>这时候再运行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker-compose run --<span class="built_in">rm</span> web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
-
-<p>按照下列输出就可以通过验证了：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Domain name: example.com</span><br><span class="line"></span><br><span class="line">Single user mode disables registrations and redirects the landing page to your public profile.</span><br><span class="line">Do you want to <span class="built_in">enable</span> single user mode? No</span><br><span class="line"></span><br><span class="line">Are you using Docker to run Mastodon? Yes</span><br><span class="line"></span><br><span class="line">PostgreSQL host: mastodon_db_1</span><br><span class="line">PostgreSQL port: 5432</span><br><span class="line">Name of PostgreSQL database: mastodon</span><br><span class="line">Name of PostgreSQL user: mastodon</span><br><span class="line">Password of PostgreSQL user: （这里写上面你给mastodon设置的your_passwords）</span><br><span class="line">Database configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Redis host: mastodon_redis_1</span><br><span class="line">Redis port: 6379</span><br><span class="line">Redis password: （这里是直接回车，没有密码）</span><br><span class="line">Redis configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Do you want to store uploaded files on the cloud? No</span><br><span class="line"></span><br><span class="line">Do you want to send e-mails from localhost? No</span><br><span class="line">SMTP server: smtp.zoho.eu</span><br><span class="line">SMTP port: 587</span><br><span class="line">SMTP username: 你的zoho管理员邮箱地址</span><br><span class="line">SMTP password: 你的zoho管理员密码</span><br><span class="line">SMTP authentication: plain</span><br><span class="line">SMTP OpenSSL verify mode: none</span><br><span class="line">E-mail address to send e-mails <span class="string">&quot;from&quot;</span>: 你的zoho管理员邮箱地址</span><br><span class="line">Send a <span class="built_in">test</span> e-mail with this configuration right now? no</span><br><span class="line"></span><br><span class="line">This configuration will be written to .env.production</span><br><span class="line">Save configuration? Yes</span><br><span class="line">Below is your configuration, save it to an .env.production file outside Docker:</span><br></pre></td></tr></table></figure>
-
-<p>把接下来的部分一直到</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">It is also saved within this container so you can proceed with this wizard.</span><br></pre></td></tr></table></figure>
-
-<p>两行绿字中间的所有内容都复制下来。</p>
-<p>接下来依然按照蓝盒子教程走，两个问题选yes，输入管理员账号。</p>
-<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>这边又出了问题，按照教程走下来在这一步报错：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo systemctl reload nginx</span><br><span class="line">Job <span class="keyword">for</span> nginx.service failed.</span><br><span class="line">See <span class="string">&quot;systemctl status nginx.service&quot;</span> and <span class="string">&quot;journalctl -xe&quot;</span> <span class="keyword">for</span> details.</span><br></pre></td></tr></table></figure>
-
-<p>查看报错信息：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo nginx -t</span><br><span class="line">nginx: [emerg] no <span class="string">&quot;ssl_certificate&quot;</span> is defined <span class="keyword">for</span> the <span class="string">&quot;listen ... ssl&quot;</span> directive <span class="keyword">in</span> /etc/nginx/sites-enabled/example.com.conf:25</span><br><span class="line">nginx: configuration file /etc/nginx/nginx.conf <span class="built_in">test</span> failed</span><br></pre></td></tr></table></figure>
-
-<p>原来是证书没有设置好。这边我把soft link先取消了（否则会报错），运行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">rm</span> /etc/nginx/sites-enabled/example.com.conf</span><br><span class="line">sudo certbot certonly --nginx -d example.com</span><br><span class="line">sudo <span class="built_in">ln</span> -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
-
-<p>（这边一定要加 <strong>certonly</strong> 这个参数！我因为这一步debug了一整天）</p>
-<p>然后把example.com.conf 里这两行取消注释（#删掉）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Uncomment these lines once you acquire a certificate:</span><br><span class="line">ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;</span><br><span class="line">ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;</span><br></pre></td></tr></table></figure>
-
-<p>记得上面的example.com实际上应该是你的域名。</p>
-<p>要确保你的<code>nginx -t</code>没有任何问题，我遇到了warning结果最后真的是那个warning导致的错误，不要忽略warning！</p>
-<p>最后可以通过</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">certbot renew --dry_run</span><br></pre></td></tr></table></figure>
-
-<p>测试证书的自动更新是否起效，<code>--dry_run</code>就是仅打印信息，不实际执行。</p>
-<p>这一步很多教程会教你设置定期任务来更新，但实际上certbot是会自动更新的（参考<a href="https://blog.csdn.net/AlistairEd/article/details/113804554">这篇文章</a> ）。</p>
-<p>参考资料：</p>
-<p><a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html</a></p>
-<p><a href="https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4">https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4</a></p>
-<p><a href="https://peterbabic.dev/blog/running-mastodon-with-docker-compose/">https://peterbabic.dev/blog/running-mastodon-with-docker-compose/</a></p>
-<p><a href="https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/">https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/</a></p>
-<p><a href="https://www.alibabacloud.com/blog/how-to-install-mastodon-using-docker-on-alibaba-cloud-ecs_595049">https://www.alibabacloud.com/blog/how-to-install-mastodon-using-docker-on-alibaba-cloud-ecs_595049</a></p>
-<p><a href="https://www.linode.com/docs/guides/install-mastodon-on-ubuntu-2004/">https://www.linode.com/docs/guides/install-mastodon-on-ubuntu-2004/</a></p>
-<p><a href="https://www.notion.so/Mastodon-042a05ee29a048df8b2c1afd49e4c49b">https://www.notion.so/Mastodon-042a05ee29a048df8b2c1afd49e4c49b</a></p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-        <tag>certbot</tag>
-        <tag>mastodon</tag>
       </tags>
   </entry>
   <entry>
@@ -791,7 +688,7 @@
   <entry>
     <title>Docker 部署的 mastodon 在容器内 debug</title>
     <url>/2022-02-23-mastodon-debug-in-container/</url>
-    <content><![CDATA[<p>感谢小柠檬 @<a href="mailto:&#108;&#101;&#x6d;&#x6f;&#110;&#x40;&#x6e;&#121;&#x61;&#46;&#x6c;&#101;&#x6d;&#x6f;&#110;&#x61;&#100;&#101;&#46;&#109;&#111;&#x65;">&#108;&#101;&#x6d;&#x6f;&#110;&#x40;&#x6e;&#121;&#x61;&#46;&#x6c;&#101;&#x6d;&#x6f;&#110;&#x61;&#100;&#101;&#46;&#109;&#111;&#x65;</a> 用自己的实例测试研究出这套可行方案！</p>
+    <content><![CDATA[<p>感谢小柠檬 @<a href="mailto:&#108;&#x65;&#x6d;&#111;&#110;&#64;&#x6e;&#x79;&#x61;&#46;&#108;&#101;&#x6d;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#109;&#x6f;&#101;">&#108;&#x65;&#x6d;&#111;&#110;&#64;&#x6e;&#x79;&#x61;&#46;&#108;&#101;&#x6d;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#109;&#x6f;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
 <p>一个简短的解释，晚点我写详细一点。</p>
 <p>非docker的魔改方法：</p>
 <p><a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html</a></p>
@@ -822,6 +719,109 @@
       <tags>
         <tag>Mastodon</tag>
         <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mastodon 建站笔记</title>
+    <url>/2022-02-10-build-a-mastodon/</url>
+    <content><![CDATA[<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">蓝盒子站长的教程</a> ，一直进行到把 docker 和 docker-compose 装好。</p>
+<p>Checklist：</p>
+<ul>
+<li>ssh-key设置并关闭密码登录</li>
+<li>开启防火墙</li>
+<li>域名映射到服务器ip</li>
+<li>安装成功 docker 和 docker-compose</li>
+</ul>
+<h2 id="Postgres-database"><a href="#Postgres-database" class="headerlink" title="Postgres database"></a>Postgres database</h2><p><strong>Update 2022.2.19：</strong></p>
+<p>这一步我已经找到原因了，是因为在原教程中，写的是：</p>
+<blockquote>
+<p>刚才docker-compose.yml文件中，数据库（db）部分的地址为.&#x2F;postgres:&#x2F;var&#x2F;lib&#x2F;postgresql&#x2F;data，因此你的数据库绝对地址为&#x2F;home&#x2F;mastodon&#x2F;mastodon&#x2F;postgres。</p>
+</blockquote>
+<p>然后我发现我wget最新的docker-compose配置，这边已经变成了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres14:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
+
+<p>所以我当时按照教程运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name postgres12 -v /home/mastodon/mastodon/postgres:/var/lib/postgresql/data -e   POSTGRES_PASSWORD=设置数据库管理员密码 --rm -d postgres:12.5-alpine</span><br></pre></td></tr></table></figure>
+<p>实际上是在<code>./postgres</code>里操作，但我应该在<code>./postgres14</code>里操作才能真的把数据写进docker。所以这里应该把命令改为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run --name postgres12 -v /home/mastodon/mastodon/postgres14:/var/lib/postgresql/data -e   POSTGRES_PASSWORD=设置数据库管理员密码 --rm -d postgres:12.5-alpine</span><br></pre></td></tr></table></figure>
+<p>或者把docker-compose中的</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres14:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
+<p>改回</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">volumes:</span><br><span class="line">  - ./postgres:/var/lib/postgresql/data</span><br></pre></td></tr></table></figure>
+<p>总之目的都是让我们能真的实际操作到postgres的数据并让docker能访问到。</p>
+<p>这里因为我还是按照之前的路径操作，后来直接进入<code>mastodon_db_1</code>才真正写到了<code>./postgres14</code>里，所以我的<code>./postgres</code>实际上是没有用的，我就把整个文件夹删掉了。</p>
+<p><strong>原文：</strong></p>
+<p>在设置mastodon的时候，运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker-compose run --<span class="built_in">rm</span> web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
+
+<p>我在这个地方卡住了非常久，在postgres那里尝试了各种版本教程的排列组合最后的结果都是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Database connection could not be established with this configuration, try again.</span><br><span class="line">FATAL:  role <span class="string">&quot;mastodon&quot;</span> does not exist</span><br></pre></td></tr></table></figure>
+
+<p>后来我认真看了一下这一步，它的输出是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Starting mastodon_db_1    ... <span class="keyword">done</span></span><br><span class="line">Starting mastodon_redis_1 ... <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>查看docker container也是这两个docker在跑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker container list -a</span><br><span class="line">CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS                    PORTS     NAMES</span><br><span class="line">bd7debf13a49   redis:6-alpine         <span class="string">&quot;docker-entrypoint.s…&quot;</span>   31 minutes ago   Up 31 minutes (healthy)             mastodon_redis_1</span><br><span class="line">30c6e3b74c40   postgres:12.5-alpine   <span class="string">&quot;docker-entrypoint.s…&quot;</span>   31 minutes ago   Up 31 minutes (healthy)             mastodon_db_1</span><br></pre></td></tr></table></figure>
+
+<p>于是我尝试把教程中4. 初始化PostgreSQL的这句话：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it postgres12 psql -U postgres</span><br></pre></td></tr></table></figure>
+
+<p>改成</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br></pre></td></tr></table></figure>
+
+<p>之后再添加mastodon用户：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt; CREATE USER mastodon WITH PASSWORD <span class="string">&#x27;your_password&#x27;</span> CREATEDB;</span><br><span class="line">&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+
+<p>完整操作看起来是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo docker <span class="built_in">exec</span> -it mastodon_db_1 psql -U postgres</span><br><span class="line">psql (12.5)</span><br><span class="line">Type <span class="string">&quot;help&quot;</span> <span class="keyword">for</span> <span class="built_in">help</span>.</span><br><span class="line"></span><br><span class="line">postgres=<span class="comment"># CREATE USER mastodon WITH PASSWORD &#x27;your_password&#x27; CREATEDB;</span></span><br><span class="line">CREATE ROLE</span><br><span class="line">postgres=<span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
+
+<p>这时候再运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo docker-compose run --<span class="built_in">rm</span> web bundle <span class="built_in">exec</span> rake mastodon:setup</span><br></pre></td></tr></table></figure>
+
+<p>按照下列输出就可以通过验证了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Domain name: example.com</span><br><span class="line"></span><br><span class="line">Single user mode disables registrations and redirects the landing page to your public profile.</span><br><span class="line">Do you want to <span class="built_in">enable</span> single user mode? No</span><br><span class="line"></span><br><span class="line">Are you using Docker to run Mastodon? Yes</span><br><span class="line"></span><br><span class="line">PostgreSQL host: mastodon_db_1</span><br><span class="line">PostgreSQL port: 5432</span><br><span class="line">Name of PostgreSQL database: mastodon</span><br><span class="line">Name of PostgreSQL user: mastodon</span><br><span class="line">Password of PostgreSQL user: （这里写上面你给mastodon设置的your_passwords）</span><br><span class="line">Database configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Redis host: mastodon_redis_1</span><br><span class="line">Redis port: 6379</span><br><span class="line">Redis password: （这里是直接回车，没有密码）</span><br><span class="line">Redis configuration works! 🎆</span><br><span class="line"></span><br><span class="line">Do you want to store uploaded files on the cloud? No</span><br><span class="line"></span><br><span class="line">Do you want to send e-mails from localhost? No</span><br><span class="line">SMTP server: smtp.zoho.eu</span><br><span class="line">SMTP port: 587</span><br><span class="line">SMTP username: 你的zoho管理员邮箱地址</span><br><span class="line">SMTP password: 你的zoho管理员密码</span><br><span class="line">SMTP authentication: plain</span><br><span class="line">SMTP OpenSSL verify mode: none</span><br><span class="line">E-mail address to send e-mails <span class="string">&quot;from&quot;</span>: 你的zoho管理员邮箱地址</span><br><span class="line">Send a <span class="built_in">test</span> e-mail with this configuration right now? no</span><br><span class="line"></span><br><span class="line">This configuration will be written to .env.production</span><br><span class="line">Save configuration? Yes</span><br><span class="line">Below is your configuration, save it to an .env.production file outside Docker:</span><br></pre></td></tr></table></figure>
+
+<p>把接下来的部分一直到</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">It is also saved within this container so you can proceed with this wizard.</span><br></pre></td></tr></table></figure>
+
+<p>两行绿字中间的所有内容都复制下来。</p>
+<p>接下来依然按照蓝盒子教程走，两个问题选yes，输入管理员账号。</p>
+<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>这边又出了问题，按照教程走下来在这一步报错：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo systemctl reload nginx</span><br><span class="line">Job <span class="keyword">for</span> nginx.service failed.</span><br><span class="line">See <span class="string">&quot;systemctl status nginx.service&quot;</span> and <span class="string">&quot;journalctl -xe&quot;</span> <span class="keyword">for</span> details.</span><br></pre></td></tr></table></figure>
+
+<p>查看报错信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo nginx -t</span><br><span class="line">nginx: [emerg] no <span class="string">&quot;ssl_certificate&quot;</span> is defined <span class="keyword">for</span> the <span class="string">&quot;listen ... ssl&quot;</span> directive <span class="keyword">in</span> /etc/nginx/sites-enabled/example.com.conf:25</span><br><span class="line">nginx: configuration file /etc/nginx/nginx.conf <span class="built_in">test</span> failed</span><br></pre></td></tr></table></figure>
+
+<p>原来是证书没有设置好。这边我把soft link先取消了（否则会报错），运行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo <span class="built_in">rm</span> /etc/nginx/sites-enabled/example.com.conf</span><br><span class="line">sudo certbot certonly --nginx -d example.com</span><br><span class="line">sudo <span class="built_in">ln</span> -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
+
+<p>（这边一定要加 <strong>certonly</strong> 这个参数！我因为这一步debug了一整天）</p>
+<p>然后把example.com.conf 里这两行取消注释（#删掉）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Uncomment these lines once you acquire a certificate:</span><br><span class="line">ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;</span><br><span class="line">ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;</span><br></pre></td></tr></table></figure>
+
+<p>记得上面的example.com实际上应该是你的域名。</p>
+<p>要确保你的<code>nginx -t</code>没有任何问题，我遇到了warning结果最后真的是那个warning导致的错误，不要忽略warning！</p>
+<p>最后可以通过</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">certbot renew --dry_run</span><br></pre></td></tr></table></figure>
+
+<p>测试证书的自动更新是否起效，<code>--dry_run</code>就是仅打印信息，不实际执行。</p>
+<p>这一步很多教程会教你设置定期任务来更新，但实际上certbot是会自动更新的（参考<a href="https://blog.csdn.net/AlistairEd/article/details/113804554">这篇文章</a> ）。</p>
+<p>参考资料：</p>
+<p><a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html</a></p>
+<p><a href="https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4">https://gist.github.com/TrillCyborg/84939cd4013ace9960031b803a0590c4</a></p>
+<p><a href="https://peterbabic.dev/blog/running-mastodon-with-docker-compose/">https://peterbabic.dev/blog/running-mastodon-with-docker-compose/</a></p>
+<p><a href="https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/">https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/</a></p>
+<p><a href="https://www.alibabacloud.com/blog/how-to-install-mastodon-using-docker-on-alibaba-cloud-ecs_595049">https://www.alibabacloud.com/blog/how-to-install-mastodon-using-docker-on-alibaba-cloud-ecs_595049</a></p>
+<p><a href="https://www.linode.com/docs/guides/install-mastodon-on-ubuntu-2004/">https://www.linode.com/docs/guides/install-mastodon-on-ubuntu-2004/</a></p>
+<p><a href="https://www.notion.so/Mastodon-042a05ee29a048df8b2c1afd49e4c49b">https://www.notion.so/Mastodon-042a05ee29a048df8b2c1afd49e4c49b</a></p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>certbot</tag>
+        <tag>mastodon</tag>
       </tags>
   </entry>
 </search>

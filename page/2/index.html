@@ -244,7 +244,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-02-23 17:21:03" itemprop="dateModified" datetime="2022-02-23T17:21:03+08:00">2022-02-23</time>
+      <time title="Modified: 2022-02-23 17:23:54" itemprop="dateModified" datetime="2022-02-23T17:23:54+08:00">2022-02-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -320,7 +320,7 @@
 <h1 id="断点调试时设置参数"><a href="#断点调试时设置参数" class="headerlink" title="断点调试时设置参数"></a>断点调试时设置参数</h1><p>可以参考这篇文章：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012332816/article/details/80801106">https://blog.csdn.net/u012332816/article/details/80801106</a></p>
 <p>打开Run→Open Configurations，添加“args”，类似这样：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;version&quot;: &quot;0.2.0&quot;,</span><br><span class="line">    &quot;configurations&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot;: &quot;Python: 当前文件&quot;,</span><br><span class="line">            &quot;type&quot;: &quot;python&quot;,</span><br><span class="line">            &quot;request&quot;: &quot;launch&quot;,</span><br><span class="line">            &quot;program&quot;: &quot;$&#123;file&#125;&quot;,</span><br><span class="line">            &quot;console&quot;: &quot;integratedTerminal&quot;,</span><br><span class="line">            &quot;args&quot;: [</span><br><span class="line">                &quot;--arg1&quot;,</span><br><span class="line">                &quot;--arg2&quot;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="用VScode连接docker容器"><a href="#用VScode连接docker容器" class="headerlink" title="用VScode连接docker容器"></a>用VScode连接docker容器</h1><p>参考<a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/remote/containers#_quick-start-try-a-development-container">官方文档</a>，<br>需要先配置好免密登陆。</p>
+<h1 id="用VScode连接docker容器"><a href="#用VScode连接docker容器" class="headerlink" title="用VScode连接docker容器"></a>用VScode连接docker容器</h1><p>参考<a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/remote/containers#_quick-start-try-a-development-container">官方文档</a>，需要先配置好免密登陆。</p>
 <p>在本机安装docker，在vscode上安装Remote Development，docker插件。</p>
 <p>接下来要修改vscode 的 docker.host，在Docker插件的设置里打开settings.json，增加一行：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;docker.host&quot;:&quot;ssh://root@ip:36000&quot;</span><br></pre></td></tr></table></figure>
