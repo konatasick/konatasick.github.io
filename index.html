@@ -238,7 +238,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2022-02-23 13:54:28 / Modified: 13:58:30" itemprop="dateCreated datePublished" datetime="2022-02-23T13:54:28+08:00">2022-02-23</time>
+      <time title="Created: 2022-02-23 13:54:28 / Modified: 14:01:36" itemprop="dateCreated datePublished" datetime="2022-02-23T13:54:28+08:00">2022-02-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -260,7 +260,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>感谢小柠檬 @<a href="mailto:&#108;&#101;&#109;&#111;&#110;&#64;&#110;&#121;&#x61;&#x2e;&#108;&#x65;&#109;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#x6d;&#111;&#101;">&#108;&#101;&#109;&#111;&#110;&#64;&#110;&#121;&#x61;&#x2e;&#108;&#x65;&#109;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#x6d;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
+          <p>感谢小柠檬 @<a href="mailto:&#x6c;&#x65;&#x6d;&#111;&#x6e;&#64;&#x6e;&#121;&#97;&#46;&#x6c;&#x65;&#109;&#111;&#110;&#x61;&#x64;&#x65;&#x2e;&#109;&#x6f;&#101;">&#x6c;&#x65;&#x6d;&#111;&#x6e;&#64;&#x6e;&#121;&#97;&#46;&#x6c;&#x65;&#109;&#111;&#110;&#x61;&#x64;&#x65;&#x2e;&#109;&#x6f;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
 <p>一个简短的解释，晚点我写详细一点。</p>
 <p>非docker的魔改方法：</p>
 <p><a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html</a></p>
@@ -277,7 +277,7 @@
 <p>如果有500之类的报错可以参考：</p>
 <p><a target="_blank" rel="noopener" href="https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94">https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94</a></p>
 <p>我暂时没有遇到。</p>
-<p>本方法适合进入docker进行一些调试并且可以快速在网页端看到修改结果，确认无误后还是推荐打包成镜像再重启。</p>
+<p>本方法适合进入docker进行一些调试并且可以快速在网页端看到修改结果，确认无误后还是推荐打包成镜像再<code>docker-compose down/up -d</code>。</p>
 <p>建议的workflow是：</p>
 <ul>
 <li>在docker中热修代码并restart</li>

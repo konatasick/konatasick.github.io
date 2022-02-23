@@ -1,48 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>在服务器用conda创建python环境</title>
-    <url>/2019-07-08-conda-create-env/</url>
-    <content><![CDATA[<p>2019年11月27日更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
-
-<p>可以导出environment配置环境：</p>
-<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
-<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
-<p>删除环境：conda remove -n your_env_name –all</p>
-<hr>
-<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
-<p>首先，尝试conda list，提示not command，解决方法：</p>
-<p>在.bashrc 的末尾添加如下一行：</p>
-<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
-<p>之后conda list，正常。</p>
-<p>创建：</p>
-<p>conda create -n vso python&#x3D;2.7</p>
-<p>激活：</p>
-<p>source activate vso</p>
-<p>然后就可以开始安装需要的package</p>
-<p>pip install imutils</p>
-<p>pip install numpy</p>
-<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
-<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
-<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
-<p>pip install scipy</p>
-<p>pip install matplotlib</p>
-<p>pip install sklearn</p>
-<p>pip install ffmpeg-normalize</p>
-<p>conda install ffmpeg</p>
-<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
-<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>conda</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>scikit-learn使用PCA降维小结</title>
     <url>/2018-11-30-pca/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -104,75 +62,45 @@
       </tags>
   </entry>
   <entry>
-    <title>python实现聚类算法</title>
-    <url>/2019-07-08-kmeans/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+    <title>在服务器用conda创建python环境</title>
+    <url>/2019-07-08-conda-create-env/</url>
+    <content><![CDATA[<p>2019年11月27日更新：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
 
-<h1 id="sklearn包中的K-Means算法"><a href="#sklearn包中的K-Means算法" class="headerlink" title="sklearn包中的K-Means算法"></a>sklearn包中的K-Means算法</h1><p>1.  函数：<code>sklearn.cluster.``KMeans</code></p>
-<p>*class *<code>sklearn.cluster.``KMeans</code>(<em>n_clusters&#x3D;8</em>, <em>init&#x3D;’k-means++’</em>, <em>n_init&#x3D;10</em>, <em>max_iter&#x3D;300</em>, <em>tol&#x3D;0.0001</em>, <em>precompute_distances&#x3D;’auto’</em>, <em>verbose&#x3D;0</em>, <em>random_state&#x3D;None</em>, <em>copy_x&#x3D;True</em>, <em>n_jobs&#x3D;None</em>, <em>algorithm&#x3D;’auto’</em>)</p>
-<ol start="2">
-<li>主要参数</li>
-</ol>
-<p>n_clusters：要进行的分类的个数，即上文中k值，默认是8</p>
-<p>init：‘k-means++’, ‘random’ or an ndarray</p>
-<p>‘k-means ++’：使用k-means++算法，默认选项</p>
-<p>‘random’:从初始质心数据中随机选择k个观察值</p>
-<p>第三个是数组形式的参数</p>
-<p><em>n_init</em>：使用不同的初始化运行算法的次数</p>
-<p>max_iter  ：最大迭代次数。默认300</p>
-<p><em>random_state：</em>设置某个整数使得结果固定</p>
-<p>n_jobs: 设置并行量 （-1表示使用所有CPU）</p>
-<ol start="3">
-<li>主要属性：</li>
-</ol>
-<p>cluster_centers_ ：集群中心的坐标</p>
-<p>labels_ : 每个点的标签</p>
-<ol start="4">
-<li>官网示例：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; from sklearn.cluster import KMeans</span><br><span class="line">&gt;&gt;&gt; import numpy as np</span><br><span class="line">&gt;&gt;&gt; X = np.array([[1, 2], [1, 4], [1, 0],</span><br><span class="line">...               [10, 2], [10, 4], [10, 0]])</span><br><span class="line">&gt;&gt;&gt; kmeans = KMeans(n_clusters=2, random_state=0).fit(X)</span><br><span class="line">&gt;&gt;&gt; kmeans.labels_</span><br><span class="line">array([1, 1, 1, 0, 0, 0], dtype=int32)</span><br><span class="line">&gt;&gt;&gt; kmeans.predict([[0, 0], [12, 3]])</span><br><span class="line">array([1, 0], dtype=int32)</span><br><span class="line">&gt;&gt;&gt; kmeans.cluster_centers_</span><br><span class="line">array([[10.,  2.],</span><br><span class="line">       [ 1.,  2.]])</span><br></pre></td></tr></table></figure>
-
-<p>5.  My code：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">%matplotlib inline</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from sklearn.cluster import KMeans</span><br><span class="line">import numpy as np</span><br><span class="line">X = np.array([[1, 2], [1, 4], [1, 0], [4, 2], [4, 4], [4, 0]])</span><br><span class="line">plt.plot(X[:,0],X[:,1],&#x27;x&#x27;)</span><br><span class="line">kmeans = KMeans(n_clusters=2).fit(X)</span><br><span class="line">print(kmeans.labels_)</span><br><span class="line">print(kmeans.predict([[0, 0], [4, 4]]))</span><br><span class="line">print(kmeans.cluster_centers_)</span><br></pre></td></tr></table></figure>
-
-<h1 id="聚类算法衡量指标"><a href="#聚类算法衡量指标" class="headerlink" title="聚类算法衡量指标"></a>聚类算法衡量指标</h1><p>1.  函数：<code>sklearn.metrics.``silhouette_score</code></p>
-<p><code>sklearn.metrics.``silhouette_score</code>(<em>X</em>, <em>labels</em>, <em>metric&#x3D;’euclidean’</em>, <em>sample_size&#x3D;None</em>, <em>random_state&#x3D;None</em>, **<em>kwds</em>)</p>
-<ol start="2">
-<li>实例：</li>
-</ol>
-<p><a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples&#x2F;cluster&#x2F;plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
-<h1 id="sklearn包中的K-Means算法-1"><a href="#sklearn包中的K-Means算法-1" class="headerlink" title="sklearn包中的K-Means算法"></a>sklearn包中的K-Means算法</h1><p>1.  函数：<code>sklearn.mixture.``GaussianMixture</code></p>
-<p><code>sklearn.mixture.``GaussianMixture</code>(<em>n_components&#x3D;1</em>, <em>covariance_type&#x3D;’full’</em>, <em>tol&#x3D;0.001</em>, <em>reg_covar&#x3D;1e-06</em>, <em>max_iter&#x3D;100</em>, <em>n_init&#x3D;1</em>, <em>init_params&#x3D;’kmeans’</em>, <em>weights_init&#x3D;None</em>, <em>means_init&#x3D;None</em>, <em>precisions_init&#x3D;None</em>, <em>random_state&#x3D;None</em>, <em>warm_start&#x3D;False</em>, <em>verbose&#x3D;0</em>, <em>verbose_interval&#x3D;10</em>)</p>
-<ol start="2">
-<li>实例：</li>
-</ol>
-<p><a href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py">https://scikit-learn.org/stable/auto_examples&#x2F;mixture&#x2F;plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py</a></p>
-<p><a href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples&#x2F;mixture&#x2F;plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
-<h2 id="聚类结果可视化"><a href="#聚类结果可视化" class="headerlink" title="聚类结果可视化"></a>聚类结果可视化</h2><p>参考代码：<a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">A demo of K-Means clustering on the handwritten digits data</a><br>直接plot出来点太密集了，所以考虑随机抽取5k个点来plot，参考：<a href="https://blog.csdn.net/zsc201825/article/details/80918450">np.random.randint、np.random.choice、random.sample三种随机函数的用法案例</a><br>结果如下：<br><img src="https://upload-images.jianshu.io/upload_images/12583080-5ace24c52806cac3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<h2 id="先聚类后PCA"><a href="#先聚类后PCA" class="headerlink" title="先聚类后PCA"></a>先聚类后PCA</h2><p>直接对原始的数据进行聚类，结果如下：<br><img src="https://upload-images.jianshu.io/upload_images/12583080-741759f135d8b287.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<h2 id="Weighted-k-means"><a href="#Weighted-k-means" class="headerlink" title="Weighted k-means"></a>Weighted k-means</h2><h3 id="第一个方法"><a href="#第一个方法" class="headerlink" title="第一个方法"></a>第一个方法</h3><p><a href="https://towardsdatascience.com/clustering-the-us-population-observation-weighted-k-means-f4d58b370002">Clustering the US population: observation-weighted k-means</a><br><a href="https://github.com/leapingllamas/medium_posts/tree/master/observation_weighted_kmeans">github-observation_weighted_kmeans</a></p>
-<p>这是直接对data加权值，有对应的代码，但是数据结构用的是它自己的project，需要改写。</p>
-<h3 id="第二个方法：weighted-kernel-kmeans"><a href="#第二个方法：weighted-kernel-kmeans" class="headerlink" title="第二个方法：weighted kernel kmeans"></a>第二个方法：weighted kernel kmeans</h3><p><a href="https://www.cnblogs.com/subaiBlog/p/6271315.html">WEIGHTED KERNEL K-MEANS 加权核K均值算法理解及其实现（一）</a><br>上文中提到，[1]中使用了这个方法，这个方法最初在[2]提到。有现成的代码库实现：<br><a href="https://tslearn.readthedocs.io/en/latest/gen_modules/clustering/tslearn.clustering.GlobalAlignmentKernelKMeans.html#tslearn.clustering.GlobalAlignmentKernelKMeans">tslearn.clustering.GlobalAlignmentKernelKMeans</a><br>这个是现成的工具包，若要直接使用可以设置一个最简单的y&#x3D;x的kernel即可。</p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>[1]<a href="https://www.cs.utexas.edu/users/inderjit/public_papers/multilevel_pami.pdf">Weighted Graph Cuts without Eigenvectors:A Multilevel Approach</a></p>
-<p>[2]<a href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=00B899D4EBC282CC18487FE587FAD753?doi=10.1.1.140.3081&rep=rep1&type=pdf">Kernel k-means, Spectral Clustering and Normalized Cuts</a></p>
-<h2 id="聚类算法一览"><a href="#聚类算法一览" class="headerlink" title="聚类算法一览"></a>聚类算法一览</h2><p><a href="https://www.cnblogs.com/lc1217/p/6893924.html">https://www.cnblogs.com/lc1217/p/6893924.html</a></p>
-<p><a href="https://www.cnblogs.com/lc1217/p/6908031.html">https://www.cnblogs.com/lc1217/p/6908031.html</a></p>
-<p><a href="https://www.cnblogs.com/lc1217/p/6963687.html">https://www.cnblogs.com/lc1217/p/6963687.html</a></p>
-<h2 id="GMM-vs-K-means"><a href="#GMM-vs-K-means" class="headerlink" title="GMM vs K-means"></a>GMM vs K-means</h2><p><a href="https://www.jianshu.com/p/a4d8fa39c762">https://www.jianshu.com/p/a4d8fa39c762</a></p>
-<p><a href="https://www.jianshu.com/p/13898e68c5c6">https://www.jianshu.com/p/13898e68c5c6</a></p>
-<h2 id="sklearn"><a href="#sklearn" class="headerlink" title="sklearn"></a>sklearn</h2><p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html">https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html</a></p>
-<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html">https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html</a></p>
-<p><a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples&#x2F;cluster&#x2F;plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
-<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html">https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html</a></p>
-<p><a href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples&#x2F;mixture&#x2F;plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
+<p>可以导出environment配置环境：</p>
+<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
+<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
+<p>删除环境：conda remove -n your_env_name –all</p>
+<hr>
+<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
+<p>首先，尝试conda list，提示not command，解决方法：</p>
+<p>在.bashrc 的末尾添加如下一行：</p>
+<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
+<p>之后conda list，正常。</p>
+<p>创建：</p>
+<p>conda create -n vso python&#x3D;2.7</p>
+<p>激活：</p>
+<p>source activate vso</p>
+<p>然后就可以开始安装需要的package</p>
+<p>pip install imutils</p>
+<p>pip install numpy</p>
+<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
+<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
+<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
+<p>pip install scipy</p>
+<p>pip install matplotlib</p>
+<p>pip install sklearn</p>
+<p>pip install ffmpeg-normalize</p>
+<p>conda install ffmpeg</p>
+<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
+<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
 ]]></content>
       <categories>
-        <category>Algorithm</category>
+        <category>Workshop</category>
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>scikit-learn</tag>
-        <tag>kmeans</tag>
+        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -233,6 +161,41 @@
       <tags>
         <tag>git</tag>
         <tag>GitHub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ffmpeg操作速查</title>
+    <url>/2019-11-28-ffmpeg/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
+<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
+<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
+<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
+<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
+<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
+<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
+<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
+<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
+<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
+<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
+<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
+<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
+<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
+<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
+<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
+<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
+<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
+<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+        <tag>bash</tag>
       </tags>
   </entry>
   <entry>
@@ -305,41 +268,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ffmpeg操作速查</title>
-    <url>/2019-11-28-ffmpeg/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
-<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
-<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
-<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
-<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
-<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
-<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
-<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
-<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
-<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
-<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
-<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
-<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
-<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
-<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
-<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
-<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
-<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
-<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-        <tag>bash</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>在Mac上操作文件</title>
     <url>/2021-06-11-mac/</url>
     <content><![CDATA[<h2 id="安装homebrew"><a href="#安装homebrew" class="headerlink" title="安装homebrew"></a>安装homebrew</h2><p><a href="https://www.jianshu.com/p/627b2d462151">https://www.jianshu.com/p/627b2d462151</a></p>
@@ -394,6 +322,78 @@
         <tag>opendr</tag>
         <tag>Tensorflow</tag>
         <tag>MPI-IS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python实现聚类算法</title>
+    <url>/2019-07-08-kmeans/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h1 id="sklearn包中的K-Means算法"><a href="#sklearn包中的K-Means算法" class="headerlink" title="sklearn包中的K-Means算法"></a>sklearn包中的K-Means算法</h1><p>1.  函数：<code>sklearn.cluster.``KMeans</code></p>
+<p>*class *<code>sklearn.cluster.``KMeans</code>(<em>n_clusters&#x3D;8</em>, <em>init&#x3D;’k-means++’</em>, <em>n_init&#x3D;10</em>, <em>max_iter&#x3D;300</em>, <em>tol&#x3D;0.0001</em>, <em>precompute_distances&#x3D;’auto’</em>, <em>verbose&#x3D;0</em>, <em>random_state&#x3D;None</em>, <em>copy_x&#x3D;True</em>, <em>n_jobs&#x3D;None</em>, <em>algorithm&#x3D;’auto’</em>)</p>
+<ol start="2">
+<li>主要参数</li>
+</ol>
+<p>n_clusters：要进行的分类的个数，即上文中k值，默认是8</p>
+<p>init：‘k-means++’, ‘random’ or an ndarray</p>
+<p>‘k-means ++’：使用k-means++算法，默认选项</p>
+<p>‘random’:从初始质心数据中随机选择k个观察值</p>
+<p>第三个是数组形式的参数</p>
+<p><em>n_init</em>：使用不同的初始化运行算法的次数</p>
+<p>max_iter  ：最大迭代次数。默认300</p>
+<p><em>random_state：</em>设置某个整数使得结果固定</p>
+<p>n_jobs: 设置并行量 （-1表示使用所有CPU）</p>
+<ol start="3">
+<li>主要属性：</li>
+</ol>
+<p>cluster_centers_ ：集群中心的坐标</p>
+<p>labels_ : 每个点的标签</p>
+<ol start="4">
+<li>官网示例：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; from sklearn.cluster import KMeans</span><br><span class="line">&gt;&gt;&gt; import numpy as np</span><br><span class="line">&gt;&gt;&gt; X = np.array([[1, 2], [1, 4], [1, 0],</span><br><span class="line">...               [10, 2], [10, 4], [10, 0]])</span><br><span class="line">&gt;&gt;&gt; kmeans = KMeans(n_clusters=2, random_state=0).fit(X)</span><br><span class="line">&gt;&gt;&gt; kmeans.labels_</span><br><span class="line">array([1, 1, 1, 0, 0, 0], dtype=int32)</span><br><span class="line">&gt;&gt;&gt; kmeans.predict([[0, 0], [12, 3]])</span><br><span class="line">array([1, 0], dtype=int32)</span><br><span class="line">&gt;&gt;&gt; kmeans.cluster_centers_</span><br><span class="line">array([[10.,  2.],</span><br><span class="line">       [ 1.,  2.]])</span><br></pre></td></tr></table></figure>
+
+<p>5.  My code：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">%matplotlib inline</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from sklearn.cluster import KMeans</span><br><span class="line">import numpy as np</span><br><span class="line">X = np.array([[1, 2], [1, 4], [1, 0], [4, 2], [4, 4], [4, 0]])</span><br><span class="line">plt.plot(X[:,0],X[:,1],&#x27;x&#x27;)</span><br><span class="line">kmeans = KMeans(n_clusters=2).fit(X)</span><br><span class="line">print(kmeans.labels_)</span><br><span class="line">print(kmeans.predict([[0, 0], [4, 4]]))</span><br><span class="line">print(kmeans.cluster_centers_)</span><br></pre></td></tr></table></figure>
+
+<h1 id="聚类算法衡量指标"><a href="#聚类算法衡量指标" class="headerlink" title="聚类算法衡量指标"></a>聚类算法衡量指标</h1><p>1.  函数：<code>sklearn.metrics.``silhouette_score</code></p>
+<p><code>sklearn.metrics.``silhouette_score</code>(<em>X</em>, <em>labels</em>, <em>metric&#x3D;’euclidean’</em>, <em>sample_size&#x3D;None</em>, <em>random_state&#x3D;None</em>, **<em>kwds</em>)</p>
+<ol start="2">
+<li>实例：</li>
+</ol>
+<p><a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples&#x2F;cluster&#x2F;plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
+<h1 id="sklearn包中的K-Means算法-1"><a href="#sklearn包中的K-Means算法-1" class="headerlink" title="sklearn包中的K-Means算法"></a>sklearn包中的K-Means算法</h1><p>1.  函数：<code>sklearn.mixture.``GaussianMixture</code></p>
+<p><code>sklearn.mixture.``GaussianMixture</code>(<em>n_components&#x3D;1</em>, <em>covariance_type&#x3D;’full’</em>, <em>tol&#x3D;0.001</em>, <em>reg_covar&#x3D;1e-06</em>, <em>max_iter&#x3D;100</em>, <em>n_init&#x3D;1</em>, <em>init_params&#x3D;’kmeans’</em>, <em>weights_init&#x3D;None</em>, <em>means_init&#x3D;None</em>, <em>precisions_init&#x3D;None</em>, <em>random_state&#x3D;None</em>, <em>warm_start&#x3D;False</em>, <em>verbose&#x3D;0</em>, <em>verbose_interval&#x3D;10</em>)</p>
+<ol start="2">
+<li>实例：</li>
+</ol>
+<p><a href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py">https://scikit-learn.org/stable/auto_examples&#x2F;mixture&#x2F;plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py</a></p>
+<p><a href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples&#x2F;mixture&#x2F;plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
+<h2 id="聚类结果可视化"><a href="#聚类结果可视化" class="headerlink" title="聚类结果可视化"></a>聚类结果可视化</h2><p>参考代码：<a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">A demo of K-Means clustering on the handwritten digits data</a><br>直接plot出来点太密集了，所以考虑随机抽取5k个点来plot，参考：<a href="https://blog.csdn.net/zsc201825/article/details/80918450">np.random.randint、np.random.choice、random.sample三种随机函数的用法案例</a><br>结果如下：<br><img src="https://upload-images.jianshu.io/upload_images/12583080-5ace24c52806cac3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h2 id="先聚类后PCA"><a href="#先聚类后PCA" class="headerlink" title="先聚类后PCA"></a>先聚类后PCA</h2><p>直接对原始的数据进行聚类，结果如下：<br><img src="https://upload-images.jianshu.io/upload_images/12583080-741759f135d8b287.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h2 id="Weighted-k-means"><a href="#Weighted-k-means" class="headerlink" title="Weighted k-means"></a>Weighted k-means</h2><h3 id="第一个方法"><a href="#第一个方法" class="headerlink" title="第一个方法"></a>第一个方法</h3><p><a href="https://towardsdatascience.com/clustering-the-us-population-observation-weighted-k-means-f4d58b370002">Clustering the US population: observation-weighted k-means</a><br><a href="https://github.com/leapingllamas/medium_posts/tree/master/observation_weighted_kmeans">github-observation_weighted_kmeans</a></p>
+<p>这是直接对data加权值，有对应的代码，但是数据结构用的是它自己的project，需要改写。</p>
+<h3 id="第二个方法：weighted-kernel-kmeans"><a href="#第二个方法：weighted-kernel-kmeans" class="headerlink" title="第二个方法：weighted kernel kmeans"></a>第二个方法：weighted kernel kmeans</h3><p><a href="https://www.cnblogs.com/subaiBlog/p/6271315.html">WEIGHTED KERNEL K-MEANS 加权核K均值算法理解及其实现（一）</a><br>上文中提到，[1]中使用了这个方法，这个方法最初在[2]提到。有现成的代码库实现：<br><a href="https://tslearn.readthedocs.io/en/latest/gen_modules/clustering/tslearn.clustering.GlobalAlignmentKernelKMeans.html#tslearn.clustering.GlobalAlignmentKernelKMeans">tslearn.clustering.GlobalAlignmentKernelKMeans</a><br>这个是现成的工具包，若要直接使用可以设置一个最简单的y&#x3D;x的kernel即可。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>[1]<a href="https://www.cs.utexas.edu/users/inderjit/public_papers/multilevel_pami.pdf">Weighted Graph Cuts without Eigenvectors:A Multilevel Approach</a></p>
+<p>[2]<a href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=00B899D4EBC282CC18487FE587FAD753?doi=10.1.1.140.3081&rep=rep1&type=pdf">Kernel k-means, Spectral Clustering and Normalized Cuts</a></p>
+<h2 id="聚类算法一览"><a href="#聚类算法一览" class="headerlink" title="聚类算法一览"></a>聚类算法一览</h2><p><a href="https://www.cnblogs.com/lc1217/p/6893924.html">https://www.cnblogs.com/lc1217/p/6893924.html</a></p>
+<p><a href="https://www.cnblogs.com/lc1217/p/6908031.html">https://www.cnblogs.com/lc1217/p/6908031.html</a></p>
+<p><a href="https://www.cnblogs.com/lc1217/p/6963687.html">https://www.cnblogs.com/lc1217/p/6963687.html</a></p>
+<h2 id="GMM-vs-K-means"><a href="#GMM-vs-K-means" class="headerlink" title="GMM vs K-means"></a>GMM vs K-means</h2><p><a href="https://www.jianshu.com/p/a4d8fa39c762">https://www.jianshu.com/p/a4d8fa39c762</a></p>
+<p><a href="https://www.jianshu.com/p/13898e68c5c6">https://www.jianshu.com/p/13898e68c5c6</a></p>
+<h2 id="sklearn"><a href="#sklearn" class="headerlink" title="sklearn"></a>sklearn</h2><p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html">https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html</a></p>
+<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html">https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html</a></p>
+<p><a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">https://scikit-learn.org/stable/auto_examples&#x2F;cluster&#x2F;plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py</a></p>
+<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html">https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html</a></p>
+<p><a href="https://scikit-learn.org/stable/auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py">https://scikit-learn.org/stable/auto_examples&#x2F;mixture&#x2F;plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py</a></p>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>scikit-learn</tag>
+        <tag>kmeans</tag>
       </tags>
   </entry>
   <entry>
@@ -542,112 +542,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Mastodon 媒体存储和数据库备份</title>
-    <url>/2022-02-20-mastodon-backup/</url>
-    <content><![CDATA[<p><strong>写在前面：</strong><br>本文备份方法我还在验证中，请谨慎使用，最好以防万一多导出一份<code>backup.dump</code> 。</p>
-<h2 id="Why：为什么要备份"><a href="#Why：为什么要备份" class="headerlink" title="Why：为什么要备份"></a>Why：为什么要备份</h2><p>定期备份是好习惯，自从体验过一次wordpress搬家以后深刻感受到，有（异地）备份走遍天下都不怕。因为各种教备份的资料都比较全，本文主要是个人记录+学习用，如果想深入了解备份究竟在做什么也可以参考这篇文章。</p>
-<p>当你有一份长毛象的异地备份，你可以：</p>
-<ul>
-<li>迁移站点到其他服务器</li>
-<li>在服务器完全瘫痪时或不小心重装后，依然可以还原所有数据库内容</li>
-</ul>
-<h2 id="What：备份哪些内容"><a href="#What：备份哪些内容" class="headerlink" title="What：备份哪些内容"></a>What：备份哪些内容</h2><p>俗话说得好，没有经过检验的备份不是好备份。那么最快让我们清楚需要备份什么的方式就是看还原&#x2F;迁移站点需要什么。</p>
-<p>这里参考了<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">非docker站点迁移到docker</a> 和 <a href="https://blog.tantalum.life/posts/migrate-mastodon-to-docker/">docker迁移到docker</a> 两篇资料，大致上分为三步：</p>
-<h3 id="1-转移配置文件"><a href="#1-转移配置文件" class="headerlink" title="1. 转移配置文件"></a>1. 转移配置文件</h3><p>配置文件也就是你的mastodon安装目录（按照pullopen的教程的话应该是<code>/home/mastodon/mastodon</code>）下的：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.env.production </span><br><span class="line">docker-compose.yml </span><br></pre></td></tr></table></figure>
-
-<p>也就是在更改站点设置中最常用的两个文件。</p>
-<h3 id="2-转移数据库"><a href="#2-转移数据库" class="headerlink" title="2. 转移数据库"></a>2. 转移数据库</h3><p>这里有两个方法：</p>
-<ul>
-<li><p>通过备份文件<code>backup.dump</code> 进行转移，也就是备份的最关键内容，通常通过<code>pg_dump</code>导出备份，再通过<code>pg_restore</code>进行还原。</p>
-</li>
-<li><p>如果是docker，可以直接复制<code>./postgres/</code>和<code>./redis/</code>，并对<code>./postgres/</code>赋权，参考<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">将站点从Docker迁移至Docker</a></p>
-</li>
-</ul>
-<h3 id="3-转移媒体文件"><a href="#3-转移媒体文件" class="headerlink" title="3. 转移媒体文件"></a>3. 转移媒体文件</h3><p>这里分为两种情况，如果你已经配置了媒体文件在云存储，这一步是不需要的。如果你没有配置过，那么你的所有文件都在<code>./public/system/</code>目录下。具体而言有：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd /home/mastodon/mastodon/public/system</span><br><span class="line">$ du -h --max-depth=1</span><br><span class="line">9.6M    ./media_attachments</span><br><span class="line">3.3G    ./cache</span><br><span class="line">20M     ./custom_emojis</span><br><span class="line">13M     ./accounts</span><br><span class="line">3.4G    .</span><br></pre></td></tr></table></figure>
-
-<p>其中<code>./cache</code>是外站存储，其他都是本站的数据。我们当然希望除了外站存储以外，对本站的所有数据都做好备份。</p>
-<p>关于定期清除外站存储，请参考<a href="https://moe.cat/@AstroProfundis/104527119128844099">这个嘟文</a>，我的crontab设置：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl media remove --days=14 &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl media remove-orphans &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl statuses remove --days=180 &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
-
-<p>我是直接启动容器执行tootctl命令，更多相关内容可以通过<a href="https://mantyke.icu/2022/mastodon-media-file-cleanup/">使用脚本的tootctl</a>或者<a href="https://www.notion.so/3f645c4a2ab14f34aef37703ee286d3a#d9a3235086fc44ceb3293cf26100a5ae">非docker安装的tootctl</a>了解。</p>
-<p><strong>总结：如果是docker的话，直接对除<code>./public/system/cache</code>以外整个文件夹和个别配置文件进行备份即可。</strong></p>
-<h2 id="Where：备份放在哪里"><a href="#Where：备份放在哪里" class="headerlink" title="Where：备份放在哪里"></a>Where：备份放在哪里</h2><h3 id="本地备份"><a href="#本地备份" class="headerlink" title="本地备份"></a>本地备份</h3><p>本文将备份文件和备份脚本都放在<code>/opt/mastodon-backup</code> 下，你也可以选择任何你喜欢的安全位置。</p>
-<h3 id="异地备份"><a href="#异地备份" class="headerlink" title="异地备份"></a>异地备份</h3><p>最好的备份一定是异地备份。<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">pullopen</a> 和 <a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53">o3o</a> 都推荐了Scaleway云备份，并附上了详细的资料。</p>
-<h2 id="When：什么时候备份"><a href="#When：什么时候备份" class="headerlink" title="When：什么时候备份"></a>When：什么时候备份</h2><p>建议设置每天晚上自动备份一次，可以使用crontab创建定时任务。</p>
-<h2 id="Who：谁来备份"><a href="#Who：谁来备份" class="headerlink" title="Who：谁来备份"></a>Who：谁来备份</h2><p>当然是站长啊还有谁！</p>
-<h2 id="How：如何备份"><a href="#How：如何备份" class="headerlink" title="How：如何备份"></a>How：如何备份</h2><p>啰嗦了这么久终于到了这一步，我只是希望在我真正操作之前能够明白我在做什么。</p>
-<p>这一节脚本主要参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> 。</p>
-<h3 id="本地备份-1"><a href="#本地备份-1" class="headerlink" title="本地备份"></a>本地备份</h3><p>只看脚本的前半部分：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">source /etc/profile</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">target=&quot;scaleway:你的bucket名字&quot;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/docker exec pg容器名 pg_dump -U postgres -Fc mastodon_production &gt; $&#123;origin&#125;/backup.dump &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; succeed and upload to s3 now&quot;</span><br><span class="line">/usr/bin/zip -P 密码 $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;origin&#125;/backup.dump</span><br></pre></td></tr></table></figure>
-
-<p>前面定义了一些路径和时间等，先通过<code>pg_dump</code>导出<code>backup.dump</code>，再将其加密压缩为<code>backup_$&#123;now&#125;.zip</code>，但从上文可见，对于docker安装的情况，直接copy文件夹即可，所以我对这部分做了一些改动并参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">o3o的配置备份脚本</a>，增加了一些关键信息的备份，我的完整<strong>本地备份</strong>脚本如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup_local.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh &gt; /opt/mastodon-backup/logs/backup_local.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; done!&quot;</span><br></pre></td></tr></table></figure>
-
-<p>可以单独运行一次脚本看看是否正确备份，运行后查看备份目录：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ls /opt/mastodon-backup/dbbackup/ -lh</span><br><span class="line">total 76M</span><br><span class="line">-rw-r--r-- 1 root root  76M Feb 20 00:09 backup_20220220-000931.zip</span><br><span class="line">drwxr-xr-x 2 root root 4.0K Feb 20 00:09 sites-available</span><br></pre></td></tr></table></figure>
-
-<p>我将这个脚本存为<code>backup_local.sh</code>，在我配置好Scaleway之前守护我的数据，将其放在crontab下定期运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh.sh &gt; /opt/mastodon-backup/logs/backup_local.sh.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
-
-<p>备份时间设在清除外部缓存半小时后。</p>
-<h3 id="异地备份-1"><a href="#异地备份-1" class="headerlink" title="异地备份"></a>异地备份</h3><p>再看原脚本的后半部分</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/usr/bin/rclone copy $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;target&#125; &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; ok all done&quot;</span><br><span class="line">rm -f $&#123;origin&#125;/backup.dump $&#123;origin&#125;/backup_$&#123;now&#125;.zip</span><br><span class="line">/usr/bin/rclone --min-age 7d  delete $&#123;target&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>rclone copy</code>是将压缩后的备份文件按照配置好的设置上传至Scaleway，之后<code>rm -f</code>删除本地的备份文件，最后设置rclone删除大于7天的备份文件。这一步也可以直接在Scaleway删除，参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">循环销毁备份文件</a>。</p>
-<p>在我更改后的脚本，我采取的方法是每次先删除上一次的备份文件，而不是在上传后删除，这样可以在本地和Scaleway都有一个备份。</p>
-<p>Scaleway和<code>rclone</code>的设置可参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> ，<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53">设置定期异地备份长毛象数据库和关键配置</a> ，</p>
-<p>注意，备份的<code>bucket</code>要和媒体存储的分开，并且设为<code>private</code>！！</p>
-<p>可以用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rclone ls scaleway:你的bucket名称</span><br></pre></td></tr></table></figure>
-<p>查看bucket里的文件，确认是否正常上传和删除。</p>
-<p>最终我的完整脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup.sh &gt; /opt/mastodon-backup/logs/backup.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Loading /etc/profile</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line">target_bucket=&quot;scaleway:你的bucket名称&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available/ $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; local backup done!&quot;</span><br><span class="line"></span><br><span class="line"># upload to scaleway</span><br><span class="line">/usr/bin/rclone copy $&#123;backup_folder&#125;/ $&#123;target_bucket&#125; </span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; ok all done&quot;</span><br><span class="line"></span><br><span class="line"># delete backup longer than 7d</span><br><span class="line">/usr/bin/rclone --min-age 7d  delete $&#123;target_bucket&#125; </span><br></pre></td></tr></table></figure>
-<p>单独运行一遍可以成功后，就可以把<code>crontab</code>中的<code>backup_local.sh</code>改为<code>backup.sh</code>啦！这样你就有了一个：</p>
-<ul>
-<li>本地和scaleway双重备份</li>
-<li>本地保留一天，scaleway保留7天</li>
-<li>包含nginx设置和整个mastodon目录</li>
-</ul>
-<p>的备份啦！</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>Mastodon</tag>
-        <tag>postgres</tag>
-        <tag>Scaleway</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>给 Hexo 配置 Giscus 评论系统</title>
-    <url>/2022-02-20-add-comment-to-hexo/</url>
-    <content><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p>
-<p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p>
-<p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure>
-<p>然后在 hexo 的 _config.yml 添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure>
-<p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p>
-<p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p>
-<p>最后：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>刷新页面后就可以看到评论页面啦！</p>
-<p>快来给我评论吧～～</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Next</tag>
-        <tag>Giscus</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mastodon 建站笔记</title>
     <url>/2022-02-10-build-a-mastodon/</url>
     <content><![CDATA[<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">蓝盒子站长的教程</a> ，一直进行到把 docker 和 docker-compose 装好。</p>
@@ -751,6 +645,112 @@
       </tags>
   </entry>
   <entry>
+    <title>给 Hexo 配置 Giscus 评论系统</title>
+    <url>/2022-02-20-add-comment-to-hexo/</url>
+    <content><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p>
+<p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p>
+<p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure>
+<p>然后在 hexo 的 _config.yml 添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure>
+<p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p>
+<p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p>
+<p>最后：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>刷新页面后就可以看到评论页面啦！</p>
+<p>快来给我评论吧～～</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Next</tag>
+        <tag>Giscus</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mastodon 媒体存储和数据库备份</title>
+    <url>/2022-02-20-mastodon-backup/</url>
+    <content><![CDATA[<p><strong>写在前面：</strong><br>本文备份方法我还在验证中，请谨慎使用，最好以防万一多导出一份<code>backup.dump</code> 。</p>
+<h2 id="Why：为什么要备份"><a href="#Why：为什么要备份" class="headerlink" title="Why：为什么要备份"></a>Why：为什么要备份</h2><p>定期备份是好习惯，自从体验过一次wordpress搬家以后深刻感受到，有（异地）备份走遍天下都不怕。因为各种教备份的资料都比较全，本文主要是个人记录+学习用，如果想深入了解备份究竟在做什么也可以参考这篇文章。</p>
+<p>当你有一份长毛象的异地备份，你可以：</p>
+<ul>
+<li>迁移站点到其他服务器</li>
+<li>在服务器完全瘫痪时或不小心重装后，依然可以还原所有数据库内容</li>
+</ul>
+<h2 id="What：备份哪些内容"><a href="#What：备份哪些内容" class="headerlink" title="What：备份哪些内容"></a>What：备份哪些内容</h2><p>俗话说得好，没有经过检验的备份不是好备份。那么最快让我们清楚需要备份什么的方式就是看还原&#x2F;迁移站点需要什么。</p>
+<p>这里参考了<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">非docker站点迁移到docker</a> 和 <a href="https://blog.tantalum.life/posts/migrate-mastodon-to-docker/">docker迁移到docker</a> 两篇资料，大致上分为三步：</p>
+<h3 id="1-转移配置文件"><a href="#1-转移配置文件" class="headerlink" title="1. 转移配置文件"></a>1. 转移配置文件</h3><p>配置文件也就是你的mastodon安装目录（按照pullopen的教程的话应该是<code>/home/mastodon/mastodon</code>）下的：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.env.production </span><br><span class="line">docker-compose.yml </span><br></pre></td></tr></table></figure>
+
+<p>也就是在更改站点设置中最常用的两个文件。</p>
+<h3 id="2-转移数据库"><a href="#2-转移数据库" class="headerlink" title="2. 转移数据库"></a>2. 转移数据库</h3><p>这里有两个方法：</p>
+<ul>
+<li><p>通过备份文件<code>backup.dump</code> 进行转移，也就是备份的最关键内容，通常通过<code>pg_dump</code>导出备份，再通过<code>pg_restore</code>进行还原。</p>
+</li>
+<li><p>如果是docker，可以直接复制<code>./postgres/</code>和<code>./redis/</code>，并对<code>./postgres/</code>赋权，参考<a href="https://pullopen.github.io/%E7%AB%99%E7%82%B9%E7%BB%B4%E6%8A%A4/2020/10/21/migrate-Mastodon-to-Docker.html">将站点从Docker迁移至Docker</a></p>
+</li>
+</ul>
+<h3 id="3-转移媒体文件"><a href="#3-转移媒体文件" class="headerlink" title="3. 转移媒体文件"></a>3. 转移媒体文件</h3><p>这里分为两种情况，如果你已经配置了媒体文件在云存储，这一步是不需要的。如果你没有配置过，那么你的所有文件都在<code>./public/system/</code>目录下。具体而言有：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd /home/mastodon/mastodon/public/system</span><br><span class="line">$ du -h --max-depth=1</span><br><span class="line">9.6M    ./media_attachments</span><br><span class="line">3.3G    ./cache</span><br><span class="line">20M     ./custom_emojis</span><br><span class="line">13M     ./accounts</span><br><span class="line">3.4G    .</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>./cache</code>是外站存储，其他都是本站的数据。我们当然希望除了外站存储以外，对本站的所有数据都做好备份。</p>
+<p>关于定期清除外站存储，请参考<a href="https://moe.cat/@AstroProfundis/104527119128844099">这个嘟文</a>，我的crontab设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl media remove --days=14 &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl media remove-orphans &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br><span class="line">30 4    * * *   root    docker exec mastodon_web_1 tootctl statuses remove --days=180 &gt;&gt; /home/mastodon/log/mastodon/all.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>我是直接启动容器执行tootctl命令，更多相关内容可以通过<a href="https://mantyke.icu/2022/mastodon-media-file-cleanup/">使用脚本的tootctl</a>或者<a href="https://www.notion.so/3f645c4a2ab14f34aef37703ee286d3a#d9a3235086fc44ceb3293cf26100a5ae">非docker安装的tootctl</a>了解。</p>
+<p><strong>总结：如果是docker的话，直接对除<code>./public/system/cache</code>以外整个文件夹和个别配置文件进行备份即可。</strong></p>
+<h2 id="Where：备份放在哪里"><a href="#Where：备份放在哪里" class="headerlink" title="Where：备份放在哪里"></a>Where：备份放在哪里</h2><h3 id="本地备份"><a href="#本地备份" class="headerlink" title="本地备份"></a>本地备份</h3><p>本文将备份文件和备份脚本都放在<code>/opt/mastodon-backup</code> 下，你也可以选择任何你喜欢的安全位置。</p>
+<h3 id="异地备份"><a href="#异地备份" class="headerlink" title="异地备份"></a>异地备份</h3><p>最好的备份一定是异地备份。<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">pullopen</a> 和 <a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53">o3o</a> 都推荐了Scaleway云备份，并附上了详细的资料。</p>
+<h2 id="When：什么时候备份"><a href="#When：什么时候备份" class="headerlink" title="When：什么时候备份"></a>When：什么时候备份</h2><p>建议设置每天晚上自动备份一次，可以使用crontab创建定时任务。</p>
+<h2 id="Who：谁来备份"><a href="#Who：谁来备份" class="headerlink" title="Who：谁来备份"></a>Who：谁来备份</h2><p>当然是站长啊还有谁！</p>
+<h2 id="How：如何备份"><a href="#How：如何备份" class="headerlink" title="How：如何备份"></a>How：如何备份</h2><p>啰嗦了这么久终于到了这一步，我只是希望在我真正操作之前能够明白我在做什么。</p>
+<p>这一节脚本主要参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> 。</p>
+<h3 id="本地备份-1"><a href="#本地备份-1" class="headerlink" title="本地备份"></a>本地备份</h3><p>只看脚本的前半部分：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">source /etc/profile</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">target=&quot;scaleway:你的bucket名字&quot;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/docker exec pg容器名 pg_dump -U postgres -Fc mastodon_production &gt; $&#123;origin&#125;/backup.dump &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; succeed and upload to s3 now&quot;</span><br><span class="line">/usr/bin/zip -P 密码 $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;origin&#125;/backup.dump</span><br></pre></td></tr></table></figure>
+
+<p>前面定义了一些路径和时间等，先通过<code>pg_dump</code>导出<code>backup.dump</code>，再将其加密压缩为<code>backup_$&#123;now&#125;.zip</code>，但从上文可见，对于docker安装的情况，直接copy文件夹即可，所以我对这部分做了一些改动并参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">o3o的配置备份脚本</a>，增加了一些关键信息的备份，我的完整<strong>本地备份</strong>脚本如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup_local.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh &gt; /opt/mastodon-backup/logs/backup_local.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; done!&quot;</span><br></pre></td></tr></table></figure>
+
+<p>可以单独运行一次脚本看看是否正确备份，运行后查看备份目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ls /opt/mastodon-backup/dbbackup/ -lh</span><br><span class="line">total 76M</span><br><span class="line">-rw-r--r-- 1 root root  76M Feb 20 00:09 backup_20220220-000931.zip</span><br><span class="line">drwxr-xr-x 2 root root 4.0K Feb 20 00:09 sites-available</span><br></pre></td></tr></table></figure>
+
+<p>我将这个脚本存为<code>backup_local.sh</code>，在我配置好Scaleway之前守护我的数据，将其放在crontab下定期运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh.sh &gt; /opt/mastodon-backup/logs/backup_local.sh.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>备份时间设在清除外部缓存半小时后。</p>
+<h3 id="异地备份-1"><a href="#异地备份-1" class="headerlink" title="异地备份"></a>异地备份</h3><p>再看原脚本的后半部分</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/usr/bin/rclone copy $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;target&#125; &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; ok all done&quot;</span><br><span class="line">rm -f $&#123;origin&#125;/backup.dump $&#123;origin&#125;/backup_$&#123;now&#125;.zip</span><br><span class="line">/usr/bin/rclone --min-age 7d  delete $&#123;target&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>rclone copy</code>是将压缩后的备份文件按照配置好的设置上传至Scaleway，之后<code>rm -f</code>删除本地的备份文件，最后设置rclone删除大于7天的备份文件。这一步也可以直接在Scaleway删除，参考<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">循环销毁备份文件</a>。</p>
+<p>在我更改后的脚本，我采取的方法是每次先删除上一次的备份文件，而不是在上传后删除，这样可以在本地和Scaleway都有一个备份。</p>
+<p>Scaleway和<code>rclone</code>的设置可参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html#%E5%88%A9%E7%94%A8scaleway%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E5%BA%93">利用Scaleway备份数据库</a> ，<a href="https://www.notion.so/0f154999939e44109a5827e6c542fb53">设置定期异地备份长毛象数据库和关键配置</a> ，</p>
+<p>注意，备份的<code>bucket</code>要和媒体存储的分开，并且设为<code>private</code>！！</p>
+<p>可以用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rclone ls scaleway:你的bucket名称</span><br></pre></td></tr></table></figure>
+<p>查看bucket里的文件，确认是否正常上传和删除。</p>
+<p>最终我的完整脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup.sh &gt; /opt/mastodon-backup/logs/backup.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Loading /etc/profile</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line">target_bucket=&quot;scaleway:你的bucket名称&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available/ $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; local backup done!&quot;</span><br><span class="line"></span><br><span class="line"># upload to scaleway</span><br><span class="line">/usr/bin/rclone copy $&#123;backup_folder&#125;/ $&#123;target_bucket&#125; </span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; ok all done&quot;</span><br><span class="line"></span><br><span class="line"># delete backup longer than 7d</span><br><span class="line">/usr/bin/rclone --min-age 7d  delete $&#123;target_bucket&#125; </span><br></pre></td></tr></table></figure>
+<p>单独运行一遍可以成功后，就可以把<code>crontab</code>中的<code>backup_local.sh</code>改为<code>backup.sh</code>啦！这样你就有了一个：</p>
+<ul>
+<li>本地和scaleway双重备份</li>
+<li>本地保留一天，scaleway保留7天</li>
+<li>包含nginx设置和整个mastodon目录</li>
+</ul>
+<p>的备份啦！</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>Mastodon</tag>
+        <tag>postgres</tag>
+        <tag>Scaleway</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Crontab 各种运行不成功和解决方法</title>
     <url>/2022-02-22-crontab-debug/</url>
     <content><![CDATA[<p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
@@ -786,7 +786,7 @@
   <entry>
     <title>Docker 部署的 mastodon 在容器内 debug</title>
     <url>/2022-02-23-mastodon-debug-in-container/</url>
-    <content><![CDATA[<p>感谢小柠檬 @<a href="mailto:&#108;&#101;&#109;&#111;&#110;&#64;&#110;&#121;&#x61;&#x2e;&#108;&#x65;&#109;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#x6d;&#111;&#101;">&#108;&#101;&#109;&#111;&#110;&#64;&#110;&#121;&#x61;&#x2e;&#108;&#x65;&#109;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#x6d;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
+    <content><![CDATA[<p>感谢小柠檬 @<a href="mailto:&#x6c;&#x65;&#x6d;&#111;&#x6e;&#64;&#x6e;&#121;&#97;&#46;&#x6c;&#x65;&#109;&#111;&#110;&#x61;&#x64;&#x65;&#x2e;&#109;&#x6f;&#101;">&#x6c;&#x65;&#x6d;&#111;&#x6e;&#64;&#x6e;&#121;&#97;&#46;&#x6c;&#x65;&#109;&#111;&#110;&#x61;&#x64;&#x65;&#x2e;&#109;&#x6f;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
 <p>一个简短的解释，晚点我写详细一点。</p>
 <p>非docker的魔改方法：</p>
 <p><a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html</a></p>
@@ -803,7 +803,7 @@
 <p>如果有500之类的报错可以参考：</p>
 <p><a href="https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94">https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94</a></p>
 <p>我暂时没有遇到。</p>
-<p>本方法适合进入docker进行一些调试并且可以快速在网页端看到修改结果，确认无误后还是推荐打包成镜像再重启。</p>
+<p>本方法适合进入docker进行一些调试并且可以快速在网页端看到修改结果，确认无误后还是推荐打包成镜像再<code>docker-compose down/up -d</code>。</p>
 <p>建议的workflow是：</p>
 <ul>
 <li>在docker中热修代码并restart</li>
