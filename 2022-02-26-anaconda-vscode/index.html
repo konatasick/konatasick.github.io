@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/12583080-3334c9e7ec5b3655.png">
 <meta property="article:published_time" content="2022-02-26T11:23:16.000Z">
-<meta property="article:modified_time" content="2022-02-26T13:05:43.240Z">
+<meta property="article:modified_time" content="2022-02-26T13:50:23.559Z">
 <meta property="article:author" content="Konata Izumi">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="vscode">
@@ -247,7 +247,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2022-02-26 19:23:16 / Modified: 21:05:43" itemprop="dateCreated datePublished" datetime="2022-02-26T19:23:16+08:00">2022-02-26</time>
+      <time title="Created: 2022-02-26 19:23:16 / Modified: 21:50:23" itemprop="dateCreated datePublished" datetime="2022-02-26T19:23:16+08:00">2022-02-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -287,7 +287,10 @@
 <p><img src="https://upload-images.jianshu.io/upload_images/12583080-3334c9e7ec5b3655.png"></p>
 <p>再点+出现新的cmd命令窗口，输入</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Conda activate base</span><br></pre></td></tr></table></figure>
-<p>激活conda，如果最左边有个（base）说明成功了.</p>
+<p>激活conda，如果最左边有个（base）说明成功了。</p>
+<p>另外我的 vscode 出现画面很糊的诡异情况，这时候去快捷方式的目录，右键快捷方式，选择属性，在目标中增加一个 <code>--disable-gpu</code> 参数，如:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;C:\Program Files (x86)\Microsoft VS Code\Code.exe&quot; --disable-gpu</span><br></pre></td></tr></table></figure>
+
 <h2 id="配置清华镜像"><a href="#配置清华镜像" class="headerlink" title="配置清华镜像"></a>配置清华镜像</h2><p>如果 conda 和 pip 太慢，可以配置清华镜像：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --setshow_channel_urls yes</span><br><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U </span><br><span class="line">Pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
 

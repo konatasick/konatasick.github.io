@@ -191,27 +191,6 @@
 
   
   <url>
-    <loc>https://tech.konata.co/tags/nginx/</loc>
-    <lastmod>2022-02-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/certbot/</loc>
-    <lastmod>2022-02-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/mastodon/</loc>
-    <lastmod>2022-02-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://tech.konata.co/tags/python/</loc>
     <lastmod>2022-02-26</lastmod>
     <changefreq>weekly</changefreq>
@@ -233,6 +212,13 @@
   </url>
   
   <url>
+    <loc>https://tech.konata.co/tags/kmeans/</loc>
+    <lastmod>2022-02-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://tech.konata.co/tags/conda/</loc>
     <lastmod>2022-02-26</lastmod>
     <changefreq>weekly</changefreq>
@@ -248,13 +234,6 @@
   
   <url>
     <loc>https://tech.konata.co/tags/GitHub/</loc>
-    <lastmod>2022-02-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/kmeans/</loc>
     <lastmod>2022-02-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -338,7 +317,35 @@
   </url>
   
   <url>
+    <loc>https://tech.konata.co/tags/nginx/</loc>
+    <lastmod>2022-02-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/certbot/</loc>
+    <lastmod>2022-02-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://tech.konata.co/tags/wordpress/</loc>
+    <lastmod>2022-02-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/Next/</loc>
+    <lastmod>2022-02-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/Giscus/</loc>
     <lastmod>2022-02-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -366,14 +373,7 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/Next/</loc>
-    <lastmod>2022-02-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/Giscus/</loc>
+    <loc>https://tech.konata.co/tags/mastodon/</loc>
     <lastmod>2022-02-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -381,6 +381,13 @@
   
   <url>
     <loc>https://tech.konata.co/tags/Docker/</loc>
+    <lastmod>2022-02-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/Anaconda3/</loc>
     <lastmod>2022-02-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -400,21 +407,7 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://tech.konata.co/tags/Anaconda3/</loc>
-    <lastmod>2022-02-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
-  
-  <url>
-    <loc>https://tech.konata.co/categories/Project/</loc>
-    <lastmod>2022-02-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
   
   <url>
     <loc>https://tech.konata.co/categories/Workshop/</loc>
@@ -425,6 +418,13 @@
   
   <url>
     <loc>https://tech.konata.co/categories/Algorithm/</loc>
+    <lastmod>2022-02-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/categories/Project/</loc>
     <lastmod>2022-02-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
