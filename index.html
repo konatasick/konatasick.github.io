@@ -236,9 +236,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2022-02-26 19:23:16 / Modified: 22:29:28" itemprop="dateCreated datePublished" datetime="2022-02-26T19:23:16+08:00">2022-02-26</time>
+      <time title="Created: 2022-02-26 19:23:16" itemprop="dateCreated datePublished" datetime="2022-02-26T19:23:16+08:00">2022-02-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-02-27 00:18:58" itemprop="dateModified" datetime="2022-02-27T00:18:58+08:00">2022-02-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -265,6 +271,8 @@
 <h3 id="VScode"><a href="#VScode" class="headerlink" title="VScode"></a>VScode</h3><p>在<a target="_blank" rel="noopener" href="https://code.visualstudio.com/">官网</a>下载，安装时勾选<code>添加到PATH</code>，重启使其生效。</p>
 <h3 id="git"><a href="#git" class="headerlink" title="git"></a>git</h3><p>在<a target="_blank" rel="noopener" href="https://git-scm.com/downloads">官网</a>下载，并配置好个人信息：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email &quot;you@example.com&quot;</span><br><span class="line">git config --global user.name &quot;Your Name&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h3><p>在<a target="_blank" rel="noopener" href="https://www.docker.com/get-started">官网</a>下载。</p>
+<p>下载重启后，打开docker，通常会报错：WSL 2 installation is incomplete，并给出一个下载链接，点进去以后下载一个msi然后安装即可。</p>
 <h2 id="配置-VScode"><a href="#配置-VScode" class="headerlink" title="配置 VScode"></a>配置 VScode</h2><p>重启电脑，打开 vscode，下载 python 插件，有需要可以改成中文，参考<a href="https://tech.konata.co/2020-01-16-vscode/">vscode安利帖</a>。</p>
 <p>在 vscode 的菜单中选择：Terminal-new terminal</p>
 <p>在出现的终端界面右边选择默认terminal为cmd（重要）：</p>
@@ -349,7 +357,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>感谢小柠檬 @<a href="mailto:&#108;&#x65;&#109;&#x6f;&#x6e;&#x40;&#110;&#121;&#97;&#x2e;&#108;&#101;&#109;&#x6f;&#x6e;&#97;&#100;&#x65;&#46;&#x6d;&#111;&#101;">&#108;&#x65;&#109;&#x6f;&#x6e;&#x40;&#110;&#121;&#97;&#x2e;&#108;&#101;&#109;&#x6f;&#x6e;&#97;&#100;&#x65;&#46;&#x6d;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
+          <p>感谢小柠檬 @<a href="mailto:&#108;&#101;&#x6d;&#x6f;&#x6e;&#64;&#x6e;&#x79;&#x61;&#46;&#108;&#101;&#109;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#x6d;&#111;&#101;">&#108;&#101;&#x6d;&#x6f;&#x6e;&#64;&#x6e;&#x79;&#x61;&#46;&#108;&#101;&#109;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#x6d;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
 <p>一个简短的解释，晚点我写详细一点。</p>
 <p>非docker的魔改方法：</p>
 <p><a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html</a></p>
@@ -754,7 +762,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-02-19 22:02:38" itemprop="dateModified" datetime="2022-02-19T22:02:38+08:00">2022-02-19</time>
+      <time title="Modified: 2022-02-27 00:19:19" itemprop="dateModified" datetime="2022-02-27T00:19:19+08:00">2022-02-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -854,7 +862,7 @@
 <p>记得上面的example.com实际上应该是你的域名。</p>
 <p>要确保你的<code>nginx -t</code>没有任何问题，我遇到了warning结果最后真的是那个warning导致的错误，不要忽略warning！</p>
 <p>最后可以通过</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certbot renew --dry_run</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certbot renew --dry-run</span><br></pre></td></tr></table></figure>
 
 <p>测试证书的自动更新是否起效，<code>--dry_run</code>就是仅打印信息，不实际执行。</p>
 <p>这一步很多教程会教你设置定期任务来更新，但实际上certbot是会自动更新的（参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/AlistairEd/article/details/113804554">这篇文章</a> ）。</p>
