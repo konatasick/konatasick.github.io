@@ -56,8 +56,8 @@
         <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>scikit-learn</tag>
         <tag>python</tag>
+        <tag>scikit-learn</tag>
         <tag>PCA</tag>
       </tags>
   </entry>
@@ -170,44 +170,9 @@
         <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>scikit-learn</tag>
         <tag>python</tag>
+        <tag>scikit-learn</tag>
         <tag>kmeans</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ffmpeg操作速查</title>
-    <url>/2019-11-28-ffmpeg/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
-<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
-<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
-<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
-<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
-<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
-<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
-<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
-<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
-<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
-<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
-<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
-<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
-<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
-<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
-<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
-<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
-<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
-<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
-        <tag>bash</tag>
       </tags>
   </entry>
   <entry>
@@ -268,6 +233,73 @@
       <tags>
         <tag>git</tag>
         <tag>GitHub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ffmpeg操作速查</title>
+    <url>/2019-11-28-ffmpeg/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
+<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
+<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
+<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
+<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
+<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
+<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
+<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
+<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
+<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
+<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
+<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
+<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
+<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
+<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
+<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
+<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
+<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
+<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+        <tag>bash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在Mac上操作文件</title>
+    <url>/2021-06-11-mac/</url>
+    <content><![CDATA[<h2 id="安装homebrew"><a href="#安装homebrew" class="headerlink" title="安装homebrew"></a>安装homebrew</h2><p><a href="https://www.jianshu.com/p/627b2d462151">https://www.jianshu.com/p/627b2d462151</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装ffmepg"><a href="#安装ffmepg" class="headerlink" title="安装ffmepg"></a>安装ffmepg</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install ffmpeg</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装rename"><a href="#安装rename" class="headerlink" title="安装rename"></a>安装rename</h2><p><a href="https://commandnotfound.cn/linux/1/461/rename-%E5%91%BD%E4%BB%A4">https://commandnotfound.cn/linux/1/461/rename-命令</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install rename</span><br></pre></td></tr></table></figure>
+<h2 id="批量改名"><a href="#批量改名" class="headerlink" title="批量改名"></a>批量改名</h2><p><a href="https://zhuanlan.zhihu.com/p/90829056">https://zhuanlan.zhihu.com/p/90829056</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rename &#x27;s/.mp41/.mp4/&#x27; *</span><br></pre></td></tr></table></figure>
+<p>后来发现可以直接多选右键批量改名。</p>
+<h2 id="热插拔修复"><a href="#热插拔修复" class="headerlink" title="热插拔修复"></a>热插拔修复</h2><p><a href="https://www.zhihu.com/question/308406915">https://www.zhihu.com/question/308406915</a><br>打开磁盘工具<br>打开terminal</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">diskutil list</span><br><span class="line">ps aux | grep fsck</span><br><span class="line">sudo pkill -f fsck</span><br></pre></td></tr></table></figure>
+<p>点急救，需要等很久很久</p>
+<h2 id="压缩解压分卷"><a href="#压缩解压分卷" class="headerlink" title="压缩解压分卷"></a>压缩解压分卷</h2><p>压缩：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip test.zip test.doc </span><br></pre></td></tr></table></figure>
+<p>分卷：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip -s 50m test.zip --out ziptest </span><br></pre></td></tr></table></figure>
+<p>合卷： </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat ziptest.z* &gt; test.zip </span><br></pre></td></tr></table></figure>
+<p>解压：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">unzip test.zip</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
       </tags>
   </entry>
   <entry>
@@ -342,38 +374,6 @@
         <tag>python</tag>
         <tag>vscode</tag>
         <tag>JupyterNotebook</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在Mac上操作文件</title>
-    <url>/2021-06-11-mac/</url>
-    <content><![CDATA[<h2 id="安装homebrew"><a href="#安装homebrew" class="headerlink" title="安装homebrew"></a>安装homebrew</h2><p><a href="https://www.jianshu.com/p/627b2d462151">https://www.jianshu.com/p/627b2d462151</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装ffmepg"><a href="#安装ffmepg" class="headerlink" title="安装ffmepg"></a>安装ffmepg</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install ffmpeg</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装rename"><a href="#安装rename" class="headerlink" title="安装rename"></a>安装rename</h2><p><a href="https://commandnotfound.cn/linux/1/461/rename-%E5%91%BD%E4%BB%A4">https://commandnotfound.cn/linux/1/461/rename-命令</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install rename</span><br></pre></td></tr></table></figure>
-<h2 id="批量改名"><a href="#批量改名" class="headerlink" title="批量改名"></a>批量改名</h2><p><a href="https://zhuanlan.zhihu.com/p/90829056">https://zhuanlan.zhihu.com/p/90829056</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rename &#x27;s/.mp41/.mp4/&#x27; *</span><br></pre></td></tr></table></figure>
-<p>后来发现可以直接多选右键批量改名。</p>
-<h2 id="热插拔修复"><a href="#热插拔修复" class="headerlink" title="热插拔修复"></a>热插拔修复</h2><p><a href="https://www.zhihu.com/question/308406915">https://www.zhihu.com/question/308406915</a><br>打开磁盘工具<br>打开terminal</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">diskutil list</span><br><span class="line">ps aux | grep fsck</span><br><span class="line">sudo pkill -f fsck</span><br></pre></td></tr></table></figure>
-<p>点急救，需要等很久很久</p>
-<h2 id="压缩解压分卷"><a href="#压缩解压分卷" class="headerlink" title="压缩解压分卷"></a>压缩解压分卷</h2><p>压缩：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip test.zip test.doc </span><br></pre></td></tr></table></figure>
-<p>分卷：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">zip -s 50m test.zip --out ziptest </span><br></pre></td></tr></table></figure>
-<p>合卷： </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat ziptest.z* &gt; test.zip </span><br></pre></td></tr></table></figure>
-<p>解压：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">unzip test.zip</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>mac</tag>
       </tags>
   </entry>
   <entry>
@@ -514,47 +514,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Wordpress 建站笔记</title>
-    <url>/2022-02-09-blog-note/</url>
-    <content><![CDATA[<p>参考教程： <a href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose">https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose</a></p>
-<h3 id="Step-1-设置反代"><a href="#Step-1-设置反代" class="headerlink" title="Step 1 设置反代"></a>Step 1 设置反代</h3><p>这一步主要是对nginx进行设置。</p>
-<p>反代是什么？为什么要反代？一般而言例如VPN这样的服务就是正向代理，代理客户端访问各个网站。而反向代理是服务器的代理。 </p>
-<p><code>listen</code>：告诉nginx要监听哪个端口。这步暂时只用了80端口，也就是HTTP用的。之后SSL下来了以后加上443，也就是HTTPS用的。</p>
-<p><code>server_name</code>：域名，这里似乎其实只需要写blog.konata.co就够了？前后只是优先级？</p>
-<p><code>index</code>：网页的index文件，按照优先级排序</p>
-<p><code>root</code>：这个是根目录地址，之后会在dockerfile里mount到这个目录下。</p>
-<h3 id="Step-2-设置环境变量"><a href="#Step-2-设置环境变量" class="headerlink" title="Step 2 设置环境变量"></a>Step 2 设置环境变量</h3><p>这一步主要是把密码用户名加到环境变量里，然后由于涉及敏感信息，所以额外添加了.gitignore和.dockerignore</p>
-<h3 id="Step-3-设置docker-compose"><a href="#Step-3-设置docker-compose" class="headerlink" title="Step 3 设置docker-compose"></a>Step 3 设置docker-compose</h3><p>Docker-compose和dockerfile是两个东西，各自用处见：</p>
-<p><a href="https://www.runoob.com/docker/docker-dockerfile.html">https://www.runoob.com/docker/docker-dockerfile.html</a></p>
-<p><a href="https://www.runoob.com/docker/docker-compose.html">https://www.runoob.com/docker/docker-compose.html</a></p>
-<p>Docker-compose是用来配置容器内服务的。这里依次配置了db（数据库），wordpress，webserver（nginx反代）和certbot（https证书）。</p>
-<p>在services中，每个服务器的image指定了是从哪个镜像启动服务。这里用的都是公开的现成的镜像，所以可以直接启动。</p>
-<p>这一步wordpress用的镜像是image: wordpress:5.1.1-fpm-alpine，版本比较旧，可以替换成<a href="https://hub.docker.com/_/wordpress/">这里</a> 更新的tag，如<code>5.9.0-fpm-alpine</code>，也许就可以解决php版本过老的问题（待确认）。</p>
-<h3 id="Step-4-获取SSL证书"><a href="#Step-4-获取SSL证书" class="headerlink" title="Step 4 获取SSL证书"></a>Step 4 获取SSL证书</h3><p>要用https而不是http，需要获取SSL证书。在上一步已经配置好了certbot，这一步首先启动docker-compose。</p>
-<p><code>docker-compose up</code> 是启动，加上<code>-d</code>是在后台运行。</p>
-<p><code>docker-compose ps</code> 可以检查服务运行情况。</p>
-<p><code>docker-compose exec webserver ls -la /etc/letsencrypt/live</code> 这句话指的是启动webserver的docker然后查看域名是否设置成功。从名字上看似乎用的是Let’s Encrypt的服务。如果设置成功，就可以进入<code>docker-compose.yml</code>把<code>--staging</code>这个调试用的参数改成<code>--force-renewal</code>，重新申请一个正式的证书。</p>
-<p><code>docker-compose up --force-recreate --no-deps certbot</code>  使最新的docker-compose.yml生效。</p>
-<h3 id="Step-5-修改nginx"><a href="#Step-5-修改nginx" class="headerlink" title="Step 5 修改nginx"></a>Step 5 修改nginx</h3><p> 因为已经申请到了SSL证书，现在要返回修改<code>nginx</code>。</p>
-<p>先把<code>webserver</code>服务停了，然后下载<code>certbot</code>的<code>nginx</code>配置文件<code>options-ssl-nginx.conf</code>，删除旧的<code>nginx.conf</code>改成新的<code>nginx.conf</code>，再修改<code>docker-compose.yml</code>里<code>webserver</code>的配置，把<code>443</code>端口添加上去。</p>
-<p><code>docker-compose up --force-recreate --no-deps webserver</code> 使最新的docker-compose.yml生效。</p>
-<h3 id="Step-6-前端安装"><a href="#Step-6-前端安装" class="headerlink" title="Step 6 前端安装"></a>Step 6 前端安装</h3><p> 到这步为止，<code>nginx</code>反代，SSL证书，<code>wordpress</code>，全部都安装好并且在后台运行了。这时候访问域名，就会出现<code>wordpress</code>的安装界面。全程网页操作，简单易懂。</p>
-<h3 id="Step-7-定期更新证书"><a href="#Step-7-定期更新证书" class="headerlink" title="Step 7 定期更新证书"></a>Step 7 定期更新证书</h3><p>因为证书90天内有效，所以要写一个脚本每隔一段时间（小于90天）就重新申请一次证书。脚本内容大概是renew <code>certbot</code>并删除多余镜像，之后把脚本的权限设为可执行。调用<code>crontab</code>来定期运行脚本。</p>
-<p><code>*/5 * * * *</code>是每五分钟运行一次，为了快速出测试结果。</p>
-<p><code>\&gt;&gt; /var/log/cron.log 2&gt;&amp;1</code>是把输出写到log文件里，方便查看。</p>
-<p>确认没有问题以后，改为<code>0 12 * * *</code>，是每12小时更新一次，需要更新得这么频繁吗？</p>
-<p>同时把调试用的参数<code>--dry-run</code>从脚本里删掉。</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-        <tag>certbot</tag>
-        <tag>wordpress</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mastodon 建站笔记</title>
     <url>/2022-02-10-build-a-mastodon/</url>
     <content><![CDATA[<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">蓝盒子站长的教程</a> ，一直进行到把 docker 和 docker-compose 装好。</p>
@@ -658,29 +617,44 @@
       </tags>
   </entry>
   <entry>
-    <title>给 Hexo 配置 Giscus 评论系统</title>
-    <url>/2022-02-20-add-comment-to-hexo/</url>
-    <content><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p>
-<p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p>
-<p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure>
-<p>然后在 hexo 的 _config.yml 添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure>
-<p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p>
-<p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p>
-<p>最后：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>刷新页面后就可以看到评论页面啦！</p>
-<p>快来给我评论吧～～</p>
+    <title>Wordpress 建站笔记</title>
+    <url>/2022-02-09-blog-note/</url>
+    <content><![CDATA[<p>参考教程： <a href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose">https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose</a></p>
+<h3 id="Step-1-设置反代"><a href="#Step-1-设置反代" class="headerlink" title="Step 1 设置反代"></a>Step 1 设置反代</h3><p>这一步主要是对nginx进行设置。</p>
+<p>反代是什么？为什么要反代？一般而言例如VPN这样的服务就是正向代理，代理客户端访问各个网站。而反向代理是服务器的代理。 </p>
+<p><code>listen</code>：告诉nginx要监听哪个端口。这步暂时只用了80端口，也就是HTTP用的。之后SSL下来了以后加上443，也就是HTTPS用的。</p>
+<p><code>server_name</code>：域名，这里似乎其实只需要写blog.konata.co就够了？前后只是优先级？</p>
+<p><code>index</code>：网页的index文件，按照优先级排序</p>
+<p><code>root</code>：这个是根目录地址，之后会在dockerfile里mount到这个目录下。</p>
+<h3 id="Step-2-设置环境变量"><a href="#Step-2-设置环境变量" class="headerlink" title="Step 2 设置环境变量"></a>Step 2 设置环境变量</h3><p>这一步主要是把密码用户名加到环境变量里，然后由于涉及敏感信息，所以额外添加了.gitignore和.dockerignore</p>
+<h3 id="Step-3-设置docker-compose"><a href="#Step-3-设置docker-compose" class="headerlink" title="Step 3 设置docker-compose"></a>Step 3 设置docker-compose</h3><p>Docker-compose和dockerfile是两个东西，各自用处见：</p>
+<p><a href="https://www.runoob.com/docker/docker-dockerfile.html">https://www.runoob.com/docker/docker-dockerfile.html</a></p>
+<p><a href="https://www.runoob.com/docker/docker-compose.html">https://www.runoob.com/docker/docker-compose.html</a></p>
+<p>Docker-compose是用来配置容器内服务的。这里依次配置了db（数据库），wordpress，webserver（nginx反代）和certbot（https证书）。</p>
+<p>在services中，每个服务器的image指定了是从哪个镜像启动服务。这里用的都是公开的现成的镜像，所以可以直接启动。</p>
+<p>这一步wordpress用的镜像是image: wordpress:5.1.1-fpm-alpine，版本比较旧，可以替换成<a href="https://hub.docker.com/_/wordpress/">这里</a> 更新的tag，如<code>5.9.0-fpm-alpine</code>，也许就可以解决php版本过老的问题（待确认）。</p>
+<h3 id="Step-4-获取SSL证书"><a href="#Step-4-获取SSL证书" class="headerlink" title="Step 4 获取SSL证书"></a>Step 4 获取SSL证书</h3><p>要用https而不是http，需要获取SSL证书。在上一步已经配置好了certbot，这一步首先启动docker-compose。</p>
+<p><code>docker-compose up</code> 是启动，加上<code>-d</code>是在后台运行。</p>
+<p><code>docker-compose ps</code> 可以检查服务运行情况。</p>
+<p><code>docker-compose exec webserver ls -la /etc/letsencrypt/live</code> 这句话指的是启动webserver的docker然后查看域名是否设置成功。从名字上看似乎用的是Let’s Encrypt的服务。如果设置成功，就可以进入<code>docker-compose.yml</code>把<code>--staging</code>这个调试用的参数改成<code>--force-renewal</code>，重新申请一个正式的证书。</p>
+<p><code>docker-compose up --force-recreate --no-deps certbot</code>  使最新的docker-compose.yml生效。</p>
+<h3 id="Step-5-修改nginx"><a href="#Step-5-修改nginx" class="headerlink" title="Step 5 修改nginx"></a>Step 5 修改nginx</h3><p> 因为已经申请到了SSL证书，现在要返回修改<code>nginx</code>。</p>
+<p>先把<code>webserver</code>服务停了，然后下载<code>certbot</code>的<code>nginx</code>配置文件<code>options-ssl-nginx.conf</code>，删除旧的<code>nginx.conf</code>改成新的<code>nginx.conf</code>，再修改<code>docker-compose.yml</code>里<code>webserver</code>的配置，把<code>443</code>端口添加上去。</p>
+<p><code>docker-compose up --force-recreate --no-deps webserver</code> 使最新的docker-compose.yml生效。</p>
+<h3 id="Step-6-前端安装"><a href="#Step-6-前端安装" class="headerlink" title="Step 6 前端安装"></a>Step 6 前端安装</h3><p> 到这步为止，<code>nginx</code>反代，SSL证书，<code>wordpress</code>，全部都安装好并且在后台运行了。这时候访问域名，就会出现<code>wordpress</code>的安装界面。全程网页操作，简单易懂。</p>
+<h3 id="Step-7-定期更新证书"><a href="#Step-7-定期更新证书" class="headerlink" title="Step 7 定期更新证书"></a>Step 7 定期更新证书</h3><p>因为证书90天内有效，所以要写一个脚本每隔一段时间（小于90天）就重新申请一次证书。脚本内容大概是renew <code>certbot</code>并删除多余镜像，之后把脚本的权限设为可执行。调用<code>crontab</code>来定期运行脚本。</p>
+<p><code>*/5 * * * *</code>是每五分钟运行一次，为了快速出测试结果。</p>
+<p><code>\&gt;&gt; /var/log/cron.log 2&gt;&amp;1</code>是把输出写到log文件里，方便查看。</p>
+<p>确认没有问题以后，改为<code>0 12 * * *</code>，是每12小时更新一次，需要更新得这么频繁吗？</p>
+<p>同时把调试用的参数<code>--dry-run</code>从脚本里删掉。</p>
 ]]></content>
       <categories>
         <category>Project</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
-        <tag>Next</tag>
-        <tag>Giscus</tag>
+        <tag>nginx</tag>
+        <tag>certbot</tag>
+        <tag>wordpress</tag>
       </tags>
   </entry>
   <entry>
@@ -764,42 +738,35 @@
       </tags>
   </entry>
   <entry>
-    <title>Crontab 各种运行不成功和解决方法</title>
-    <url>/2022-02-22-crontab-debug/</url>
-    <content><![CDATA[<p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron status # 查看运行状态和报错信息</span><br><span class="line">service cron reload # 重新载入 </span><br><span class="line">service cron restart # 重启</span><br><span class="line">vim /etc/crontab #编辑 crontab</span><br></pre></td></tr></table></figure>
+    <title>给 Hexo 配置 Giscus 评论系统</title>
+    <url>/2022-02-20-add-comment-to-hexo/</url>
+    <content><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p>
+<p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p>
+<p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure>
+<p>然后在 hexo 的 _config.yml 添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure>
+<p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p>
+<p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p>
+<p>最后：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
 
-<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><h3 id="Missing-newline-before-EOF"><a href="#Missing-newline-before-EOF" class="headerlink" title="Missing newline before EOF"></a>Missing newline before EOF</h3><p>报错内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(*system*) ERROR (Missing newline before EOF, this crontab file will be ignored)</span><br></pre></td></tr></table></figure>
-<p><a href="https://cronitor.io/cron-reference/missing-newline-before-eof#:~:text=Fixing%20missing%20newline%20before%20EOF%20errors.%20Correct%20this,always%20added%20and%20are%20not%20%20incorrectly%20stripped.">解决方案</a></p>
-<blockquote>
-<p>Correct this error simply by <strong>adding a blank line</strong> at the end of your crontab. </p>
-</blockquote>
-<p>就是在crontab文件的末尾添加一个新的空行（回车），就离谱……</p>
-<h3 id="session-opened-for-user-root-by-uid-x3D-0"><a href="#session-opened-for-user-root-by-uid-x3D-0" class="headerlink" title="session opened for user root by (uid&#x3D;0)"></a>session opened for user root by (uid&#x3D;0)</h3><p>报错内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pam_unix(cron:session): session opened for user root by (uid=0)</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.digitalocean.com/community/questions/weird-cron-logs-appearing-for-no-reasion">解决方案</a>：</p>
-<p>打开文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/pam.d/common-session-noninteractive</span><br></pre></td></tr></table></figure>
-<p>找到这一行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session required pam_unix.so</span><br></pre></td></tr></table></figure>
-<p>并在其上方添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session [success=1 default=ignore] pam_succeed_if.so service in cron quiet use_uid</span><br></pre></td></tr></table></figure>
-<p>然后重启：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron restart</span><br></pre></td></tr></table></figure>]]></content>
+<p>刷新页面后就可以看到评论页面啦！</p>
+<p>快来给我评论吧～～</p>
+]]></content>
       <categories>
-        <category>Workshop</category>
+        <category>Project</category>
       </categories>
       <tags>
-        <tag>Docker</tag>
-        <tag>Crontab</tag>
-        <tag>Linux</tag>
+        <tag>Hexo</tag>
+        <tag>Next</tag>
+        <tag>Giscus</tag>
       </tags>
   </entry>
   <entry>
     <title>Docker 部署的 mastodon 在容器内 debug</title>
     <url>/2022-02-23-mastodon-debug-in-container/</url>
-    <content><![CDATA[<p>感谢小柠檬 @<a href="mailto:&#108;&#101;&#x6d;&#x6f;&#110;&#x40;&#x6e;&#121;&#x61;&#46;&#108;&#101;&#x6d;&#x6f;&#x6e;&#x61;&#100;&#101;&#x2e;&#109;&#x6f;&#101;">&#108;&#101;&#x6d;&#x6f;&#110;&#x40;&#x6e;&#121;&#x61;&#46;&#108;&#101;&#x6d;&#x6f;&#x6e;&#x61;&#100;&#101;&#x2e;&#109;&#x6f;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
+    <content><![CDATA[<p>感谢小柠檬 @<a href="mailto:&#108;&#x65;&#109;&#x6f;&#x6e;&#x40;&#110;&#121;&#97;&#x2e;&#108;&#101;&#109;&#x6f;&#x6e;&#97;&#100;&#x65;&#46;&#x6d;&#111;&#101;">&#108;&#x65;&#109;&#x6f;&#x6e;&#x40;&#110;&#121;&#97;&#x2e;&#108;&#101;&#109;&#x6f;&#x6e;&#97;&#100;&#x65;&#46;&#x6d;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
 <p>一个简短的解释，晚点我写详细一点。</p>
 <p>非docker的魔改方法：</p>
 <p><a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html</a></p>
@@ -843,8 +810,7 @@
 <h2 id="配置-VScode"><a href="#配置-VScode" class="headerlink" title="配置 VScode"></a>配置 VScode</h2><p>重启电脑，打开 vscode，下载 python 插件，有需要可以改成中文，参考<a href="https://tech.konata.co/2020-01-16-vscode/">vscode安利帖</a>。</p>
 <p>在 vscode 的菜单中选择：Terminal-new terminal</p>
 <p>在出现的终端界面右边选择默认terminal为cmd（重要）：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-3334c9e7ec5b3655.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1"></p>
-<p>再点+出现新的cmd命令窗口，输入</p>
+<p><img src="https://s2.loli.net/2022/02/26/w2T56gV8CrDHzne.png"><br>再点+出现新的cmd命令窗口，输入</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Conda activate base</span><br></pre></td></tr></table></figure>
 <p>激活conda，如果最左边有个（base）说明成功了。</p>
 <p>另外我的 vscode 出现画面很糊的诡异情况，这时候去快捷方式的目录，右键快捷方式，选择属性，在目标中增加一个 <code>--disable-gpu</code> 参数，如:</p>
@@ -860,6 +826,39 @@
         <tag>python</tag>
         <tag>vscode</tag>
         <tag>Anaconda3</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Crontab 各种运行不成功和解决方法</title>
+    <url>/2022-02-22-crontab-debug/</url>
+    <content><![CDATA[<p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron status # 查看运行状态和报错信息</span><br><span class="line">service cron reload # 重新载入 </span><br><span class="line">service cron restart # 重启</span><br><span class="line">vim /etc/crontab #编辑 crontab</span><br></pre></td></tr></table></figure>
+
+<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><h3 id="Missing-newline-before-EOF"><a href="#Missing-newline-before-EOF" class="headerlink" title="Missing newline before EOF"></a>Missing newline before EOF</h3><p>报错内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(*system*) ERROR (Missing newline before EOF, this crontab file will be ignored)</span><br></pre></td></tr></table></figure>
+<p><a href="https://cronitor.io/cron-reference/missing-newline-before-eof#:~:text=Fixing%20missing%20newline%20before%20EOF%20errors.%20Correct%20this,always%20added%20and%20are%20not%20%20incorrectly%20stripped.">解决方案</a></p>
+<blockquote>
+<p>Correct this error simply by <strong>adding a blank line</strong> at the end of your crontab. </p>
+</blockquote>
+<p>就是在crontab文件的末尾添加一个新的空行（回车），就离谱……</p>
+<h3 id="session-opened-for-user-root-by-uid-x3D-0"><a href="#session-opened-for-user-root-by-uid-x3D-0" class="headerlink" title="session opened for user root by (uid&#x3D;0)"></a>session opened for user root by (uid&#x3D;0)</h3><p>报错内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pam_unix(cron:session): session opened for user root by (uid=0)</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.digitalocean.com/community/questions/weird-cron-logs-appearing-for-no-reasion">解决方案</a>：</p>
+<p>打开文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/pam.d/common-session-noninteractive</span><br></pre></td></tr></table></figure>
+<p>找到这一行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session required pam_unix.so</span><br></pre></td></tr></table></figure>
+<p>并在其上方添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session [success=1 default=ignore] pam_succeed_if.so service in cron quiet use_uid</span><br></pre></td></tr></table></figure>
+<p>然后重启：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron restart</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>Crontab</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
 </search>
