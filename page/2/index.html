@@ -164,7 +164,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -175,7 +175,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -204,6 +204,106 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://tech.konata.co/2021-06-11-mac/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Konata Izumi">
+      <meta itemprop="description" content="堆满了debug记录的笔记本">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Konata Tech Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021-06-11-mac/" class="post-title-link" itemprop="url">在Mac上操作文件</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-06-11 00:04:59" itemprop="dateCreated datePublished" datetime="2021-06-11T00:04:59+08:00">2021-06-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-02-10 04:46:30" itemprop="dateModified" datetime="2022-02-10T04:46:30+08:00">2022-02-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Workshop/" itemprop="url" rel="index"><span itemprop="name">Workshop</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="安装homebrew"><a href="#安装homebrew" class="headerlink" title="安装homebrew"></a>安装homebrew</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/627b2d462151">https://www.jianshu.com/p/627b2d462151</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装ffmepg"><a href="#安装ffmepg" class="headerlink" title="安装ffmepg"></a>安装ffmepg</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ffmpeg</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装rename"><a href="#安装rename" class="headerlink" title="安装rename"></a>安装rename</h2><p><a target="_blank" rel="noopener" href="https://commandnotfound.cn/linux/1/461/rename-%E5%91%BD%E4%BB%A4">https://commandnotfound.cn/linux/1/461/rename-命令</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install rename</span><br></pre></td></tr></table></figure>
+<h2 id="批量改名"><a href="#批量改名" class="headerlink" title="批量改名"></a>批量改名</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/90829056">https://zhuanlan.zhihu.com/p/90829056</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rename &#x27;s/.mp41/.mp4/&#x27; *</span><br></pre></td></tr></table></figure>
+<p>后来发现可以直接多选右键批量改名。</p>
+<h2 id="热插拔修复"><a href="#热插拔修复" class="headerlink" title="热插拔修复"></a>热插拔修复</h2><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/308406915">https://www.zhihu.com/question/308406915</a><br>打开磁盘工具<br>打开terminal</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">diskutil list</span><br><span class="line">ps aux | grep fsck</span><br><span class="line">sudo pkill -f fsck</span><br></pre></td></tr></table></figure>
+<p>点急救，需要等很久很久</p>
+<h2 id="压缩解压分卷"><a href="#压缩解压分卷" class="headerlink" title="压缩解压分卷"></a>压缩解压分卷</h2><p>压缩：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip test.zip test.doc </span><br></pre></td></tr></table></figure>
+<p>分卷：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip -s 50m test.zip --out ziptest </span><br></pre></td></tr></table></figure>
+<p>合卷： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ziptest.z* &gt; test.zip </span><br></pre></td></tr></table></figure>
+<p>解压：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip test.zip</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -486,7 +586,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-02-23 00:38:20" itemprop="dateModified" datetime="2022-02-23T00:38:20+08:00">2022-02-23</time>
+      <time title="Modified: 2022-02-26 20:20:16" itemprop="dateModified" datetime="2022-02-26T20:20:16+08:00">2022-02-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -556,7 +656,7 @@
 <li>在 GitHub 上发起 Pull Request，会有分支选择</li>
 </ol>
 <p>这里不清楚为什么要添加 upstream 根本没用到，可能为了之后拉代码方便</p>
-
+<h1 id="让-gitignore生效"><a href="#让-gitignore生效" class="headerlink" title="让.gitignore生效"></a>让.gitignore生效</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br></pre></td></tr></table></figure>
       
     </div>
 

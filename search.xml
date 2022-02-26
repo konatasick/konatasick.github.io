@@ -226,7 +226,7 @@
 <li>在 GitHub 上发起 Pull Request，会有分支选择</li>
 </ol>
 <p>这里不清楚为什么要添加 upstream 根本没用到，可能为了之后拉代码方便</p>
-]]></content>
+<h1 id="让-gitignore生效"><a href="#让-gitignore生效" class="headerlink" title="让.gitignore生效"></a>让.gitignore生效</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git rm -r --cached .</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Workshop</category>
       </categories>
@@ -405,6 +405,14 @@
     <title>使用 Hexo + GitHub Page 自建博客</title>
     <url>/2021-08-08-2021-08-08-build-blog-by-hexo/</url>
     <content><![CDATA[<h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
+<p>官网下载安装node，确认以下命令均可使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<p>安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
+<p>如果出现报错</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ERROR Cannot find module &#x27;hexo&#x27; </span><br></pre></td></tr></table></figure>
+<p>重新安装hexo-util</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -- save-dev hexo-util</span><br></pre></td></tr></table></figure>
 <p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
 <p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
 <h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
@@ -791,7 +799,7 @@
   <entry>
     <title>Docker 部署的 mastodon 在容器内 debug</title>
     <url>/2022-02-23-mastodon-debug-in-container/</url>
-    <content><![CDATA[<p>感谢小柠檬 @<a href="mailto:&#x6c;&#101;&#109;&#x6f;&#110;&#64;&#x6e;&#121;&#x61;&#x2e;&#108;&#101;&#x6d;&#111;&#x6e;&#x61;&#x64;&#x65;&#46;&#109;&#111;&#101;">&#x6c;&#101;&#109;&#x6f;&#110;&#64;&#x6e;&#121;&#x61;&#x2e;&#108;&#101;&#x6d;&#111;&#x6e;&#x61;&#x64;&#x65;&#46;&#109;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
+    <content><![CDATA[<p>感谢小柠檬 @<a href="mailto:&#x6c;&#101;&#x6d;&#x6f;&#110;&#64;&#x6e;&#x79;&#x61;&#46;&#x6c;&#101;&#109;&#x6f;&#110;&#x61;&#x64;&#101;&#x2e;&#109;&#x6f;&#x65;">&#x6c;&#101;&#x6d;&#x6f;&#110;&#64;&#x6e;&#x79;&#x61;&#46;&#x6c;&#101;&#109;&#x6f;&#110;&#x61;&#x64;&#101;&#x2e;&#109;&#x6f;&#x65;</a> 用自己的实例测试研究出这套可行方案！</p>
 <p>一个简短的解释，晚点我写详细一点。</p>
 <p>非docker的魔改方法：</p>
 <p><a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html</a></p>
@@ -822,6 +830,33 @@
       <tags>
         <tag>Mastodon</tag>
         <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows 下配置 Anaconda3 + vscode 基础环境</title>
+    <url>/2022-02-26-anaconda-vscode/</url>
+    <content><![CDATA[<p>之前写过一个<a href="https://tech.konata.co/2020-01-16-vscode/">vscode安利帖</a>，最近因为重新配置环境，顺便把更基础的部分补充一下。</p>
+<h2 id="安装必要软件"><a href="#安装必要软件" class="headerlink" title="安装必要软件"></a>安装必要软件</h2><h3 id="Anaconda3"><a href="#Anaconda3" class="headerlink" title="Anaconda3"></a>Anaconda3</h3><p>在<a href="https://www.anaconda.com/products/individual">官网</a>下载，安装时勾选<code>add anaconda3 to my PATH enviroment variable</code>。</p>
+<h3 id="VScode"><a href="#VScode" class="headerlink" title="VScode"></a>VScode</h3><p>在<a href="https://code.visualstudio.com/">官网</a>下载，安装时勾选<code>添加到PATH</code>，重启使其生效。</p>
+<h3 id="git"><a href="#git" class="headerlink" title="git"></a>git</h3><p>在<a href="https://git-scm.com/downloads">官网</a>下载，并配置好个人信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.email &quot;you@example.com&quot;</span><br><span class="line">git config --global user.name &quot;Your Name&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="配置-VScode"><a href="#配置-VScode" class="headerlink" title="配置 VScode"></a>配置 VScode</h2><p>重启电脑，打开 vscode，下载 python 插件，有需要可以改成中文，参考<a href="https://tech.konata.co/2020-01-16-vscode/">vscode安利帖</a>。</p>
+<p>在 vscode 的菜单中选择：Terminal-new terminal</p>
+<p>在出现的终端界面右边选择默认terminal为cmd（重要）：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-3334c9e7ec5b3655.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>再点+出现新的cmd命令窗口，输入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Conda activate base</span><br></pre></td></tr></table></figure>
+<p>激活conda，如果最左边有个（base）说明成功了.</p>
+<h2 id="配置清华镜像"><a href="#配置清华镜像" class="headerlink" title="配置清华镜像"></a>配置清华镜像</h2><p>如果 conda 和 pip 太慢，可以配置清华镜像：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --setshow_channel_urls yes</span><br><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U </span><br><span class="line">Pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>vscode</tag>
+        <tag>Anaconda3</tag>
       </tags>
   </entry>
 </search>

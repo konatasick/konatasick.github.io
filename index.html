@@ -164,7 +164,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -175,7 +175,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -204,6 +204,93 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://tech.konata.co/2022-02-26-anaconda-vscode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Konata Izumi">
+      <meta itemprop="description" content="堆满了debug记录的笔记本">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Konata Tech Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022-02-26-anaconda-vscode/" class="post-title-link" itemprop="url">Windows 下配置 Anaconda3 + vscode 基础环境</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-02-26 19:23:16 / Modified: 20:16:32" itemprop="dateCreated datePublished" datetime="2022-02-26T19:23:16+08:00">2022-02-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Workshop/" itemprop="url" rel="index"><span itemprop="name">Workshop</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>之前写过一个<a href="https://tech.konata.co/2020-01-16-vscode/">vscode安利帖</a>，最近因为重新配置环境，顺便把更基础的部分补充一下。</p>
+<h2 id="安装必要软件"><a href="#安装必要软件" class="headerlink" title="安装必要软件"></a>安装必要软件</h2><h3 id="Anaconda3"><a href="#Anaconda3" class="headerlink" title="Anaconda3"></a>Anaconda3</h3><p>在<a target="_blank" rel="noopener" href="https://www.anaconda.com/products/individual">官网</a>下载，安装时勾选<code>add anaconda3 to my PATH enviroment variable</code>。</p>
+<h3 id="VScode"><a href="#VScode" class="headerlink" title="VScode"></a>VScode</h3><p>在<a target="_blank" rel="noopener" href="https://code.visualstudio.com/">官网</a>下载，安装时勾选<code>添加到PATH</code>，重启使其生效。</p>
+<h3 id="git"><a href="#git" class="headerlink" title="git"></a>git</h3><p>在<a target="_blank" rel="noopener" href="https://git-scm.com/downloads">官网</a>下载，并配置好个人信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email &quot;you@example.com&quot;</span><br><span class="line">git config --global user.name &quot;Your Name&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="配置-VScode"><a href="#配置-VScode" class="headerlink" title="配置 VScode"></a>配置 VScode</h2><p>重启电脑，打开 vscode，下载 python 插件，有需要可以改成中文，参考<a href="https://tech.konata.co/2020-01-16-vscode/">vscode安利帖</a>。</p>
+<p>在 vscode 的菜单中选择：Terminal-new terminal</p>
+<p>在出现的终端界面右边选择默认terminal为cmd（重要）：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-3334c9e7ec5b3655.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>再点+出现新的cmd命令窗口，输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Conda activate base</span><br></pre></td></tr></table></figure>
+<p>激活conda，如果最左边有个（base）说明成功了.</p>
+<h2 id="配置清华镜像"><a href="#配置清华镜像" class="headerlink" title="配置清华镜像"></a>配置清华镜像</h2><p>如果 conda 和 pip 太慢，可以配置清华镜像：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --setshow_channel_urls yes</span><br><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U </span><br><span class="line">Pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -260,7 +347,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>感谢小柠檬 @<a href="mailto:&#x6c;&#101;&#109;&#x6f;&#110;&#64;&#x6e;&#121;&#x61;&#x2e;&#108;&#101;&#x6d;&#111;&#x6e;&#x61;&#x64;&#x65;&#46;&#109;&#111;&#101;">&#x6c;&#101;&#109;&#x6f;&#110;&#64;&#x6e;&#121;&#x61;&#x2e;&#108;&#101;&#x6d;&#111;&#x6e;&#x61;&#x64;&#x65;&#46;&#109;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
+          <p>感谢小柠檬 @<a href="mailto:&#x6c;&#101;&#x6d;&#x6f;&#110;&#64;&#x6e;&#x79;&#x61;&#46;&#x6c;&#101;&#109;&#x6f;&#110;&#x61;&#x64;&#101;&#x2e;&#109;&#x6f;&#x65;">&#x6c;&#101;&#x6d;&#x6f;&#110;&#64;&#x6e;&#x79;&#x61;&#46;&#x6c;&#101;&#109;&#x6f;&#110;&#x61;&#x64;&#101;&#x2e;&#109;&#x6f;&#x65;</a> 用自己的实例测试研究出这套可行方案！</p>
 <p>一个简短的解释，晚点我写详细一点。</p>
 <p>非docker的魔改方法：</p>
 <p><a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html</a></p>
@@ -1084,7 +1171,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-02-09 03:04:31" itemprop="dateModified" datetime="2022-02-09T03:04:31+08:00">2022-02-09</time>
+      <time title="Modified: 2022-02-26 20:16:32" itemprop="dateModified" datetime="2022-02-26T20:16:32+08:00">2022-02-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1107,6 +1194,14 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
+<p>官网下载安装node，确认以下命令均可使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<p>安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
+<p>如果出现报错</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR Cannot find module &#x27;hexo&#x27; </span><br></pre></td></tr></table></figure>
+<p>重新安装hexo-util</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -- save-dev hexo-util</span><br></pre></td></tr></table></figure>
 <p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
 <p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
 <h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
@@ -1213,106 +1308,6 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install boost-devel</span><br><span class="line">BOOST_INCLUDE_DIRS=/usr/include/boost make all</span><br><span class="line">make tests</span><br></pre></td></tr></table></figure>
 
 <p>遇到报错：<br>ImportError: No module named psbody.mesh.mesh<br>但是在python3下import是可以的，后来发现是在make tests时默认是python，而在docker环境下要改成python3，测试通过。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://tech.konata.co/2021-06-11-mac/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Konata Izumi">
-      <meta itemprop="description" content="堆满了debug记录的笔记本">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Konata Tech Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021-06-11-mac/" class="post-title-link" itemprop="url">在Mac上操作文件</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-06-11 00:04:59" itemprop="dateCreated datePublished" datetime="2021-06-11T00:04:59+08:00">2021-06-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-02-10 04:46:30" itemprop="dateModified" datetime="2022-02-10T04:46:30+08:00">2022-02-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Workshop/" itemprop="url" rel="index"><span itemprop="name">Workshop</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="安装homebrew"><a href="#安装homebrew" class="headerlink" title="安装homebrew"></a>安装homebrew</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/627b2d462151">https://www.jianshu.com/p/627b2d462151</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装ffmepg"><a href="#安装ffmepg" class="headerlink" title="安装ffmepg"></a>安装ffmepg</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ffmpeg</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装rename"><a href="#安装rename" class="headerlink" title="安装rename"></a>安装rename</h2><p><a target="_blank" rel="noopener" href="https://commandnotfound.cn/linux/1/461/rename-%E5%91%BD%E4%BB%A4">https://commandnotfound.cn/linux/1/461/rename-命令</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install rename</span><br></pre></td></tr></table></figure>
-<h2 id="批量改名"><a href="#批量改名" class="headerlink" title="批量改名"></a>批量改名</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/90829056">https://zhuanlan.zhihu.com/p/90829056</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rename &#x27;s/.mp41/.mp4/&#x27; *</span><br></pre></td></tr></table></figure>
-<p>后来发现可以直接多选右键批量改名。</p>
-<h2 id="热插拔修复"><a href="#热插拔修复" class="headerlink" title="热插拔修复"></a>热插拔修复</h2><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/308406915">https://www.zhihu.com/question/308406915</a><br>打开磁盘工具<br>打开terminal</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">diskutil list</span><br><span class="line">ps aux | grep fsck</span><br><span class="line">sudo pkill -f fsck</span><br></pre></td></tr></table></figure>
-<p>点急救，需要等很久很久</p>
-<h2 id="压缩解压分卷"><a href="#压缩解压分卷" class="headerlink" title="压缩解压分卷"></a>压缩解压分卷</h2><p>压缩：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip test.zip test.doc </span><br></pre></td></tr></table></figure>
-<p>分卷：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip -s 50m test.zip --out ziptest </span><br></pre></td></tr></table></figure>
-<p>合卷： </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ziptest.z* &gt; test.zip </span><br></pre></td></tr></table></figure>
-<p>解压：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip test.zip</span><br></pre></td></tr></table></figure>
 
       
     </div>
