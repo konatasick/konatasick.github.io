@@ -333,9 +333,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2022-02-23 13:54:28 / Modified: 14:01:36" itemprop="dateCreated datePublished" datetime="2022-02-23T13:54:28+08:00">2022-02-23</time>
+      <time title="Created: 2022-02-23 13:54:28" itemprop="dateCreated datePublished" datetime="2022-02-23T13:54:28+08:00">2022-02-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-02-27 15:40:30" itemprop="dateModified" datetime="2022-02-27T15:40:30+08:00">2022-02-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -357,30 +363,53 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>感谢小柠檬 @<a href="mailto:&#108;&#101;&#x6d;&#x6f;&#x6e;&#64;&#x6e;&#x79;&#x61;&#46;&#108;&#101;&#109;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#x6d;&#111;&#101;">&#108;&#101;&#x6d;&#x6f;&#x6e;&#64;&#x6e;&#x79;&#x61;&#46;&#108;&#101;&#109;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#x6d;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
-<p>一个简短的解释，晚点我写详细一点。</p>
-<p>非docker的魔改方法：</p>
-<p><a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html</a></p>
-<p>修改后运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RAILS_ENV=production bundle exec rails assets:precompile</span><br><span class="line">systemctl restart mastodon-sidekiq</span><br><span class="line">systemctl reload mastodon-web</span><br><span class="line">systemctl restart mastodon-streaming</span><br></pre></td></tr></table></figure>
-<p>对应的docker 魔改方式：</p>
+          <p>TL; DR:</p>
+<p>进入container改代码：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it mastodon_web_1 /bin/bash </span><br></pre></td></tr></table></figure>
-<p>进入container改代码，然后编译：</p>
+
+<p>预编译确保不报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RAILS_ENV=production bundle exec rails assets:precompile</span><br></pre></td></tr></table></figure>
+
+<p>退出并重启容器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose restart</span><br></pre></td></tr></table></figure>
+
+<p>感谢小柠檬 @<a href="mailto:&#108;&#x65;&#x6d;&#111;&#110;&#64;&#x6e;&#x79;&#97;&#46;&#x6c;&#x65;&#109;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#x6d;&#x6f;&#101;">&#108;&#x65;&#x6d;&#111;&#110;&#64;&#x6e;&#x79;&#97;&#46;&#x6c;&#x65;&#109;&#x6f;&#110;&#97;&#x64;&#x65;&#46;&#x6d;&#x6f;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
+<h2 id="非docker的魔改方法"><a href="#非docker的魔改方法" class="headerlink" title="非docker的魔改方法"></a>非docker的魔改方法</h2><p>可参考这篇文章：<a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">进阶魔改：修改字数上限、媒体上限、投票上限、添加自定义主题、界面用语、非登陆用户有限显示，附阻止本站嘟文流入某站点方法</a></p>
+<p>一般的修改逻辑是：</p>
+<ul>
+<li>修改对应代码</li>
+<li>预编译</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RAILS_ENV=production bundle exec rails assets:precompile</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>重启服务</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart mastodon-sidekiq</span><br><span class="line">systemctl reload mastodon-web</span><br><span class="line">systemctl restart mastodon-streaming</span><br></pre></td></tr></table></figure>
+<h2 id="docker-魔改方法"><a href="#docker-魔改方法" class="headerlink" title="docker 魔改方法"></a>docker 魔改方法</h2><p>参考这篇文章：<a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html">如何利用Docker搭建Mastodon实例（二）：进阶魔改篇</a></p>
+<p>在其中的“如何在Docker上保留你的魔改”部分，提到了三种方法：</p>
+<ol>
+<li>进入容器修改；</li>
+<li>用<code>docker-compose build</code>本地编译；</li>
+<li>利用GitHub编译镜像，直接拉取最新镜像后重启。</li>
+</ol>
+<p>对于较为简单的改动，第三种方法已经够用，但有时候我们需要对改动进行调试，以确保网站按照我们预想的效果运行，此时如果每次改动代码都要走提交-编译镜像-拉取镜像-重启的流程，调试起来就会非常不方便。本文就提供了第一种方法的补充，进入容器修改代码并实时生效。</p>
+<p>建议的workflow是：</p>
+<ul>
+<li>进入容器修改代码并确保调试完成</li>
+<li>在容器外修改代码并走传镜像的流程进行正式更新</li>
+</ul>
+<h3 id="在容器内debug"><a href="#在容器内debug" class="headerlink" title="在容器内debug"></a>在容器内debug</h3><p>先进入容器，如果是按照官方的docker-compose.yml，容器名应该是<code>mastodon_web_1</code>，可用<code>docker ps</code>确认：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it mastodon_web_1 /bin/bash </span><br></pre></td></tr></table></figure>
+<p>进入container改代码，然后预编译：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RAILS_ENV=production bundle exec rails assets:precompile</span><br></pre></td></tr></table></figure>
 
 <p>这步不报错之后exit退出，然后：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose restart</span><br></pre></td></tr></table></figure>
-<p>即可代替那几句systemctl restart。</p>
-<p>如果有500之类的报错可以参考：</p>
-<p><a target="_blank" rel="noopener" href="https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94">https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94</a></p>
-<p>我暂时没有遇到。</p>
-<p>本方法适合进入docker进行一些调试并且可以快速在网页端看到修改结果，确认无误后还是推荐打包成镜像再<code>docker-compose down/up -d</code>。</p>
-<p>建议的workflow是：</p>
-<ul>
-<li>在docker中热修代码并restart</li>
-<li>确认代码ok之后在容器外修改代码并走传镜像的流程进行正式更新，即：</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html">https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html</a></p>
+<p>即可在站点实时看到效果。</p>
+<p>本方法适合进入docker进行一些调试并且可以快速在网页端看到修改结果，确认无误后还是推荐打包成镜像再<code>docker-compose down/up -d</code>，参考下文。</p>
+<h3 id="利用GitHub编译镜像"><a href="#利用GitHub编译镜像" class="headerlink" title="利用GitHub编译镜像"></a>利用GitHub编译镜像</h3><p>参考这篇文章：<a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html">如何利用Docker搭建Mastodon实例（二）：进阶魔改篇</a></p>
+<p>如果有500之类的报错可以参考：<a target="_blank" rel="noopener" href="https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94">数据库适应</a></p>
 
       
     </div>
@@ -616,7 +645,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-02-22 19:54:37" itemprop="dateModified" datetime="2022-02-22T19:54:37+08:00">2022-02-22</time>
+      <time title="Modified: 2022-02-27 15:48:13" itemprop="dateModified" datetime="2022-02-27T15:48:13+08:00">2022-02-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -677,13 +706,13 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">source /etc/profile</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">target=&quot;scaleway:你的bucket名字&quot;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/docker exec pg容器名 pg_dump -U postgres -Fc mastodon_production &gt; $&#123;origin&#125;/backup.dump &amp;&amp;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; succeed and upload to s3 now&quot;</span><br><span class="line">/usr/bin/zip -P 密码 $&#123;origin&#125;/backup_$&#123;now&#125;.zip $&#123;origin&#125;/backup.dump</span><br></pre></td></tr></table></figure>
 
 <p>前面定义了一些路径和时间等，先通过<code>pg_dump</code>导出<code>backup.dump</code>，再将其加密压缩为<code>backup_$&#123;now&#125;.zip</code>，但从上文可见，对于docker安装的情况，直接copy文件夹即可，所以我对这部分做了一些改动并参考<a target="_blank" rel="noopener" href="https://www.notion.so/0f154999939e44109a5827e6c542fb53#59063f5382174e638fc529602d810d32">o3o的配置备份脚本</a>，增加了一些关键信息的备份，我的完整<strong>本地备份</strong>脚本如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup_local.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh &gt; /opt/mastodon-backup/logs/backup_local.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; done!&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup_local.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh &gt;&gt; /opt/mastodon-backup/logs/backup_local.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; done!&quot;</span><br></pre></td></tr></table></figure>
 
 <p>可以单独运行一次脚本看看是否正确备份，运行后查看备份目录：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ls /opt/mastodon-backup/dbbackup/ -lh</span><br><span class="line">total 76M</span><br><span class="line">-rw-r--r-- 1 root root  76M Feb 20 00:09 backup_20220220-000931.zip</span><br><span class="line">drwxr-xr-x 2 root root 4.0K Feb 20 00:09 sites-available</span><br></pre></td></tr></table></figure>
 
 <p>我将这个脚本存为<code>backup_local.sh</code>，在我配置好Scaleway之前守护我的数据，将其放在crontab下定期运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh.sh &gt; /opt/mastodon-backup/logs/backup_local.sh.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 5 * * * root /bin/bash /opt/mastodon-backup/backup_local.sh.sh &gt;&gt; /opt/mastodon-backup/logs/backup_local.sh.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
 
 <p>备份时间设在清除外部缓存半小时后。</p>
 <h3 id="异地备份-1"><a href="#异地备份-1" class="headerlink" title="异地备份"></a>异地备份</h3><p>再看原脚本的后半部分</p>
@@ -697,7 +726,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rclone ls scaleway:你的bucket名称</span><br></pre></td></tr></table></figure>
 <p>查看bucket里的文件，确认是否正常上传和删除。</p>
 <p>最终我的完整脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup.sh &gt; /opt/mastodon-backup/logs/backup.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Loading /etc/profile</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line">target_bucket=&quot;scaleway:你的bucket名称&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available/ $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; local backup done!&quot;</span><br><span class="line"></span><br><span class="line"># upload to scaleway</span><br><span class="line">/usr/bin/rclone copy $&#123;backup_folder&#125;/ $&#123;target_bucket&#125; </span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; ok all done&quot;</span><br><span class="line"></span><br><span class="line"># delete backup longer than 7d</span><br><span class="line">/usr/bin/rclone --min-age 7d  delete $&#123;target_bucket&#125; </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># Save this file at  /opt/mastodon-backup/backup.sh</span><br><span class="line"># Set a cronjob:  0 5 * * * root /bin/bash /opt/mastodon-backup/backup.sh &gt;&gt; /opt/mastodon-backup/logs/backup.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"># Loading /etc/profile</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line"># Set backup_folder and name</span><br><span class="line">now=$(date &quot;+%Y%m%d-%H%M%S&quot;)</span><br><span class="line">origin_folder=&quot;/home/mastodon/mastodon&quot;</span><br><span class="line">backup_folder=&quot;/opt/mastodon-backup/dbbackup&quot;</span><br><span class="line">target_bucket=&quot;scaleway:你的bucket名称&quot;</span><br><span class="line"></span><br><span class="line"># Clean up old backup file</span><br><span class="line">rm -r $&#123;backup_folder&#125;/*</span><br><span class="line"></span><br><span class="line"># Generating a mastodon backup exclude cache</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; now starting export&quot;</span><br><span class="line">/usr/bin/zip -P 密码 -rqx=$&#123;origin_folder&#125;/public/system/cache/* $&#123;backup_folder&#125;/backup_$&#123;now&#125;.zip $&#123;origin_folder&#125;</span><br><span class="line"></span><br><span class="line"># Copying important files</span><br><span class="line">cp -r /etc/nginx/sites-available/ $&#123;backup_folder&#125;</span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; local backup done!&quot;</span><br><span class="line"></span><br><span class="line"># upload to scaleway</span><br><span class="line">/usr/bin/rclone copy $&#123;backup_folder&#125;/ $&#123;target_bucket&#125; </span><br><span class="line">echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` &quot; ok all done&quot;</span><br><span class="line"></span><br><span class="line"># delete backup longer than 7d</span><br><span class="line">/usr/bin/rclone --min-age 7d  delete $&#123;target_bucket&#125; </span><br></pre></td></tr></table></figure>
 <p>单独运行一遍可以成功后，就可以把<code>crontab</code>中的<code>backup_local.sh</code>改为<code>backup.sh</code>啦！这样你就有了一个：</p>
 <ul>
 <li>本地和scaleway双重备份</li>
@@ -1399,4 +1428,6 @@
 
 
 </body>
+</html>
+>
 </html>
