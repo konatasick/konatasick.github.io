@@ -20,18 +20,18 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="前言本文会尽我可能解释涉及到的所有概念，但还是推荐有一定的 git 使用基础后阅读。推荐阅读的前置内容：《如何利用Docker搭建Mastodon实例（二）：进阶魔改篇》 的升级章节。 最初是有一位大神写了Local-only的功能，可以让嘟文限制在本实例而不流出外部。此 pr 并没有被官方采纳，但是一些站点都有增加这个魔改功能。 本篇以我的 local-only commit 为例，说明如何合并">
+  <meta name="description" content="前言本文会尽我可能解释涉及到的所有概念，但还是推荐有一定的 git 使用基础后阅读。推荐阅读的前置内容：《如何利用Docker搭建Mastodon实例（二）：进阶魔改篇》 的升级章节。 最初是有一位大神写了 local-only 的功能，可以让嘟文限制在本实例而不流出外部。此 pr 并没有被官方采纳，但是一些站点都有增加这个魔改功能。 本篇以我的 local-only commit 为例，说明如何">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mastodon | 以 local-only 代码合并为例浅谈如何合并特定commit">
+<meta property="og:title" content="Mastodon | 以 local-only 代码合并为例浅谈如何合并特定 commit">
 <meta property="og:url" content="https://tech.konata.co/2022-03-16-local-only/index.html">
 <meta property="og:site_name" content="Konata Tech Blog">
-<meta property="og:description" content="前言本文会尽我可能解释涉及到的所有概念，但还是推荐有一定的 git 使用基础后阅读。推荐阅读的前置内容：《如何利用Docker搭建Mastodon实例（二）：进阶魔改篇》 的升级章节。 最初是有一位大神写了Local-only的功能，可以让嘟文限制在本实例而不流出外部。此 pr 并没有被官方采纳，但是一些站点都有增加这个魔改功能。 本篇以我的 local-only commit 为例，说明如何合并">
+<meta property="og:description" content="前言本文会尽我可能解释涉及到的所有概念，但还是推荐有一定的 git 使用基础后阅读。推荐阅读的前置内容：《如何利用Docker搭建Mastodon实例（二）：进阶魔改篇》 的升级章节。 最初是有一位大神写了 local-only 的功能，可以让嘟文限制在本实例而不流出外部。此 pr 并没有被官方采纳，但是一些站点都有增加这个魔改功能。 本篇以我的 local-only commit 为例，说明如何">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://s2.loli.net/2022/03/16/iXBq4wMYpsR2mZa.png">
 <meta property="og:image" content="https://s2.loli.net/2022/03/16/fOcUHQFNBJW8LVw.png">
 <meta property="og:image" content="https://s2.loli.net/2022/03/16/aRDdFfQykV3qzXL.png">
 <meta property="article:published_time" content="2022-03-16T12:43:31.000Z">
-<meta property="article:modified_time" content="2022-03-16T12:43:31.106Z">
+<meta property="article:modified_time" content="2022-03-16T13:04:43.264Z">
 <meta property="article:author" content="Konata Izumi">
 <meta property="article:tag" content="mastodon">
 <meta property="article:tag" content="git">
@@ -43,10 +43,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://tech.konata.co/2022-03-16-local-only/","path":"2022-03-16-local-only/","title":"Mastodon | 以 local-only 代码合并为例浅谈如何合并特定commit"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://tech.konata.co/2022-03-16-local-only/","path":"2022-03-16-local-only/","title":"Mastodon | 以 local-only 代码合并为例浅谈如何合并特定 commit"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Mastodon | 以 local-only 代码合并为例浅谈如何合并特定commit | Konata Tech Blog</title>
+<title>Mastodon | 以 local-only 代码合并为例浅谈如何合并特定 commit | Konata Tech Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-187011227-2"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-187011227-2","only_pageview":false}</script>
@@ -158,7 +158,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E6%8B%89%E5%8F%96%E4%BB%A3%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">从远程仓库拉取代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%B8%93%E9%97%A8%E7%94%A8%E4%BA%8E%E5%A4%84%E7%90%86%E6%AD%A4%E6%AC%A1%E5%90%88%E5%B9%B6%E7%9A%84%E5%88%86%E6%94%AF"><span class="nav-number">2.1.</span> <span class="nav-text">（可选）创建一个专门用于处理此次合并的分支</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.</span> <span class="nav-text">设置远程仓库连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%89%E5%8F%96%E5%88%86%E6%94%AF%E5%B9%B6%E5%90%88%E5%B9%B6%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">拉取分支并合并代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%86%B2%E7%AA%81"><span class="nav-number">5.</span> <span class="nav-text">处理冲突</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%AE%8C%E5%86%B2%E7%AA%81%E5%90%8E"><span class="nav-number">6.</span> <span class="nav-text">处理完冲突后</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-docker-container-%E4%B8%AD-debug"><span class="nav-number">6.1.</span> <span class="nav-text">在 docker container 中 debug</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E6%8B%89%E5%8F%96%E4%BB%A3%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">从远程仓库拉取代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%B8%93%E9%97%A8%E7%94%A8%E4%BA%8E%E5%A4%84%E7%90%86%E6%AD%A4%E6%AC%A1%E5%90%88%E5%B9%B6%E7%9A%84%E5%88%86%E6%94%AF"><span class="nav-number">2.1.</span> <span class="nav-text">（可选）创建一个专门用于处理此次合并的分支</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.</span> <span class="nav-text">设置远程仓库连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%89%E5%8F%96%E5%88%86%E6%94%AF%E5%B9%B6%E5%90%88%E5%B9%B6%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">拉取分支并合并代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%86%B2%E7%AA%81"><span class="nav-number">5.</span> <span class="nav-text">处理冲突</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%AE%8C%E5%86%B2%E7%AA%81%E5%90%8E"><span class="nav-number">6.</span> <span class="nav-text">处理完冲突后</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-docker-%E5%AE%B9%E5%99%A8%E4%B8%AD-debug"><span class="nav-number">6.1.</span> <span class="nav-text">在 docker 容器中 debug</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -236,7 +236,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Mastodon | 以 local-only 代码合并为例浅谈如何合并特定commit
+          Mastodon | 以 local-only 代码合并为例浅谈如何合并特定 commit
         </h1>
 
         <div class="post-meta-container">
@@ -246,8 +246,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2022-03-16 20:43:31" itemprop="dateCreated datePublished" datetime="2022-03-16T20:43:31+08:00">2022-03-16</time>
+      <time title="Created: 2022-03-16 20:43:31 / Modified: 21:04:43" itemprop="dateCreated datePublished" datetime="2022-03-16T20:43:31+08:00">2022-03-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -277,10 +278,9 @@
     
     <div class="post-body" itemprop="articleBody">
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文会尽我可能解释涉及到的所有概念，但还是推荐有一定的 git 使用基础后阅读。推荐阅读的前置内容：<a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html">《如何利用Docker搭建Mastodon实例（二）：进阶魔改篇》</a> 的升级章节。</p>
-<p>最初是有一位大神写了Local-only的功能，可以让嘟文限制在本实例而不流出外部。此 <a target="_blank" rel="noopener" href="https://github.com/mastodon/mastodon/pull/8427">pr</a> 并没有被官方采纳，但是一些站点都有增加这个魔改功能。</p>
+<p>最初是有一位大神写了 local-only 的功能，可以让嘟文限制在本实例而不流出外部。此 <a target="_blank" rel="noopener" href="https://github.com/mastodon/mastodon/pull/8427">pr</a> 并没有被官方采纳，但是一些站点都有增加这个魔改功能。</p>
 <p>本篇以我的 <a target="_blank" rel="noopener" href="https://github.com/retirenow/mastodon/commit/8ca207b9e3b45fc4e3962385572bd37e243c3e36">local-only commit</a> 为例，说明如何合并这种代码量较大的魔改（代码量小的通常找到位置复制粘贴即可，参考文章开头的<a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html">教程</a> ）。</p>
-<p>请将全文阅读完后再开始操作，因为你需要先看处理冲突后是否 debug 来决定在哪里进行合并代码的操作。</p>
-<h2 id="从远程仓库拉取代码"><a href="#从远程仓库拉取代码" class="headerlink" title="从远程仓库拉取代码"></a>从远程仓库拉取代码</h2><p>首先将<strong>你的</strong>代码仓库 <code>git clone</code> 到本地，或直接 <code>cd</code> 到已有的仓库目录，并查看目前的分支连接情况：</p>
+<h2 id="从远程仓库拉取代码"><a href="#从远程仓库拉取代码" class="headerlink" title="从远程仓库拉取代码"></a>从远程仓库拉取代码</h2><p>首先将<strong>你的</strong>代码仓库 <code>git clone</code> 到本地，或直接 <code>cd</code> 到已有的仓库目录：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/yourname/mastodon.git </span><br><span class="line">$ cd mastodon</span><br></pre></td></tr></table></figure>
 <p>此时如果查看远程连接情况，只会看到一个名为 <code>origin</code> 的远程仓库链接，也就是你自己的远程仓库的名字。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">origin  https://github.com/yourname/mastodon.git (fetch)</span><br><span class="line">origin  https://github.com/yourname/mastodon.git (push)</span><br></pre></td></tr></table></figure>
@@ -290,19 +290,19 @@
 
 <h3 id="（可选）创建一个专门用于处理此次合并的分支"><a href="#（可选）创建一个专门用于处理此次合并的分支" class="headerlink" title="（可选）创建一个专门用于处理此次合并的分支"></a>（可选）创建一个专门用于处理此次合并的分支</h3><p>如果你熟悉 <code>git</code> 的分支管理，此时可以新建一个专门的分支，最后再并入主干，本文采取直接合入主干的方式，故这部分不展开讲。</p>
 <h2 id="设置远程仓库连接"><a href="#设置远程仓库连接" class="headerlink" title="设置远程仓库连接"></a>设置远程仓库连接</h2><p>一个基础的 <code>git</code> 概念是，在本地的这个是你的本地代码仓库，而 GitHub 只是代码的远程托管，本地和远程仓库可以理解为一个仓库的两个副本，你可以把你的代码发送给远程仓库，也可以从远程仓库拉取，而且一个本地仓库可以连接不止一个远程仓库。</p>
-<p>现在添加这个 <a target="_blank" rel="noopener" href="https://github.com/retirenow/mastodon.git">local-only 的仓库</a> 作为 <code>upstream</code> ：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add upstream https://github.com/retirenow/mastodon.git</span><br></pre></td></tr></table></figure>
+<p>现在添加我的 <a target="_blank" rel="noopener" href="https://github.com/retirenow/mastodon.git">local-only 的仓库</a> 作为 <code>upstream</code> ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add upstream https://github.com/retirenow/mastodon.git</span><br></pre></td></tr></table></figure>
 <p>此时再查看远程连接：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">origin  https://github.com/yourname/mastodon.git (fetch)</span><br><span class="line">origin  https://github.com/yourname/mastodon.git (push)</span><br><span class="line">upstream        https://github.com/retirenow/mastodon.git (fetch)</span><br><span class="line">upstream        https://github.com/retirenow/mastodon.git (push)</span><br></pre></td></tr></table></figure>
 <p>就会有两个远程，名字分别为 <code>origin</code> 和 <code>upstream</code>。</p>
 <h2 id="拉取分支并合并代码"><a href="#拉取分支并合并代码" class="headerlink" title="拉取分支并合并代码"></a>拉取分支并合并代码</h2><p>设置好远程以后，我们就可以从 <code>upstream</code> 拉取含有 local-only 的分支：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch upstream main:instance_only_statuses</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch upstream main:instance_only_statuses</span><br></pre></td></tr></table></figure>
 <p>这边因为分支都叫 <code>main</code>，为了区分我给从 <code>upstream</code> 拉取的本地分支重命名了一下。上面这句话的意思是，从 <code>upstream</code> 拉取它的 <code>main</code> 分支，并命名为本地的 <code>instance_only_statuses</code>。</p>
 <p>这时候查看分支情况，会有两个分支：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git branch -vv</span><br><span class="line">  instance_only_statuses d8c03d962 retirenow 最新的 commit 内容</span><br><span class="line">* main                   4bdce2c51 [origin/main] 你最新的 commit 内容 (#17618)</span><br></pre></td></tr></table></figure>
 <p>星号代表你现在处于 <code>main</code> 分支上。</p>
-<p>现在cherry-pick这个commit：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git cherry-pick 8ca207b9e3b45fc4e3962385572bd37e243c3e36</span><br></pre></td></tr></table></figure>
+<p>现在 cherry-pick 这个 commit：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git cherry-pick 8ca207b9e3b45fc4e3962385572bd37e243c3e36</span><br></pre></td></tr></table></figure>
 <p>那一长串编码是这个 <code>commit</code> 的哈希值，可以唯一指定找到这串 <code>commit</code> ，可以在 <code>commit</code> 页面找到：<br><img src="https://s2.loli.net/2022/03/16/iXBq4wMYpsR2mZa.png"></p>
 <p><code>cherry-pick</code> 用于只合并特定 <code>commit</code> ，和 <code>merge</code> 类似，<code>merge</code> 是合并两个分支（包含所有 <code>commit</code>）。</p>
 <h2 id="处理冲突"><a href="#处理冲突" class="headerlink" title="处理冲突"></a>处理冲突</h2><p>在 <code>cherry-pick</code> 之后，如此大的改动量通常会提示代码有冲突，推荐用 <a href="https://tech.konata.co/2022-02-26-anaconda-vscode/">vscode</a> 处理。</p>
@@ -310,32 +310,32 @@
 <p><img src="https://s2.loli.net/2022/03/16/fOcUHQFNBJW8LVw.png"></p>
 <p>其中暂存的更改（Staged Changes）就是已经被自动合并好的代码，不需要处理，而合并更改（Merge Changes）则是需要处理的冲突文件，具体数量因人而异。</p>
 <p>点开合并更改中一个文件，在冲突的地方，会有如下所示：<br><img src="https://s2.loli.net/2022/03/16/aRDdFfQykV3qzXL.png"></p>
-<p>Accept Current Change 是保持现在（main分支）的代码，Accept Incomming Change 是用local-only的代码，Accept Both Changes 则是保留两者。</p>
-<p>这里的处理其实需要一点灵性和连蒙带猜，可以结合<a target="_blank" rel="noopener" href="https://github.com/mastodon/mastodon/pull/8427/files">原始pr的file change</a>理解一下它增加代码的逻辑然后去选择如何更改。以上图为例，显然是因为我们main分支增加了一个叫”ordered_media_attachment_ids”的东西，而 local only 也增加了”local_only”，所以我们的选择就是 Accept Both Changes。</p>
-<h2 id="处理完冲突后"><a href="#处理完冲突后" class="headerlink" title="处理完冲突后"></a>处理完冲突后</h2><p>一般而言，如果你是参考<a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html">这个教程</a> 进行代码魔改，此时你只需要提交你的改动：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;local-only&quot;</span><br><span class="line">git push -u origin main</span><br></pre></td></tr></table></figure>
+<p>Accept Current Change 是保持现在（main分支）的代码，Accept Incomming Change 是用 local-only 的代码，Accept Both Changes 则是保留两者。</p>
+<p>这里的处理其实需要一点灵性和连蒙带猜，可以结合<a target="_blank" rel="noopener" href="https://github.com/mastodon/mastodon/pull/8427/files">原始pr的file change</a>理解一下它增加代码的逻辑然后去选择如何更改。以上图为例，显然是因为我们main分支增加了一个叫 “ordered_media_attachment_ids” 的东西，而 local only 也增加了 “local_only”，所以我们的选择就是 Accept Both Changes。</p>
+<h2 id="处理完冲突后"><a href="#处理完冲突后" class="headerlink" title="处理完冲突后"></a>处理完冲突后</h2><p>一般而言，如果你是参考<a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html">这个教程</a>进行代码魔改，此时你只需要提交你的改动：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ git commit -m &quot;local-only&quot;</span><br><span class="line">$ git push -u origin main</span><br></pre></td></tr></table></figure>
 <p>然后静待 GitHub 编译好镜像，你再拉取使用即可。</p>
-<p>我在这一步遇到了报错500，参考<a target="_blank" rel="noopener" href="https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94">这篇文章</a><br>对数据库进行 migrate 再重启即可。</p>
-<h3 id="在-docker-container-中-debug"><a href="#在-docker-container-中-debug" class="headerlink" title="在 docker container 中 debug"></a>在 docker container 中 debug</h3><p>但是通常来说如此大的代码改动量，有一定风险不能一次性跑通，如果直接使用镜像遇到问题，我推荐参考<a href="https://tech.konata.co/2022-02-23-mastodon-debug-in-container/">《Docker 部署的 mastodon 在容器内 debug》</a>。或者如果不放心也可以先在容器内部编译通过再拉取镜像。</p>
-<p>首先进入 docker container:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec --user root -it mastodon_web_1 /bin/bash</span><br></pre></td></tr></table></figure>
+<p>我在这一步遇到了报错500，参考<a target="_blank" rel="noopener" href="https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94">这篇文章</a>对数据库进行 migrate 再重启即可。</p>
+<h3 id="在-docker-容器中-debug"><a href="#在-docker-容器中-debug" class="headerlink" title="在 docker 容器中 debug"></a>在 docker 容器中 debug</h3><p>但是通常来说如此大的代码改动量，有一定风险不能一次性跑通，如果直接使用镜像遇到问题，我推荐参考<a href="https://tech.konata.co/2022-02-23-mastodon-debug-in-container/">《Docker 部署的 mastodon 在容器内 debug》</a>。或者如果不放心也可以先在容器内部编译通过再拉取镜像。</p>
+<p>首先进入 docker 容器:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker exec --user root -it mastodon_web_1 /bin/bash</span><br></pre></td></tr></table></figure>
 
 <p>容器里默认是没有 <code>git</code> 的，需要先安装 <code>git</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install git</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get update</span><br><span class="line">$ apt-get install git</span><br></pre></td></tr></table></figure>
 <p>这时候可能会遇到报错</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E: Archives directory /var/cache/apt/archives/partial is missing</span><br></pre></td></tr></table></figure>
 <p>解决方案：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /var/cache/apt/archive/partial</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p /var/cache/apt/archive/partial</span><br></pre></td></tr></table></figure>
 <p>继续：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install git</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get install git</span><br></pre></td></tr></table></figure>
 <p>即可正确安装。</p>
 <p>进入到我们的代码目录：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /mastodon</span><br><span class="line">git init</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /mastodon</span><br><span class="line">$ git init</span><br></pre></td></tr></table></figure>
 <p>然后添加你的远程仓库并拉取最新的代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin https://github.com/yourname/mastodon.git</span><br><span class="line">git fetch origin main:main</span><br><span class="line">git checkout -f main</span><br></pre></td></tr></table></figure>
-<p>也可以一开始就直接在 docker container 里合代码，如果你会用 vscode 连接 docker container，原理都是一样的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add origin https://github.com/yourname/mastodon.git</span><br><span class="line">$ git fetch origin main:main</span><br><span class="line">$ git checkout -f main</span><br></pre></td></tr></table></figure>
+<p>也可以一开始就直接在 docker 容器里合代码，如果你会用 vscode 连接 docker 容器，原理都是一样的。</p>
 <p>接下来 precompile:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RAILS_ENV=production bundle exec rails assets:precompile</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ RAILS_ENV=production bundle exec rails assets:precompile</span><br></pre></td></tr></table></figure>
 <p>通过后退出并 <code>docker-compose restart</code>，就可以直接在网页上预览效果了。</p>
 
     </div>
