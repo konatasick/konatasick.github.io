@@ -62,45 +62,63 @@
       </tags>
   </entry>
   <entry>
-    <title>在服务器用conda创建python环境</title>
-    <url>/2019-07-08-conda-create-env/</url>
-    <content><![CDATA[<p>2019年11月27日更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
+    <title>Git操作速查</title>
+    <url>/2019-07-12-git/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
 
-<p>可以导出environment配置环境：</p>
-<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
-<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
-<p>删除环境：conda remove -n your_env_name –all</p>
-<hr>
-<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
-<p>首先，尝试conda list，提示not command，解决方法：</p>
-<p>在.bashrc 的末尾添加如下一行：</p>
-<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
-<p>之后conda list，正常。</p>
-<p>创建：</p>
-<p>conda create -n vso python&#x3D;2.7</p>
-<p>激活：</p>
-<p>source activate vso</p>
-<p>然后就可以开始安装需要的package</p>
-<p>pip install imutils</p>
-<p>pip install numpy</p>
-<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
-<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
-<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
-<p>pip install scipy</p>
-<p>pip install matplotlib</p>
-<p>pip install sklearn</p>
-<p>pip install ffmpeg-normalize</p>
-<p>conda install ffmpeg</p>
-<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
-<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
-]]></content>
+<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
+<ol>
+<li><p>未add时<br><code>git checkout .</code></p>
+</li>
+<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
+</li>
+<li><p>commit后</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
+<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
+<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
+<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
+<p><code>git reset --hard</code></p>
+<p>即可</p>
+<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
+<ol>
+<li><p>添加远程仓库到本地remote分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前仓库的远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>fetch 远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>推送本地到远程仓库（自己fork的仓库）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote <span class="built_in">rm</span> origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+<h1 id="提PR"><a href="#提PR" class="headerlink" title="提PR"></a>提PR</h1><ol>
+<li>fork repo A&#x2F;code 到自己的 GitHub，称之为 B&#x2F;code</li>
+<li>clone B&#x2F;code 到本地</li>
+<li>增加 A&#x2F;code 作为本地的远程 upstream：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote add upstream https://github.com/A/code.git</span><br></pre></td></tr></table></figure></li>
+<li>新建工作分支<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git  checkout -b my-dev</span><br></pre></td></tr></table></figure></li>
+<li>进行 add，commit，push 到自己的远程分支 B&#x2F;code<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git push --set-upstream origin my-dev</span><br></pre></td></tr></table></figure></li>
+<li>在 GitHub 上发起 Pull Request，会有分支选择</li>
+</ol>
+<p>这里不清楚为什么要添加 upstream 根本没用到，可能为了之后拉代码方便</p>
+<h1 id="让-gitignore生效"><a href="#让-gitignore生效" class="headerlink" title="让.gitignore生效"></a>让.gitignore生效</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git rm -r --cached .</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Workshop</category>
       </categories>
       <tags>
-        <tag>python</tag>
-        <tag>conda</tag>
+        <tag>git</tag>
+        <tag>GitHub</tag>
       </tags>
   </entry>
   <entry>
@@ -176,66 +194,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Git操作速查</title>
-    <url>/2019-07-12-git/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
-<ol>
-<li><p>未add时<br><code>git checkout .</code></p>
-</li>
-<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
-</li>
-<li><p>commit后</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
-<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
-<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
-<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
-<p><code>git reset --hard</code></p>
-<p>即可</p>
-<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
-<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
-<ol>
-<li><p>添加远程仓库到本地remote分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看当前仓库的远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>fetch 远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>推送本地到远程仓库（自己fork的仓库）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote <span class="built_in">rm</span> origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-
-<h1 id="提PR"><a href="#提PR" class="headerlink" title="提PR"></a>提PR</h1><ol>
-<li>fork repo A&#x2F;code 到自己的 GitHub，称之为 B&#x2F;code</li>
-<li>clone B&#x2F;code 到本地</li>
-<li>增加 A&#x2F;code 作为本地的远程 upstream：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote add upstream https://github.com/A/code.git</span><br></pre></td></tr></table></figure></li>
-<li>新建工作分支<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git  checkout -b my-dev</span><br></pre></td></tr></table></figure></li>
-<li>进行 add，commit，push 到自己的远程分支 B&#x2F;code<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git push --set-upstream origin my-dev</span><br></pre></td></tr></table></figure></li>
-<li>在 GitHub 上发起 Pull Request，会有分支选择</li>
-</ol>
-<p>这里不清楚为什么要添加 upstream 根本没用到，可能为了之后拉代码方便</p>
-<h1 id="让-gitignore生效"><a href="#让-gitignore生效" class="headerlink" title="让.gitignore生效"></a>让.gitignore生效</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git rm -r --cached .</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>GitHub</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ffmpeg操作速查</title>
     <url>/2019-11-28-ffmpeg/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -268,6 +226,48 @@
       <tags>
         <tag>ffmpeg</tag>
         <tag>bash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在服务器用conda创建python环境</title>
+    <url>/2019-07-08-conda-create-env/</url>
+    <content><![CDATA[<p>2019年11月27日更新：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
+
+<p>可以导出environment配置环境：</p>
+<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
+<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
+<p>删除环境：conda remove -n your_env_name –all</p>
+<hr>
+<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
+<p>首先，尝试conda list，提示not command，解决方法：</p>
+<p>在.bashrc 的末尾添加如下一行：</p>
+<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
+<p>之后conda list，正常。</p>
+<p>创建：</p>
+<p>conda create -n vso python&#x3D;2.7</p>
+<p>激活：</p>
+<p>source activate vso</p>
+<p>然后就可以开始安装需要的package</p>
+<p>pip install imutils</p>
+<p>pip install numpy</p>
+<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
+<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
+<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
+<p>pip install scipy</p>
+<p>pip install matplotlib</p>
+<p>pip install sklearn</p>
+<p>pip install ffmpeg-normalize</p>
+<p>conda install ffmpeg</p>
+<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
+<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -559,32 +559,6 @@
       </tags>
   </entry>
   <entry>
-    <title>给 Hexo 配置 Giscus 评论系统</title>
-    <url>/2022-02-20-add-comment-to-hexo/</url>
-    <content><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p>
-<p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p>
-<p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure>
-<p>然后在 hexo 的 _config.yml 添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure>
-<p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p>
-<p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p>
-<p>最后：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>刷新页面后就可以看到评论页面啦！</p>
-<p>快来给我评论吧～～</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Next</tag>
-        <tag>Giscus</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mastodon 建站笔记</title>
     <url>/2022-02-10-build-a-mastodon/</url>
     <content><![CDATA[<h2 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h2><p>参考<a href="https://pullopen.github.io/%E5%9F%BA%E7%A1%80%E6%90%AD%E5%BB%BA/2020/10/19/Mastodon-on-Docker.html">蓝盒子站长的教程</a> ，一直进行到把 docker 和 docker-compose 装好。</p>
@@ -688,6 +662,32 @@
       </tags>
   </entry>
   <entry>
+    <title>给 Hexo 配置 Giscus 评论系统</title>
+    <url>/2022-02-20-add-comment-to-hexo/</url>
+    <content><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p>
+<p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p>
+<p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure>
+<p>然后在 hexo 的 _config.yml 添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure>
+<p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p>
+<p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p>
+<p>最后：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>刷新页面后就可以看到评论页面啦！</p>
+<p>快来给我评论吧～～</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Next</tag>
+        <tag>Giscus</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mastodon 媒体存储和数据库备份</title>
     <url>/2022-02-20-mastodon-backup/</url>
     <content><![CDATA[<p><strong>写在前面：</strong><br>本文备份方法我还在验证中，请谨慎使用，最好以防万一多导出一份<code>backup.dump</code> 。</p>
@@ -768,39 +768,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Crontab 各种运行不成功和解决方法</title>
-    <url>/2022-02-22-crontab-debug/</url>
-    <content><![CDATA[<p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron status # 查看运行状态和报错信息</span><br><span class="line">service cron reload # 重新载入 </span><br><span class="line">service cron restart # 重启</span><br><span class="line">vim /etc/crontab #编辑 crontab</span><br></pre></td></tr></table></figure>
-
-<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><h3 id="Missing-newline-before-EOF"><a href="#Missing-newline-before-EOF" class="headerlink" title="Missing newline before EOF"></a>Missing newline before EOF</h3><p>报错内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(*system*) ERROR (Missing newline before EOF, this crontab file will be ignored)</span><br></pre></td></tr></table></figure>
-<p><a href="https://cronitor.io/cron-reference/missing-newline-before-eof#:~:text=Fixing%20missing%20newline%20before%20EOF%20errors.%20Correct%20this,always%20added%20and%20are%20not%20%20incorrectly%20stripped.">解决方案</a></p>
-<blockquote>
-<p>Correct this error simply by <strong>adding a blank line</strong> at the end of your crontab. </p>
-</blockquote>
-<p>就是在crontab文件的末尾添加一个新的空行（回车），就离谱……</p>
-<h3 id="session-opened-for-user-root-by-uid-x3D-0"><a href="#session-opened-for-user-root-by-uid-x3D-0" class="headerlink" title="session opened for user root by (uid&#x3D;0)"></a>session opened for user root by (uid&#x3D;0)</h3><p>报错内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pam_unix(cron:session): session opened for user root by (uid=0)</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.digitalocean.com/community/questions/weird-cron-logs-appearing-for-no-reasion">解决方案</a>：</p>
-<p>打开文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/pam.d/common-session-noninteractive</span><br></pre></td></tr></table></figure>
-<p>找到这一行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session required pam_unix.so</span><br></pre></td></tr></table></figure>
-<p>并在其上方添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session [success=1 default=ignore] pam_succeed_if.so service in cron quiet use_uid</span><br></pre></td></tr></table></figure>
-<p>然后重启：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron restart</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-        <tag>Crontab</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker 部署的 mastodon 在容器内 debug</title>
     <url>/2022-02-23-mastodon-debug-in-container/</url>
     <content><![CDATA[<p>TL; DR:</p>
@@ -813,7 +780,7 @@
 <p>退出并重启容器：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker-compose restart</span><br></pre></td></tr></table></figure>
 
-<p>感谢小柠檬 @<a href="mailto:&#x6c;&#101;&#x6d;&#111;&#110;&#64;&#110;&#x79;&#97;&#46;&#x6c;&#x65;&#x6d;&#x6f;&#x6e;&#97;&#x64;&#x65;&#46;&#109;&#111;&#101;">&#x6c;&#101;&#x6d;&#111;&#110;&#64;&#110;&#x79;&#97;&#46;&#x6c;&#x65;&#x6d;&#x6f;&#x6e;&#97;&#x64;&#x65;&#46;&#109;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
+<p>感谢小柠檬 @<a href="mailto:&#x6c;&#101;&#x6d;&#x6f;&#110;&#x40;&#110;&#121;&#x61;&#46;&#108;&#101;&#x6d;&#x6f;&#x6e;&#x61;&#100;&#101;&#x2e;&#109;&#111;&#101;">&#x6c;&#101;&#x6d;&#x6f;&#110;&#x40;&#110;&#121;&#x61;&#46;&#108;&#101;&#x6d;&#x6f;&#x6e;&#x61;&#100;&#101;&#x2e;&#109;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
 <h2 id="非docker的魔改方法"><a href="#非docker的魔改方法" class="headerlink" title="非docker的魔改方法"></a>非docker的魔改方法</h2><p>可参考这篇文章：<a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">进阶魔改：修改字数上限、媒体上限、投票上限、添加自定义主题、界面用语、非登陆用户有限显示，附阻止本站嘟文流入某站点方法</a></p>
 <p>一般的修改逻辑是：</p>
 <ul>
@@ -858,6 +825,39 @@
       <tags>
         <tag>Mastodon</tag>
         <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Crontab 各种运行不成功和解决方法</title>
+    <url>/2022-02-22-crontab-debug/</url>
+    <content><![CDATA[<p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron status # 查看运行状态和报错信息</span><br><span class="line">service cron reload # 重新载入 </span><br><span class="line">service cron restart # 重启</span><br><span class="line">vim /etc/crontab #编辑 crontab</span><br></pre></td></tr></table></figure>
+
+<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><h3 id="Missing-newline-before-EOF"><a href="#Missing-newline-before-EOF" class="headerlink" title="Missing newline before EOF"></a>Missing newline before EOF</h3><p>报错内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(*system*) ERROR (Missing newline before EOF, this crontab file will be ignored)</span><br></pre></td></tr></table></figure>
+<p><a href="https://cronitor.io/cron-reference/missing-newline-before-eof#:~:text=Fixing%20missing%20newline%20before%20EOF%20errors.%20Correct%20this,always%20added%20and%20are%20not%20%20incorrectly%20stripped.">解决方案</a></p>
+<blockquote>
+<p>Correct this error simply by <strong>adding a blank line</strong> at the end of your crontab. </p>
+</blockquote>
+<p>就是在crontab文件的末尾添加一个新的空行（回车），就离谱……</p>
+<h3 id="session-opened-for-user-root-by-uid-x3D-0"><a href="#session-opened-for-user-root-by-uid-x3D-0" class="headerlink" title="session opened for user root by (uid&#x3D;0)"></a>session opened for user root by (uid&#x3D;0)</h3><p>报错内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pam_unix(cron:session): session opened for user root by (uid=0)</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.digitalocean.com/community/questions/weird-cron-logs-appearing-for-no-reasion">解决方案</a>：</p>
+<p>打开文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/pam.d/common-session-noninteractive</span><br></pre></td></tr></table></figure>
+<p>找到这一行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session required pam_unix.so</span><br></pre></td></tr></table></figure>
+<p>并在其上方添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session [success=1 default=ignore] pam_succeed_if.so service in cron quiet use_uid</span><br></pre></td></tr></table></figure>
+<p>然后重启：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron restart</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>Crontab</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
