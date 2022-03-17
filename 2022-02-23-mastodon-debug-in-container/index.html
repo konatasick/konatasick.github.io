@@ -20,18 +20,18 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="TL; DR: 进入container改代码： 1docker exec -it mastodon_web_1 &#x2F;bin&#x2F;bash   预编译确保不报错： 1RAILS_ENV&#x3D;production bundle exec rails assets:precompile  退出并重启容器： 1docker-compose restart  感谢小柠檬 @&amp;#x6c;&amp;#101;&amp;#x6d;&amp;#x6">
+  <meta name="description" content="TL; DR: 进入container改代码： 1docker exec -it mastodon_web_1 &#x2F;bin&#x2F;bash   预编译确保不报错： 1RAILS_ENV&#x3D;production bundle exec rails assets:precompile  退出并重启容器： 1docker-compose restart  感谢小柠檬 @&amp;#108;&amp;#101;&amp;#x6d;&amp;#x6">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker 部署的 mastodon 在容器内 debug">
 <meta property="og:url" content="https://tech.konata.co/2022-02-23-mastodon-debug-in-container/index.html">
 <meta property="og:site_name" content="Konata Tech Blog">
-<meta property="og:description" content="TL; DR: 进入container改代码： 1docker exec -it mastodon_web_1 &#x2F;bin&#x2F;bash   预编译确保不报错： 1RAILS_ENV&#x3D;production bundle exec rails assets:precompile  退出并重启容器： 1docker-compose restart  感谢小柠檬 @&amp;#x6c;&amp;#101;&amp;#x6d;&amp;#x6">
+<meta property="og:description" content="TL; DR: 进入container改代码： 1docker exec -it mastodon_web_1 &#x2F;bin&#x2F;bash   预编译确保不报错： 1RAILS_ENV&#x3D;production bundle exec rails assets:precompile  退出并重启容器： 1docker-compose restart  感谢小柠檬 @&amp;#108;&amp;#101;&amp;#x6d;&amp;#x6">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-02-23T05:54:28.000Z">
 <meta property="article:modified_time" content="2022-02-27T08:00:35.000Z">
 <meta property="article:author" content="Konata Izumi">
-<meta property="article:tag" content="Mastodon">
 <meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Mastodon">
 <meta name="twitter:card" content="summary">
 
 
@@ -289,7 +289,7 @@
 <p>退出并重启容器：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose restart</span><br></pre></td></tr></table></figure>
 
-<p>感谢小柠檬 @<a href="mailto:&#x6c;&#101;&#x6d;&#x6f;&#110;&#x40;&#110;&#121;&#x61;&#46;&#108;&#101;&#x6d;&#x6f;&#x6e;&#x61;&#100;&#101;&#x2e;&#109;&#111;&#101;">&#x6c;&#101;&#x6d;&#x6f;&#110;&#x40;&#110;&#121;&#x61;&#46;&#108;&#101;&#x6d;&#x6f;&#x6e;&#x61;&#100;&#101;&#x2e;&#109;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
+<p>感谢小柠檬 @<a href="mailto:&#108;&#101;&#x6d;&#x6f;&#x6e;&#64;&#110;&#x79;&#97;&#x2e;&#108;&#101;&#109;&#x6f;&#x6e;&#x61;&#x64;&#x65;&#46;&#109;&#111;&#101;">&#108;&#101;&#x6d;&#x6f;&#x6e;&#64;&#110;&#x79;&#97;&#x2e;&#108;&#101;&#109;&#x6f;&#x6e;&#x61;&#x64;&#x65;&#46;&#109;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
 <h2 id="非docker的魔改方法"><a href="#非docker的魔改方法" class="headerlink" title="非docker的魔改方法"></a>非docker的魔改方法</h2><p>可参考这篇文章：<a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">进阶魔改：修改字数上限、媒体上限、投票上限、添加自定义主题、界面用语、非登陆用户有限显示，附阻止本站嘟文流入某站点方法</a></p>
 <p>一般的修改逻辑是：</p>
 <ul>
@@ -353,8 +353,8 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/Mastodon/" rel="tag"># Mastodon</a>
               <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/Mastodon/" rel="tag"># Mastodon</a>
           </div>
 
         

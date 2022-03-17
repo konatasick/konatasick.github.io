@@ -200,42 +200,7 @@
 
   
   <url>
-    <loc>https://tech.konata.co/tags/Hexo/</loc>
-    <lastmod>2022-03-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/Next/</loc>
-    <lastmod>2022-03-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/Giscus/</loc>
-    <lastmod>2022-03-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/nginx/</loc>
-    <lastmod>2022-03-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/certbot/</loc>
-    <lastmod>2022-03-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/mastodon/</loc>
+    <loc>https://tech.konata.co/tags/scikit-learn/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -249,14 +214,21 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/scikit-learn/</loc>
+    <loc>https://tech.konata.co/tags/PCA/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/PCA/</loc>
+    <loc>https://tech.konata.co/tags/conda/</loc>
+    <lastmod>2022-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/kmeans/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -277,13 +249,6 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/kmeans/</loc>
-    <lastmod>2022-03-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://tech.konata.co/tags/ffmpeg/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -292,13 +257,6 @@
   
   <url>
     <loc>https://tech.konata.co/tags/bash/</loc>
-    <lastmod>2022-03-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/conda/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -354,7 +312,21 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/docker/</loc>
+    <loc>https://tech.konata.co/tags/Hexo/</loc>
+    <lastmod>2022-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/nginx/</loc>
+    <lastmod>2022-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/certbot/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -368,21 +340,14 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/Mastodon/</loc>
+    <loc>https://tech.konata.co/tags/docker/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://tech.konata.co/tags/postgres/</loc>
-    <lastmod>2022-03-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://tech.konata.co/tags/Scaleway/</loc>
+    <loc>https://tech.konata.co/tags/mastodon/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -410,6 +375,41 @@
   </url>
   
   <url>
+    <loc>https://tech.konata.co/tags/Next/</loc>
+    <lastmod>2022-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/Giscus/</loc>
+    <lastmod>2022-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/Mastodon/</loc>
+    <lastmod>2022-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/postgres/</loc>
+    <lastmod>2022-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://tech.konata.co/tags/Scaleway/</loc>
+    <lastmod>2022-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://tech.konata.co/tags/Anaconda3/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -419,7 +419,7 @@
 
   
   <url>
-    <loc>https://tech.konata.co/categories/Project/</loc>
+    <loc>https://tech.konata.co/categories/Algorithm/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -433,7 +433,7 @@
   </url>
   
   <url>
-    <loc>https://tech.konata.co/categories/Algorithm/</loc>
+    <loc>https://tech.konata.co/categories/Project/</loc>
     <lastmod>2022-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

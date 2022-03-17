@@ -56,69 +56,51 @@
         <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>scikit-learn</tag>
+        <tag>python</tag>
         <tag>PCA</tag>
       </tags>
   </entry>
   <entry>
-    <title>Git操作速查</title>
-    <url>/2019-07-12-git/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+    <title>在服务器用conda创建python环境</title>
+    <url>/2019-07-08-conda-create-env/</url>
+    <content><![CDATA[<p>2019年11月27日更新：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
 
-<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
-<ol>
-<li><p>未add时<br><code>git checkout .</code></p>
-</li>
-<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
-</li>
-<li><p>commit后</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
-<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
-<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
-<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
-<p><code>git reset --hard</code></p>
-<p>即可</p>
-<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
-<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
-<ol>
-<li><p>添加远程仓库到本地remote分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看当前仓库的远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>fetch 远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>推送本地到远程仓库（自己fork的仓库）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote <span class="built_in">rm</span> origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-
-<h1 id="提PR"><a href="#提PR" class="headerlink" title="提PR"></a>提PR</h1><ol>
-<li>fork repo A&#x2F;code 到自己的 GitHub，称之为 B&#x2F;code</li>
-<li>clone B&#x2F;code 到本地</li>
-<li>增加 A&#x2F;code 作为本地的远程 upstream：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote add upstream https://github.com/A/code.git</span><br></pre></td></tr></table></figure></li>
-<li>新建工作分支<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git  checkout -b my-dev</span><br></pre></td></tr></table></figure></li>
-<li>进行 add，commit，push 到自己的远程分支 B&#x2F;code<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git push --set-upstream origin my-dev</span><br></pre></td></tr></table></figure></li>
-<li>在 GitHub 上发起 Pull Request，会有分支选择</li>
-</ol>
-<p>这里不清楚为什么要添加 upstream 根本没用到，可能为了之后拉代码方便</p>
-<h1 id="让-gitignore生效"><a href="#让-gitignore生效" class="headerlink" title="让.gitignore生效"></a>让.gitignore生效</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git rm -r --cached .</span><br></pre></td></tr></table></figure>]]></content>
+<p>可以导出environment配置环境：</p>
+<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
+<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
+<p>删除环境：conda remove -n your_env_name –all</p>
+<hr>
+<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
+<p>首先，尝试conda list，提示not command，解决方法：</p>
+<p>在.bashrc 的末尾添加如下一行：</p>
+<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
+<p>之后conda list，正常。</p>
+<p>创建：</p>
+<p>conda create -n vso python&#x3D;2.7</p>
+<p>激活：</p>
+<p>source activate vso</p>
+<p>然后就可以开始安装需要的package</p>
+<p>pip install imutils</p>
+<p>pip install numpy</p>
+<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
+<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
+<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
+<p>pip install scipy</p>
+<p>pip install matplotlib</p>
+<p>pip install sklearn</p>
+<p>pip install ffmpeg-normalize</p>
+<p>conda install ffmpeg</p>
+<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
+<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
+]]></content>
       <categories>
         <category>Workshop</category>
       </categories>
       <tags>
-        <tag>git</tag>
-        <tag>GitHub</tag>
+        <tag>python</tag>
+        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -188,9 +170,69 @@
         <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>scikit-learn</tag>
+        <tag>python</tag>
         <tag>kmeans</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git操作速查</title>
+    <url>/2019-07-12-git/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
+<ol>
+<li><p>未add时<br><code>git checkout .</code></p>
+</li>
+<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
+</li>
+<li><p>commit后</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
+<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
+<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
+<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
+<p><code>git reset --hard</code></p>
+<p>即可</p>
+<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
+<ol>
+<li><p>添加远程仓库到本地remote分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前仓库的远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>fetch 远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>推送本地到远程仓库（自己fork的仓库）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote <span class="built_in">rm</span> origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+<h1 id="提PR"><a href="#提PR" class="headerlink" title="提PR"></a>提PR</h1><ol>
+<li>fork repo A&#x2F;code 到自己的 GitHub，称之为 B&#x2F;code</li>
+<li>clone B&#x2F;code 到本地</li>
+<li>增加 A&#x2F;code 作为本地的远程 upstream：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote add upstream https://github.com/A/code.git</span><br></pre></td></tr></table></figure></li>
+<li>新建工作分支<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git  checkout -b my-dev</span><br></pre></td></tr></table></figure></li>
+<li>进行 add，commit，push 到自己的远程分支 B&#x2F;code<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git push --set-upstream origin my-dev</span><br></pre></td></tr></table></figure></li>
+<li>在 GitHub 上发起 Pull Request，会有分支选择</li>
+</ol>
+<p>这里不清楚为什么要添加 upstream 根本没用到，可能为了之后拉代码方便</p>
+<h1 id="让-gitignore生效"><a href="#让-gitignore生效" class="headerlink" title="让.gitignore生效"></a>让.gitignore生效</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git rm -r --cached .</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>GitHub</tag>
       </tags>
   </entry>
   <entry>
@@ -226,48 +268,6 @@
       <tags>
         <tag>ffmpeg</tag>
         <tag>bash</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在服务器用conda创建python环境</title>
-    <url>/2019-07-08-conda-create-env/</url>
-    <content><![CDATA[<p>2019年11月27日更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
-
-<p>可以导出environment配置环境：</p>
-<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
-<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
-<p>删除环境：conda remove -n your_env_name –all</p>
-<hr>
-<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
-<p>首先，尝试conda list，提示not command，解决方法：</p>
-<p>在.bashrc 的末尾添加如下一行：</p>
-<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
-<p>之后conda list，正常。</p>
-<p>创建：</p>
-<p>conda create -n vso python&#x3D;2.7</p>
-<p>激活：</p>
-<p>source activate vso</p>
-<p>然后就可以开始安装需要的package</p>
-<p>pip install imutils</p>
-<p>pip install numpy</p>
-<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
-<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
-<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
-<p>pip install scipy</p>
-<p>pip install matplotlib</p>
-<p>pip install sklearn</p>
-<p>pip install ffmpeg-normalize</p>
-<p>conda install ffmpeg</p>
-<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
-<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -438,8 +438,49 @@
         <category>Project</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
         <tag>GitHub</tag>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Wordpress 建站笔记</title>
+    <url>/2022-02-09-blog-note/</url>
+    <content><![CDATA[<p>参考教程： <a href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose">https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose</a></p>
+<h3 id="Step-1-设置反代"><a href="#Step-1-设置反代" class="headerlink" title="Step 1 设置反代"></a>Step 1 设置反代</h3><p>这一步主要是对nginx进行设置。</p>
+<p>反代是什么？为什么要反代？一般而言例如VPN这样的服务就是正向代理，代理客户端访问各个网站。而反向代理是服务器的代理。 </p>
+<p><code>listen</code>：告诉nginx要监听哪个端口。这步暂时只用了80端口，也就是HTTP用的。之后SSL下来了以后加上443，也就是HTTPS用的。</p>
+<p><code>server_name</code>：域名，这里似乎其实只需要写blog.konata.co就够了？前后只是优先级？</p>
+<p><code>index</code>：网页的index文件，按照优先级排序</p>
+<p><code>root</code>：这个是根目录地址，之后会在dockerfile里mount到这个目录下。</p>
+<h3 id="Step-2-设置环境变量"><a href="#Step-2-设置环境变量" class="headerlink" title="Step 2 设置环境变量"></a>Step 2 设置环境变量</h3><p>这一步主要是把密码用户名加到环境变量里，然后由于涉及敏感信息，所以额外添加了.gitignore和.dockerignore</p>
+<h3 id="Step-3-设置docker-compose"><a href="#Step-3-设置docker-compose" class="headerlink" title="Step 3 设置docker-compose"></a>Step 3 设置docker-compose</h3><p>Docker-compose和dockerfile是两个东西，各自用处见：</p>
+<p><a href="https://www.runoob.com/docker/docker-dockerfile.html">https://www.runoob.com/docker/docker-dockerfile.html</a></p>
+<p><a href="https://www.runoob.com/docker/docker-compose.html">https://www.runoob.com/docker/docker-compose.html</a></p>
+<p>Docker-compose是用来配置容器内服务的。这里依次配置了db（数据库），wordpress，webserver（nginx反代）和certbot（https证书）。</p>
+<p>在services中，每个服务器的image指定了是从哪个镜像启动服务。这里用的都是公开的现成的镜像，所以可以直接启动。</p>
+<p>这一步wordpress用的镜像是image: wordpress:5.1.1-fpm-alpine，版本比较旧，可以替换成<a href="https://hub.docker.com/_/wordpress/">这里</a> 更新的tag，如<code>5.9.0-fpm-alpine</code>，也许就可以解决php版本过老的问题（待确认）。</p>
+<h3 id="Step-4-获取SSL证书"><a href="#Step-4-获取SSL证书" class="headerlink" title="Step 4 获取SSL证书"></a>Step 4 获取SSL证书</h3><p>要用https而不是http，需要获取SSL证书。在上一步已经配置好了certbot，这一步首先启动docker-compose。</p>
+<p><code>docker-compose up</code> 是启动，加上<code>-d</code>是在后台运行。</p>
+<p><code>docker-compose ps</code> 可以检查服务运行情况。</p>
+<p><code>docker-compose exec webserver ls -la /etc/letsencrypt/live</code> 这句话指的是启动webserver的docker然后查看域名是否设置成功。从名字上看似乎用的是Let’s Encrypt的服务。如果设置成功，就可以进入<code>docker-compose.yml</code>把<code>--staging</code>这个调试用的参数改成<code>--force-renewal</code>，重新申请一个正式的证书。</p>
+<p><code>docker-compose up --force-recreate --no-deps certbot</code>  使最新的docker-compose.yml生效。</p>
+<h3 id="Step-5-修改nginx"><a href="#Step-5-修改nginx" class="headerlink" title="Step 5 修改nginx"></a>Step 5 修改nginx</h3><p> 因为已经申请到了SSL证书，现在要返回修改<code>nginx</code>。</p>
+<p>先把<code>webserver</code>服务停了，然后下载<code>certbot</code>的<code>nginx</code>配置文件<code>options-ssl-nginx.conf</code>，删除旧的<code>nginx.conf</code>改成新的<code>nginx.conf</code>，再修改<code>docker-compose.yml</code>里<code>webserver</code>的配置，把<code>443</code>端口添加上去。</p>
+<p><code>docker-compose up --force-recreate --no-deps webserver</code> 使最新的docker-compose.yml生效。</p>
+<h3 id="Step-6-前端安装"><a href="#Step-6-前端安装" class="headerlink" title="Step 6 前端安装"></a>Step 6 前端安装</h3><p> 到这步为止，<code>nginx</code>反代，SSL证书，<code>wordpress</code>，全部都安装好并且在后台运行了。这时候访问域名，就会出现<code>wordpress</code>的安装界面。全程网页操作，简单易懂。</p>
+<h3 id="Step-7-定期更新证书"><a href="#Step-7-定期更新证书" class="headerlink" title="Step 7 定期更新证书"></a>Step 7 定期更新证书</h3><p>因为证书90天内有效，所以要写一个脚本每隔一段时间（小于90天）就重新申请一次证书。脚本内容大概是renew <code>certbot</code>并删除多余镜像，之后把脚本的权限设为可执行。调用<code>crontab</code>来定期运行脚本。</p>
+<p><code>*/5 * * * *</code>是每五分钟运行一次，为了快速出测试结果。</p>
+<p><code>\&gt;&gt; /var/log/cron.log 2&gt;&amp;1</code>是把输出写到log文件里，方便查看。</p>
+<p>确认没有问题以后，改为<code>0 12 * * *</code>，是每12小时更新一次，需要更新得这么频繁吗？</p>
+<p>同时把调试用的参数<code>--dry-run</code>从脚本里删掉。</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>certbot</tag>
+        <tag>wordpress</tag>
       </tags>
   </entry>
   <entry>
@@ -515,47 +556,6 @@
       </categories>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Wordpress 建站笔记</title>
-    <url>/2022-02-09-blog-note/</url>
-    <content><![CDATA[<p>参考教程： <a href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose">https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose</a></p>
-<h3 id="Step-1-设置反代"><a href="#Step-1-设置反代" class="headerlink" title="Step 1 设置反代"></a>Step 1 设置反代</h3><p>这一步主要是对nginx进行设置。</p>
-<p>反代是什么？为什么要反代？一般而言例如VPN这样的服务就是正向代理，代理客户端访问各个网站。而反向代理是服务器的代理。 </p>
-<p><code>listen</code>：告诉nginx要监听哪个端口。这步暂时只用了80端口，也就是HTTP用的。之后SSL下来了以后加上443，也就是HTTPS用的。</p>
-<p><code>server_name</code>：域名，这里似乎其实只需要写blog.konata.co就够了？前后只是优先级？</p>
-<p><code>index</code>：网页的index文件，按照优先级排序</p>
-<p><code>root</code>：这个是根目录地址，之后会在dockerfile里mount到这个目录下。</p>
-<h3 id="Step-2-设置环境变量"><a href="#Step-2-设置环境变量" class="headerlink" title="Step 2 设置环境变量"></a>Step 2 设置环境变量</h3><p>这一步主要是把密码用户名加到环境变量里，然后由于涉及敏感信息，所以额外添加了.gitignore和.dockerignore</p>
-<h3 id="Step-3-设置docker-compose"><a href="#Step-3-设置docker-compose" class="headerlink" title="Step 3 设置docker-compose"></a>Step 3 设置docker-compose</h3><p>Docker-compose和dockerfile是两个东西，各自用处见：</p>
-<p><a href="https://www.runoob.com/docker/docker-dockerfile.html">https://www.runoob.com/docker/docker-dockerfile.html</a></p>
-<p><a href="https://www.runoob.com/docker/docker-compose.html">https://www.runoob.com/docker/docker-compose.html</a></p>
-<p>Docker-compose是用来配置容器内服务的。这里依次配置了db（数据库），wordpress，webserver（nginx反代）和certbot（https证书）。</p>
-<p>在services中，每个服务器的image指定了是从哪个镜像启动服务。这里用的都是公开的现成的镜像，所以可以直接启动。</p>
-<p>这一步wordpress用的镜像是image: wordpress:5.1.1-fpm-alpine，版本比较旧，可以替换成<a href="https://hub.docker.com/_/wordpress/">这里</a> 更新的tag，如<code>5.9.0-fpm-alpine</code>，也许就可以解决php版本过老的问题（待确认）。</p>
-<h3 id="Step-4-获取SSL证书"><a href="#Step-4-获取SSL证书" class="headerlink" title="Step 4 获取SSL证书"></a>Step 4 获取SSL证书</h3><p>要用https而不是http，需要获取SSL证书。在上一步已经配置好了certbot，这一步首先启动docker-compose。</p>
-<p><code>docker-compose up</code> 是启动，加上<code>-d</code>是在后台运行。</p>
-<p><code>docker-compose ps</code> 可以检查服务运行情况。</p>
-<p><code>docker-compose exec webserver ls -la /etc/letsencrypt/live</code> 这句话指的是启动webserver的docker然后查看域名是否设置成功。从名字上看似乎用的是Let’s Encrypt的服务。如果设置成功，就可以进入<code>docker-compose.yml</code>把<code>--staging</code>这个调试用的参数改成<code>--force-renewal</code>，重新申请一个正式的证书。</p>
-<p><code>docker-compose up --force-recreate --no-deps certbot</code>  使最新的docker-compose.yml生效。</p>
-<h3 id="Step-5-修改nginx"><a href="#Step-5-修改nginx" class="headerlink" title="Step 5 修改nginx"></a>Step 5 修改nginx</h3><p> 因为已经申请到了SSL证书，现在要返回修改<code>nginx</code>。</p>
-<p>先把<code>webserver</code>服务停了，然后下载<code>certbot</code>的<code>nginx</code>配置文件<code>options-ssl-nginx.conf</code>，删除旧的<code>nginx.conf</code>改成新的<code>nginx.conf</code>，再修改<code>docker-compose.yml</code>里<code>webserver</code>的配置，把<code>443</code>端口添加上去。</p>
-<p><code>docker-compose up --force-recreate --no-deps webserver</code> 使最新的docker-compose.yml生效。</p>
-<h3 id="Step-6-前端安装"><a href="#Step-6-前端安装" class="headerlink" title="Step 6 前端安装"></a>Step 6 前端安装</h3><p> 到这步为止，<code>nginx</code>反代，SSL证书，<code>wordpress</code>，全部都安装好并且在后台运行了。这时候访问域名，就会出现<code>wordpress</code>的安装界面。全程网页操作，简单易懂。</p>
-<h3 id="Step-7-定期更新证书"><a href="#Step-7-定期更新证书" class="headerlink" title="Step 7 定期更新证书"></a>Step 7 定期更新证书</h3><p>因为证书90天内有效，所以要写一个脚本每隔一段时间（小于90天）就重新申请一次证书。脚本内容大概是renew <code>certbot</code>并删除多余镜像，之后把脚本的权限设为可执行。调用<code>crontab</code>来定期运行脚本。</p>
-<p><code>*/5 * * * *</code>是每五分钟运行一次，为了快速出测试结果。</p>
-<p><code>\&gt;&gt; /var/log/cron.log 2&gt;&amp;1</code>是把输出写到log文件里，方便查看。</p>
-<p>确认没有问题以后，改为<code>0 12 * * *</code>，是每12小时更新一次，需要更新得这么频繁吗？</p>
-<p>同时把调试用的参数<code>--dry-run</code>从脚本里删掉。</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-        <tag>certbot</tag>
-        <tag>wordpress</tag>
       </tags>
   </entry>
   <entry>
@@ -659,6 +659,39 @@
         <tag>nginx</tag>
         <tag>certbot</tag>
         <tag>mastodon</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Crontab 各种运行不成功和解决方法</title>
+    <url>/2022-02-22-crontab-debug/</url>
+    <content><![CDATA[<p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron status # 查看运行状态和报错信息</span><br><span class="line">service cron reload # 重新载入 </span><br><span class="line">service cron restart # 重启</span><br><span class="line">vim /etc/crontab #编辑 crontab</span><br></pre></td></tr></table></figure>
+
+<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><h3 id="Missing-newline-before-EOF"><a href="#Missing-newline-before-EOF" class="headerlink" title="Missing newline before EOF"></a>Missing newline before EOF</h3><p>报错内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(*system*) ERROR (Missing newline before EOF, this crontab file will be ignored)</span><br></pre></td></tr></table></figure>
+<p><a href="https://cronitor.io/cron-reference/missing-newline-before-eof#:~:text=Fixing%20missing%20newline%20before%20EOF%20errors.%20Correct%20this,always%20added%20and%20are%20not%20%20incorrectly%20stripped.">解决方案</a></p>
+<blockquote>
+<p>Correct this error simply by <strong>adding a blank line</strong> at the end of your crontab. </p>
+</blockquote>
+<p>就是在crontab文件的末尾添加一个新的空行（回车），就离谱……</p>
+<h3 id="session-opened-for-user-root-by-uid-x3D-0"><a href="#session-opened-for-user-root-by-uid-x3D-0" class="headerlink" title="session opened for user root by (uid&#x3D;0)"></a>session opened for user root by (uid&#x3D;0)</h3><p>报错内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pam_unix(cron:session): session opened for user root by (uid=0)</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.digitalocean.com/community/questions/weird-cron-logs-appearing-for-no-reasion">解决方案</a>：</p>
+<p>打开文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/pam.d/common-session-noninteractive</span><br></pre></td></tr></table></figure>
+<p>找到这一行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session required pam_unix.so</span><br></pre></td></tr></table></figure>
+<p>并在其上方添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session [success=1 default=ignore] pam_succeed_if.so service in cron quiet use_uid</span><br></pre></td></tr></table></figure>
+<p>然后重启：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron restart</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>Crontab</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -780,7 +813,7 @@
 <p>退出并重启容器：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker-compose restart</span><br></pre></td></tr></table></figure>
 
-<p>感谢小柠檬 @<a href="mailto:&#x6c;&#101;&#x6d;&#x6f;&#110;&#x40;&#110;&#121;&#x61;&#46;&#108;&#101;&#x6d;&#x6f;&#x6e;&#x61;&#100;&#101;&#x2e;&#109;&#111;&#101;">&#x6c;&#101;&#x6d;&#x6f;&#110;&#x40;&#110;&#121;&#x61;&#46;&#108;&#101;&#x6d;&#x6f;&#x6e;&#x61;&#100;&#101;&#x2e;&#109;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
+<p>感谢小柠檬 @<a href="mailto:&#108;&#101;&#x6d;&#x6f;&#x6e;&#64;&#110;&#x79;&#97;&#x2e;&#108;&#101;&#109;&#x6f;&#x6e;&#x61;&#x64;&#x65;&#46;&#109;&#111;&#101;">&#108;&#101;&#x6d;&#x6f;&#x6e;&#64;&#110;&#x79;&#97;&#x2e;&#108;&#101;&#109;&#x6f;&#x6e;&#x61;&#x64;&#x65;&#46;&#109;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
 <h2 id="非docker的魔改方法"><a href="#非docker的魔改方法" class="headerlink" title="非docker的魔改方法"></a>非docker的魔改方法</h2><p>可参考这篇文章：<a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">进阶魔改：修改字数上限、媒体上限、投票上限、添加自定义主题、界面用语、非登陆用户有限显示，附阻止本站嘟文流入某站点方法</a></p>
 <p>一般的修改逻辑是：</p>
 <ul>
@@ -823,41 +856,8 @@
         <category>Project</category>
       </categories>
       <tags>
+        <tag>Docker</tag>
         <tag>Mastodon</tag>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Crontab 各种运行不成功和解决方法</title>
-    <url>/2022-02-22-crontab-debug/</url>
-    <content><![CDATA[<p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron status # 查看运行状态和报错信息</span><br><span class="line">service cron reload # 重新载入 </span><br><span class="line">service cron restart # 重启</span><br><span class="line">vim /etc/crontab #编辑 crontab</span><br></pre></td></tr></table></figure>
-
-<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><h3 id="Missing-newline-before-EOF"><a href="#Missing-newline-before-EOF" class="headerlink" title="Missing newline before EOF"></a>Missing newline before EOF</h3><p>报错内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(*system*) ERROR (Missing newline before EOF, this crontab file will be ignored)</span><br></pre></td></tr></table></figure>
-<p><a href="https://cronitor.io/cron-reference/missing-newline-before-eof#:~:text=Fixing%20missing%20newline%20before%20EOF%20errors.%20Correct%20this,always%20added%20and%20are%20not%20%20incorrectly%20stripped.">解决方案</a></p>
-<blockquote>
-<p>Correct this error simply by <strong>adding a blank line</strong> at the end of your crontab. </p>
-</blockquote>
-<p>就是在crontab文件的末尾添加一个新的空行（回车），就离谱……</p>
-<h3 id="session-opened-for-user-root-by-uid-x3D-0"><a href="#session-opened-for-user-root-by-uid-x3D-0" class="headerlink" title="session opened for user root by (uid&#x3D;0)"></a>session opened for user root by (uid&#x3D;0)</h3><p>报错内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pam_unix(cron:session): session opened for user root by (uid=0)</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.digitalocean.com/community/questions/weird-cron-logs-appearing-for-no-reasion">解决方案</a>：</p>
-<p>打开文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/pam.d/common-session-noninteractive</span><br></pre></td></tr></table></figure>
-<p>找到这一行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session required pam_unix.so</span><br></pre></td></tr></table></figure>
-<p>并在其上方添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session [success=1 default=ignore] pam_succeed_if.so service in cron quiet use_uid</span><br></pre></td></tr></table></figure>
-<p>然后重启：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron restart</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-        <tag>Crontab</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -959,8 +959,8 @@
         <category>Project</category>
       </categories>
       <tags>
-        <tag>mastodon</tag>
         <tag>git</tag>
+        <tag>mastodon</tag>
       </tags>
   </entry>
 </search>
