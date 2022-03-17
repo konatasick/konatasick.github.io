@@ -381,6 +381,31 @@
       </tags>
   </entry>
   <entry>
+    <title>COMA 环境配置记录</title>
+    <url>/2021-07-23-COMA/</url>
+    <content><![CDATA[<p><a href="https://github.com/anuragranj/coma">https://github.com/anuragranj/coma</a></p>
+<h2 id="Tensorflow-1-3"><a href="#Tensorflow-1-3" class="headerlink" title="Tensorflow 1.3"></a>Tensorflow 1.3</h2><p>这一步由于tensorflow1的环境非常难配置，使用现成docker，版本对应关系如下：</p>
+<p><a href="https://blog.csdn.net/qq_41936559/article/details/104226333">https://blog.csdn.net/qq_41936559/article/details/104226333</a></p>
+<h2 id="opendr安装"><a href="#opendr安装" class="headerlink" title="opendr安装"></a>opendr安装</h2><p>opendr安装对python3的支持比较麻烦，参考：</p>
+<p><a href="https://www.codenong.com/cs110955392/">https://www.codenong.com/cs110955392/</a></p>
+<h2 id="MPI-IS-x2F-mesh配置"><a href="#MPI-IS-x2F-mesh配置" class="headerlink" title="MPI-IS &#x2F; mesh配置"></a>MPI-IS &#x2F; mesh配置</h2><p><a href="https://github.com/MPI-IS/mesh">https://github.com/MPI-IS/mesh</a></p>
+<p>经常要用到的mesh渲染工具</p>
+<p>配置过程：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install boost-devel</span><br><span class="line">BOOST_INCLUDE_DIRS=/usr/include/boost make all</span><br><span class="line">make tests</span><br></pre></td></tr></table></figure>
+
+<p>遇到报错：<br>ImportError: No module named psbody.mesh.mesh<br>但是在python3下import是可以的，后来发现是在make tests时默认是python，而在docker环境下要改成python3，测试通过。</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>COMA</tag>
+        <tag>opendr</tag>
+        <tag>Tensorflow</tag>
+        <tag>MPI-IS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用 Hexo + GitHub Page 自建博客</title>
     <url>/2021-08-08-2021-08-08-build-blog-by-hexo/</url>
     <content><![CDATA[<h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
@@ -415,31 +440,6 @@
       <tags>
         <tag>Hexo</tag>
         <tag>GitHub</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>COMA 环境配置记录</title>
-    <url>/2021-07-23-COMA/</url>
-    <content><![CDATA[<p><a href="https://github.com/anuragranj/coma">https://github.com/anuragranj/coma</a></p>
-<h2 id="Tensorflow-1-3"><a href="#Tensorflow-1-3" class="headerlink" title="Tensorflow 1.3"></a>Tensorflow 1.3</h2><p>这一步由于tensorflow1的环境非常难配置，使用现成docker，版本对应关系如下：</p>
-<p><a href="https://blog.csdn.net/qq_41936559/article/details/104226333">https://blog.csdn.net/qq_41936559/article/details/104226333</a></p>
-<h2 id="opendr安装"><a href="#opendr安装" class="headerlink" title="opendr安装"></a>opendr安装</h2><p>opendr安装对python3的支持比较麻烦，参考：</p>
-<p><a href="https://www.codenong.com/cs110955392/">https://www.codenong.com/cs110955392/</a></p>
-<h2 id="MPI-IS-x2F-mesh配置"><a href="#MPI-IS-x2F-mesh配置" class="headerlink" title="MPI-IS &#x2F; mesh配置"></a>MPI-IS &#x2F; mesh配置</h2><p><a href="https://github.com/MPI-IS/mesh">https://github.com/MPI-IS/mesh</a></p>
-<p>经常要用到的mesh渲染工具</p>
-<p>配置过程：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install boost-devel</span><br><span class="line">BOOST_INCLUDE_DIRS=/usr/include/boost make all</span><br><span class="line">make tests</span><br></pre></td></tr></table></figure>
-
-<p>遇到报错：<br>ImportError: No module named psbody.mesh.mesh<br>但是在python3下import是可以的，后来发现是在make tests时默认是python，而在docker环境下要改成python3，测试通过。</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>COMA</tag>
-        <tag>opendr</tag>
-        <tag>Tensorflow</tag>
-        <tag>MPI-IS</tag>
       </tags>
   </entry>
   <entry>
@@ -688,6 +688,39 @@
       </tags>
   </entry>
   <entry>
+    <title>Crontab 各种运行不成功和解决方法</title>
+    <url>/2022-02-22-crontab-debug/</url>
+    <content><![CDATA[<p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron status # 查看运行状态和报错信息</span><br><span class="line">service cron reload # 重新载入 </span><br><span class="line">service cron restart # 重启</span><br><span class="line">vim /etc/crontab #编辑 crontab</span><br></pre></td></tr></table></figure>
+
+<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><h3 id="Missing-newline-before-EOF"><a href="#Missing-newline-before-EOF" class="headerlink" title="Missing newline before EOF"></a>Missing newline before EOF</h3><p>报错内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(*system*) ERROR (Missing newline before EOF, this crontab file will be ignored)</span><br></pre></td></tr></table></figure>
+<p><a href="https://cronitor.io/cron-reference/missing-newline-before-eof#:~:text=Fixing%20missing%20newline%20before%20EOF%20errors.%20Correct%20this,always%20added%20and%20are%20not%20%20incorrectly%20stripped.">解决方案</a></p>
+<blockquote>
+<p>Correct this error simply by <strong>adding a blank line</strong> at the end of your crontab. </p>
+</blockquote>
+<p>就是在crontab文件的末尾添加一个新的空行（回车），就离谱……</p>
+<h3 id="session-opened-for-user-root-by-uid-x3D-0"><a href="#session-opened-for-user-root-by-uid-x3D-0" class="headerlink" title="session opened for user root by (uid&#x3D;0)"></a>session opened for user root by (uid&#x3D;0)</h3><p>报错内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pam_unix(cron:session): session opened for user root by (uid=0)</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.digitalocean.com/community/questions/weird-cron-logs-appearing-for-no-reasion">解决方案</a>：</p>
+<p>打开文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/pam.d/common-session-noninteractive</span><br></pre></td></tr></table></figure>
+<p>找到这一行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session required pam_unix.so</span><br></pre></td></tr></table></figure>
+<p>并在其上方添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session [success=1 default=ignore] pam_succeed_if.so service in cron quiet use_uid</span><br></pre></td></tr></table></figure>
+<p>然后重启：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron restart</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>Crontab</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mastodon 媒体存储和数据库备份</title>
     <url>/2022-02-20-mastodon-backup/</url>
     <content><![CDATA[<p><strong>写在前面：</strong><br>本文备份方法我还在验证中，请谨慎使用，最好以防万一多导出一份<code>backup.dump</code> 。</p>
@@ -768,39 +801,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Crontab 各种运行不成功和解决方法</title>
-    <url>/2022-02-22-crontab-debug/</url>
-    <content><![CDATA[<p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron status # 查看运行状态和报错信息</span><br><span class="line">service cron reload # 重新载入 </span><br><span class="line">service cron restart # 重启</span><br><span class="line">vim /etc/crontab #编辑 crontab</span><br></pre></td></tr></table></figure>
-
-<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><h3 id="Missing-newline-before-EOF"><a href="#Missing-newline-before-EOF" class="headerlink" title="Missing newline before EOF"></a>Missing newline before EOF</h3><p>报错内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(*system*) ERROR (Missing newline before EOF, this crontab file will be ignored)</span><br></pre></td></tr></table></figure>
-<p><a href="https://cronitor.io/cron-reference/missing-newline-before-eof#:~:text=Fixing%20missing%20newline%20before%20EOF%20errors.%20Correct%20this,always%20added%20and%20are%20not%20%20incorrectly%20stripped.">解决方案</a></p>
-<blockquote>
-<p>Correct this error simply by <strong>adding a blank line</strong> at the end of your crontab. </p>
-</blockquote>
-<p>就是在crontab文件的末尾添加一个新的空行（回车），就离谱……</p>
-<h3 id="session-opened-for-user-root-by-uid-x3D-0"><a href="#session-opened-for-user-root-by-uid-x3D-0" class="headerlink" title="session opened for user root by (uid&#x3D;0)"></a>session opened for user root by (uid&#x3D;0)</h3><p>报错内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pam_unix(cron:session): session opened for user root by (uid=0)</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.digitalocean.com/community/questions/weird-cron-logs-appearing-for-no-reasion">解决方案</a>：</p>
-<p>打开文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/pam.d/common-session-noninteractive</span><br></pre></td></tr></table></figure>
-<p>找到这一行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session required pam_unix.so</span><br></pre></td></tr></table></figure>
-<p>并在其上方添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session [success=1 default=ignore] pam_succeed_if.so service in cron quiet use_uid</span><br></pre></td></tr></table></figure>
-<p>然后重启：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron restart</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-        <tag>Crontab</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker 部署的 mastodon 在容器内 debug</title>
     <url>/2022-02-23-mastodon-debug-in-container/</url>
     <content><![CDATA[<p>TL; DR:</p>
@@ -813,7 +813,7 @@
 <p>退出并重启容器：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker-compose restart</span><br></pre></td></tr></table></figure>
 
-<p>感谢小柠檬 @<a href="mailto:&#x6c;&#x65;&#109;&#111;&#x6e;&#64;&#110;&#121;&#97;&#x2e;&#108;&#x65;&#x6d;&#x6f;&#x6e;&#x61;&#100;&#x65;&#x2e;&#x6d;&#111;&#x65;">&#x6c;&#x65;&#109;&#111;&#x6e;&#64;&#110;&#121;&#97;&#x2e;&#108;&#x65;&#x6d;&#x6f;&#x6e;&#x61;&#100;&#x65;&#x2e;&#x6d;&#111;&#x65;</a> 用自己的实例测试研究出这套可行方案！</p>
+<p>感谢小柠檬 @<a href="mailto:&#108;&#x65;&#109;&#x6f;&#110;&#64;&#x6e;&#x79;&#97;&#x2e;&#108;&#x65;&#x6d;&#x6f;&#x6e;&#97;&#x64;&#x65;&#46;&#x6d;&#111;&#101;">&#108;&#x65;&#109;&#x6f;&#110;&#64;&#x6e;&#x79;&#97;&#x2e;&#108;&#x65;&#x6d;&#x6f;&#x6e;&#97;&#x64;&#x65;&#46;&#x6d;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
 <h2 id="非docker的魔改方法"><a href="#非docker的魔改方法" class="headerlink" title="非docker的魔改方法"></a>非docker的魔改方法</h2><p>可参考这篇文章：<a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">进阶魔改：修改字数上限、媒体上限、投票上限、添加自定义主题、界面用语、非登陆用户有限显示，附阻止本站嘟文流入某站点方法</a></p>
 <p>一般的修改逻辑是：</p>
 <ul>
@@ -856,8 +856,8 @@
         <category>Project</category>
       </categories>
       <tags>
-        <tag>Mastodon</tag>
         <tag>Docker</tag>
+        <tag>Mastodon</tag>
       </tags>
   </entry>
   <entry>
