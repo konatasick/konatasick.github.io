@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"tech.konata.co","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.10.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-  <meta name="description" content="因为想用docker搭建，这里主要参考了使用docker搭建Synapse[Matrix]，关于域名问题参考了Matrix踩坑记（一） 域名参考Matrix踩坑记（一），matrix是可以和其他服务共用一个域名的。因为我后续希望账号都是和社畜站的id完全相同，所以我使用retirenow.top这个域名，与此同时服务挂在cafe.retirenow.top。没有这个问题的，都用一样的域名就行。 搭">
+  <meta name="description" content="因为想用docker搭建，这里主要参考了使用docker搭建Synapse[Matrix]，关于域名问题参考了Matrix踩坑记（一）和南狐的手把手debug。 域名参考Matrix踩坑记（一），matrix是可以和其他服务共用一个域名的。因为我后续希望账号都是和社畜站的id完全相同，所以我使用retirenow.top这个域名，与此同时服务挂在cafe.retirenow.top。没有这个问题的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Matrix | 使用 docker 搭建 Synapse 记录">
 <meta property="og:url" content="https://tech.konata.co/2022-04-10-matrix/index.html">
 <meta property="og:site_name" content="Konata Tech Blog">
-<meta property="og:description" content="因为想用docker搭建，这里主要参考了使用docker搭建Synapse[Matrix]，关于域名问题参考了Matrix踩坑记（一） 域名参考Matrix踩坑记（一），matrix是可以和其他服务共用一个域名的。因为我后续希望账号都是和社畜站的id完全相同，所以我使用retirenow.top这个域名，与此同时服务挂在cafe.retirenow.top。没有这个问题的，都用一样的域名就行。 搭">
+<meta property="og:description" content="因为想用docker搭建，这里主要参考了使用docker搭建Synapse[Matrix]，关于域名问题参考了Matrix踩坑记（一）和南狐的手把手debug。 域名参考Matrix踩坑记（一），matrix是可以和其他服务共用一个域名的。因为我后续希望账号都是和社畜站的id完全相同，所以我使用retirenow.top这个域名，与此同时服务挂在cafe.retirenow.top。没有这个问题的">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-04-09T19:18:57.000Z">
-<meta property="article:modified_time" content="2022-04-09T19:18:57.339Z">
+<meta property="article:modified_time" content="2022-04-09T21:15:21.055Z">
 <meta property="article:author" content="Konata Izumi">
 <meta property="article:tag" content="matrix">
 <meta property="article:tag" content="synapse">
@@ -243,8 +243,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2022-04-10 03:18:57" itemprop="dateCreated datePublished" datetime="2022-04-10T03:18:57+08:00">2022-04-10</time>
+      <time title="Created: 2022-04-10 03:18:57 / Modified: 05:15:21" itemprop="dateCreated datePublished" datetime="2022-04-10T03:18:57+08:00">2022-04-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -273,11 +274,17 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>因为想用docker搭建，这里主要参考了<a target="_blank" rel="noopener" href="https://www.b612.me/code/223.html">使用docker搭建Synapse[Matrix]</a>，关于域名问题参考了<a target="_blank" rel="noopener" href="https://blog.bgme.me/posts/matrix-deployment-process-part-1/">Matrix踩坑记（一）</a></p>
+        <p>因为想用docker搭建，这里主要参考了<a target="_blank" rel="noopener" href="https://www.b612.me/code/223.html">使用docker搭建Synapse[Matrix]</a>，关于域名问题参考了<a target="_blank" rel="noopener" href="https://blog.bgme.me/posts/matrix-deployment-process-part-1/">Matrix踩坑记（一）</a>和南狐的手把手debug。</p>
 <h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>参考<a target="_blank" rel="noopener" href="https://blog.bgme.me/posts/matrix-deployment-process-part-1/">Matrix踩坑记（一）</a>，matrix是可以和其他服务共用一个域名的。因为我后续希望账号都是和社畜站的id完全相同，所以我使用retirenow.top这个域名，与此同时服务挂在cafe.retirenow.top。没有这个问题的，都用一样的域名就行。</p>
 <h2 id="搭建Synapse"><a href="#搭建Synapse" class="headerlink" title="搭建Synapse"></a>搭建Synapse</h2><p>按照教程建立&#x2F;data&#x2F;synapse&#x2F;下的三个文件夹：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir /data/synapse</span><br><span class="line">mkdir /data/synapse/data</span><br><span class="line">mkdir /data/synapse/postgres</span><br><span class="line">mkdir /data/synapse/redis</span><br></pre></td></tr></table></figure>
 <p>之后都直接按照教程一步步执行即可，输入\q退出。<br>搭建时使用的所有域名均为retirenow.top。</p>
+<p>如果使用不同域名，在修改&#x2F;data&#x2F;synapse&#x2F;data&#x2F;homeserver.yaml时，除了教程里的内容，还需要修改：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public_baseurl: https://cafe.retirenow.top</span><br></pre></td></tr></table></figure>
+<p>如果你之后使用cloudflare反代，由于关闭了8448端口，所以这边也要改：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">serve_server_wellknown: true</span><br></pre></td></tr></table></figure>
+
+
 <p>到这一步，打开 <a target="_blank" rel="noopener" href="http://127.0.0.1:55800/">http://127.0.0.1:55800/</a> 应该会显示matrix的server界面，提示：</p>
 <blockquote>
 <p>Your Synapse server is listening on this port and is ready for messages.</p>
@@ -292,10 +299,11 @@
 <p>在”m.homeserver”中，修改”base_url”和”server_name”分别如下:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&quot;default_server_config&quot;: &#123;</span><br><span class="line">    &quot;m.homeserver&quot;: &#123;</span><br><span class="line">        &quot;base_url&quot;: &quot;https://cafe.retirenow.top&quot;,</span><br><span class="line">        &quot;server_name&quot;: &quot;retirenow.top&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;m.identity_server&quot;: &#123;</span><br><span class="line">        &quot;base_url&quot;: &quot;https://vector.im&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 
-<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>nginx只需要反代matrix的客户端，所以这里的域名一律只用cafe.retirenow.top</p>
+<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>在之前就配好的retirenow.top的nginx配置中加上：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Matrix</span><br><span class="line">location /.well-known/matrix/client &#123;</span><br><span class="line">  return 200 &#x27;&#123;&quot;m.homeserver&quot;: &#123;&quot;base_url&quot;: &quot;https://cafe.retirenow.top&quot;&#125;&#125;&#x27;;</span><br><span class="line">  default_type application/json;</span><br><span class="line">  add_header Access-Control-Allow-Origin *;</span><br><span class="line">&#125;  </span><br><span class="line">location /.well-known/matrix/server &#123;</span><br><span class="line">  return 200 &#x27;&#123;&quot;m.server&quot;: &quot;cafe.retirenow.top:443&quot;&#125;&#x27;;</span><br><span class="line">  default_type application/json;</span><br><span class="line">  add_header Access-Control-Allow-Origin *;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<p>然后新建一个cafe.retirenow.top的配置。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/nginx/sites-available</span><br><span class="line">vim cafe.retirenow.top.conf</span><br></pre></td></tr></table></figure>
-
-<p>更改所有域名为cafe.retirenow.top，然后更改cafe.retirenow.top.conf的这三行为：</p>
+<p>依然按照<a target="_blank" rel="noopener" href="https://www.b612.me/code/223.html">使用docker搭建Synapse[Matrix]</a>配置，但是删掉上面被挪到retirenow.top的那几行。<br>更改所有域名为cafe.retirenow.top，然后更改cafe.retirenow.top.conf的这三行为：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssl_certificate /etc/letsencrypt/live/cafe.retirenow.top/fullchain.pem; # managed by Certbot</span><br><span class="line">ssl_certificate_key /etc/letsencrypt/live/cafe.retirenow.top/privkey.pem; # managed by Certbot</span><br><span class="line">root /data/synapse/element-web;</span><br></pre></td></tr></table></figure>
 <p>申请证书，reload nginx：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">certbot certonly --nginx -d cafe.retirenow.top</span><br><span class="line">ln -s /etc/nginx/sites-available/cafe.retirenow.top.conf /etc/nginx/sites-enabled/</span><br><span class="line">systemctl reload nginx</span><br></pre></td></tr></table></figure>

@@ -62,6 +62,48 @@
       </tags>
   </entry>
   <entry>
+    <title>在服务器用conda创建python环境</title>
+    <url>/2019-07-08-conda-create-env/</url>
+    <content><![CDATA[<p>2019年11月27日更新：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
+
+<p>可以导出environment配置环境：</p>
+<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
+<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
+<p>删除环境：conda remove -n your_env_name –all</p>
+<hr>
+<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
+<p>首先，尝试conda list，提示not command，解决方法：</p>
+<p>在.bashrc 的末尾添加如下一行：</p>
+<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
+<p>之后conda list，正常。</p>
+<p>创建：</p>
+<p>conda create -n vso python&#x3D;2.7</p>
+<p>激活：</p>
+<p>source activate vso</p>
+<p>然后就可以开始安装需要的package</p>
+<p>pip install imutils</p>
+<p>pip install numpy</p>
+<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
+<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
+<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
+<p>pip install scipy</p>
+<p>pip install matplotlib</p>
+<p>pip install sklearn</p>
+<p>pip install ffmpeg-normalize</p>
+<p>conda install ffmpeg</p>
+<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
+<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>conda</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python实现聚类算法</title>
     <url>/2019-07-08-kmeans/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -131,48 +173,6 @@
         <tag>python</tag>
         <tag>scikit-learn</tag>
         <tag>kmeans</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在服务器用conda创建python环境</title>
-    <url>/2019-07-08-conda-create-env/</url>
-    <content><![CDATA[<p>2019年11月27日更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
-
-<p>可以导出environment配置环境：</p>
-<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
-<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
-<p>删除环境：conda remove -n your_env_name –all</p>
-<hr>
-<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
-<p>首先，尝试conda list，提示not command，解决方法：</p>
-<p>在.bashrc 的末尾添加如下一行：</p>
-<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
-<p>之后conda list，正常。</p>
-<p>创建：</p>
-<p>conda create -n vso python&#x3D;2.7</p>
-<p>激活：</p>
-<p>source activate vso</p>
-<p>然后就可以开始安装需要的package</p>
-<p>pip install imutils</p>
-<p>pip install numpy</p>
-<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
-<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
-<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
-<p>pip install scipy</p>
-<p>pip install matplotlib</p>
-<p>pip install sklearn</p>
-<p>pip install ffmpeg-normalize</p>
-<p>conda install ffmpeg</p>
-<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
-<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -406,43 +406,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用 Hexo + GitHub Page 自建博客</title>
-    <url>/2021-08-08-2021-08-08-build-blog-by-hexo/</url>
-    <content><![CDATA[<h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
-<p>官网下载安装node，确认以下命令均可使用：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
-<p>安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
-<p>如果出现报错</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ERROR Cannot find module &#x27;hexo&#x27; </span><br></pre></td></tr></table></figure>
-<p>重新安装hexo-util</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -- save-dev hexo-util</span><br></pre></td></tr></table></figure>
-<p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
-<p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
-<h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
-<blockquote>
-<p>注：如果你用了 hexo clean 命令删除本地静态资源，CNAME文件也会被删掉，所以你可以在本地生成的public文件夹中直接创建好，再上传。</p>
-</blockquote>
-<p>也许是typo，应该把CNAME文件放在source里，才不会被删。</p>
-<h1 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h1><p>本站采用next主题：<a href="https://github.com/next-theme/hexo-theme-next">https://github.com/next-theme/hexo-theme-next</a></p>
-<p>因为hexo是5.0+版本，所以安装主题只需：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd hexo-site</span><br><span class="line">$ npm install hexo-theme-next</span><br></pre></td></tr></table></figure>
-<p>再把_config.yml的theme改成next。但这种安装方法比较新，next的中文文档没有更新，需要参考英文文档进行定制：<a href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a> 。</p>
-<p>以改scheme为例，如果按照上面的教程走，那就是npm安装的，运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cp node_modules/hexo-theme-next/_config.yml _config.next.yml</span><br></pre></td></tr></table></figure>
-<p>然后修改Schemes的部分即可。</p>
-<h1 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo generate # 生成本地静态文件</span><br><span class="line">$ hexo deploy   # 部署</span><br><span class="line">$ hexo clean   </span><br><span class="line">$ hexo g &amp; hexo d </span><br><span class="line">$ hexo new post &#x27;title&#x27;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>GitHub</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>解决 docker no space left on device</title>
     <url>/2021-09-16-docker-no-space/</url>
     <content><![CDATA[<p>操作系统为 CentOS Linux release 7.2，试过网上的一些方法例如软链接，增加graph路径都没有用，自己摸索找到了配置路径的位置，记录一下。</p>
@@ -515,6 +478,43 @@
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用 Hexo + GitHub Page 自建博客</title>
+    <url>/2021-08-08-2021-08-08-build-blog-by-hexo/</url>
+    <content><![CDATA[<h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
+<p>官网下载安装node，确认以下命令均可使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<p>安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
+<p>如果出现报错</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ERROR Cannot find module &#x27;hexo&#x27; </span><br></pre></td></tr></table></figure>
+<p>重新安装hexo-util</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -- save-dev hexo-util</span><br></pre></td></tr></table></figure>
+<p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
+<p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
+<h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
+<blockquote>
+<p>注：如果你用了 hexo clean 命令删除本地静态资源，CNAME文件也会被删掉，所以你可以在本地生成的public文件夹中直接创建好，再上传。</p>
+</blockquote>
+<p>也许是typo，应该把CNAME文件放在source里，才不会被删。</p>
+<h1 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h1><p>本站采用next主题：<a href="https://github.com/next-theme/hexo-theme-next">https://github.com/next-theme/hexo-theme-next</a></p>
+<p>因为hexo是5.0+版本，所以安装主题只需：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd hexo-site</span><br><span class="line">$ npm install hexo-theme-next</span><br></pre></td></tr></table></figure>
+<p>再把_config.yml的theme改成next。但这种安装方法比较新，next的中文文档没有更新，需要参考英文文档进行定制：<a href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a> 。</p>
+<p>以改scheme为例，如果按照上面的教程走，那就是npm安装的，运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cp node_modules/hexo-theme-next/_config.yml _config.next.yml</span><br></pre></td></tr></table></figure>
+<p>然后修改Schemes的部分即可。</p>
+<h1 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo generate # 生成本地静态文件</span><br><span class="line">$ hexo deploy   # 部署</span><br><span class="line">$ hexo clean   </span><br><span class="line">$ hexo g &amp; hexo d </span><br><span class="line">$ hexo new post &#x27;title&#x27;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>GitHub</tag>
       </tags>
   </entry>
   <entry>
@@ -813,7 +813,7 @@
 <p>退出并重启容器：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker-compose restart</span><br></pre></td></tr></table></figure>
 
-<p>感谢小柠檬 @<a href="mailto:&#x6c;&#x65;&#109;&#111;&#x6e;&#x40;&#110;&#x79;&#97;&#46;&#x6c;&#x65;&#109;&#x6f;&#x6e;&#97;&#100;&#101;&#46;&#109;&#111;&#x65;">&#x6c;&#x65;&#109;&#111;&#x6e;&#x40;&#110;&#x79;&#97;&#46;&#x6c;&#x65;&#109;&#x6f;&#x6e;&#97;&#100;&#101;&#46;&#109;&#111;&#x65;</a> 用自己的实例测试研究出这套可行方案！</p>
+<p>感谢小柠檬 @<a href="mailto:&#108;&#x65;&#x6d;&#111;&#x6e;&#64;&#110;&#121;&#x61;&#46;&#x6c;&#101;&#109;&#x6f;&#110;&#x61;&#100;&#101;&#46;&#109;&#x6f;&#x65;">&#108;&#x65;&#x6d;&#111;&#x6e;&#64;&#110;&#121;&#x61;&#46;&#x6c;&#101;&#109;&#x6f;&#110;&#x61;&#100;&#101;&#46;&#109;&#x6f;&#x65;</a> 用自己的实例测试研究出这套可行方案！</p>
 <h2 id="非docker的魔改方法"><a href="#非docker的魔改方法" class="headerlink" title="非docker的魔改方法"></a>非docker的魔改方法</h2><p>可参考这篇文章：<a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">进阶魔改：修改字数上限、媒体上限、投票上限、添加自定义主题、界面用语、非登陆用户有限显示，附阻止本站嘟文流入某站点方法</a></p>
 <p>一般的修改逻辑是：</p>
 <ul>
@@ -966,11 +966,17 @@
   <entry>
     <title>Matrix | 使用 docker 搭建 Synapse 记录</title>
     <url>/2022-04-10-matrix/</url>
-    <content><![CDATA[<p>因为想用docker搭建，这里主要参考了<a href="https://www.b612.me/code/223.html">使用docker搭建Synapse[Matrix]</a>，关于域名问题参考了<a href="https://blog.bgme.me/posts/matrix-deployment-process-part-1/">Matrix踩坑记（一）</a></p>
+    <content><![CDATA[<p>因为想用docker搭建，这里主要参考了<a href="https://www.b612.me/code/223.html">使用docker搭建Synapse[Matrix]</a>，关于域名问题参考了<a href="https://blog.bgme.me/posts/matrix-deployment-process-part-1/">Matrix踩坑记（一）</a>和南狐的手把手debug。</p>
 <h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>参考<a href="https://blog.bgme.me/posts/matrix-deployment-process-part-1/">Matrix踩坑记（一）</a>，matrix是可以和其他服务共用一个域名的。因为我后续希望账号都是和社畜站的id完全相同，所以我使用retirenow.top这个域名，与此同时服务挂在cafe.retirenow.top。没有这个问题的，都用一样的域名就行。</p>
 <h2 id="搭建Synapse"><a href="#搭建Synapse" class="headerlink" title="搭建Synapse"></a>搭建Synapse</h2><p>按照教程建立&#x2F;data&#x2F;synapse&#x2F;下的三个文件夹：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir /data/synapse</span><br><span class="line">mkdir /data/synapse/data</span><br><span class="line">mkdir /data/synapse/postgres</span><br><span class="line">mkdir /data/synapse/redis</span><br></pre></td></tr></table></figure>
 <p>之后都直接按照教程一步步执行即可，输入\q退出。<br>搭建时使用的所有域名均为retirenow.top。</p>
+<p>如果使用不同域名，在修改&#x2F;data&#x2F;synapse&#x2F;data&#x2F;homeserver.yaml时，除了教程里的内容，还需要修改：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public_baseurl: https://cafe.retirenow.top</span><br></pre></td></tr></table></figure>
+<p>如果你之后使用cloudflare反代，由于关闭了8448端口，所以这边也要改：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">serve_server_wellknown: true</span><br></pre></td></tr></table></figure>
+
+
 <p>到这一步，打开 <a href="http://127.0.0.1:55800/">http://127.0.0.1:55800/</a> 应该会显示matrix的server界面，提示：</p>
 <blockquote>
 <p>Your Synapse server is listening on this port and is ready for messages.</p>
@@ -985,10 +991,11 @@
 <p>在”m.homeserver”中，修改”base_url”和”server_name”分别如下:</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;default_server_config&quot;: &#123;</span><br><span class="line">    &quot;m.homeserver&quot;: &#123;</span><br><span class="line">        &quot;base_url&quot;: &quot;https://cafe.retirenow.top&quot;,</span><br><span class="line">        &quot;server_name&quot;: &quot;retirenow.top&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;m.identity_server&quot;: &#123;</span><br><span class="line">        &quot;base_url&quot;: &quot;https://vector.im&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 
-<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>nginx只需要反代matrix的客户端，所以这里的域名一律只用cafe.retirenow.top</p>
+<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>在之前就配好的retirenow.top的nginx配置中加上：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Matrix</span><br><span class="line">location /.well-known/matrix/client &#123;</span><br><span class="line">  return 200 &#x27;&#123;&quot;m.homeserver&quot;: &#123;&quot;base_url&quot;: &quot;https://cafe.retirenow.top&quot;&#125;&#125;&#x27;;</span><br><span class="line">  default_type application/json;</span><br><span class="line">  add_header Access-Control-Allow-Origin *;</span><br><span class="line">&#125;  </span><br><span class="line">location /.well-known/matrix/server &#123;</span><br><span class="line">  return 200 &#x27;&#123;&quot;m.server&quot;: &quot;cafe.retirenow.top:443&quot;&#125;&#x27;;</span><br><span class="line">  default_type application/json;</span><br><span class="line">  add_header Access-Control-Allow-Origin *;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<p>然后新建一个cafe.retirenow.top的配置。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /etc/nginx/sites-available</span><br><span class="line">vim cafe.retirenow.top.conf</span><br></pre></td></tr></table></figure>
-
-<p>更改所有域名为cafe.retirenow.top，然后更改cafe.retirenow.top.conf的这三行为：</p>
+<p>依然按照<a href="https://www.b612.me/code/223.html">使用docker搭建Synapse[Matrix]</a>配置，但是删掉上面被挪到retirenow.top的那几行。<br>更改所有域名为cafe.retirenow.top，然后更改cafe.retirenow.top.conf的这三行为：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssl_certificate /etc/letsencrypt/live/cafe.retirenow.top/fullchain.pem; # managed by Certbot</span><br><span class="line">ssl_certificate_key /etc/letsencrypt/live/cafe.retirenow.top/privkey.pem; # managed by Certbot</span><br><span class="line">root /data/synapse/element-web;</span><br></pre></td></tr></table></figure>
 <p>申请证书，reload nginx：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">certbot certonly --nginx -d cafe.retirenow.top</span><br><span class="line">ln -s /etc/nginx/sites-available/cafe.retirenow.top.conf /etc/nginx/sites-enabled/</span><br><span class="line">systemctl reload nginx</span><br></pre></td></tr></table></figure>
