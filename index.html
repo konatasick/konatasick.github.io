@@ -164,7 +164,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -175,7 +175,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">34</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -204,6 +204,113 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://tech.konata.co/2022-04-10-matrix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Konata Izumi">
+      <meta itemprop="description" content="堆满了debug记录的笔记本">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Konata Tech Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022-04-10-matrix/" class="post-title-link" itemprop="url">Matrix | 使用 docker 搭建 Synapse 记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-04-10 03:18:57" itemprop="dateCreated datePublished" datetime="2022-04-10T03:18:57+08:00">2022-04-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Project/" itemprop="url" rel="index"><span itemprop="name">Project</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>因为想用docker搭建，这里主要参考了<a target="_blank" rel="noopener" href="https://www.b612.me/code/223.html">使用docker搭建Synapse[Matrix]</a>，关于域名问题参考了<a target="_blank" rel="noopener" href="https://blog.bgme.me/posts/matrix-deployment-process-part-1/">Matrix踩坑记（一）</a></p>
+<h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>参考<a target="_blank" rel="noopener" href="https://blog.bgme.me/posts/matrix-deployment-process-part-1/">Matrix踩坑记（一）</a>，matrix是可以和其他服务共用一个域名的。因为我后续希望账号都是和社畜站的id完全相同，所以我使用retirenow.top这个域名，与此同时服务挂在cafe.retirenow.top。没有这个问题的，都用一样的域名就行。</p>
+<h2 id="搭建Synapse"><a href="#搭建Synapse" class="headerlink" title="搭建Synapse"></a>搭建Synapse</h2><p>按照教程建立&#x2F;data&#x2F;synapse&#x2F;下的三个文件夹：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir /data/synapse</span><br><span class="line">mkdir /data/synapse/data</span><br><span class="line">mkdir /data/synapse/postgres</span><br><span class="line">mkdir /data/synapse/redis</span><br></pre></td></tr></table></figure>
+<p>之后都直接按照教程一步步执行即可，输入\q退出。<br>搭建时使用的所有域名均为retirenow.top。</p>
+<p>到这一步，打开 <a target="_blank" rel="noopener" href="http://127.0.0.1:55800/">http://127.0.0.1:55800/</a> 应该会显示matrix的server界面，提示：</p>
+<blockquote>
+<p>Your Synapse server is listening on this port and is ready for messages.</p>
+</blockquote>
+<p>这就是成功了！就是这么简单！</p>
+<h2 id="配置Riot-web界面"><a href="#配置Riot-web界面" class="headerlink" title="配置Riot web界面"></a>配置Riot web界面</h2><p>服务器配置好以后来配置客户端，这边推荐全平台的element。需要注意的是，这里用的是cafe.retirenow.top这个域名，也就是通过打开：</p>
+<p><a target="_blank" rel="noopener" href="https://cafe.retirenow.top/">https://cafe.retirenow.top/</a></p>
+<p>来使用matrix。所以cloudflare里应该添加的是cafe到服务器的DNS映射，nginx也应该监听cafe.retirenow.top，只有在element的设置文件中需要指定server_name为retirenow.top。</p>
+<p>这里解压到任何路径都可以，因为和前面的server是独立的。我的话解压到了&#x2F;data&#x2F;synapse&#x2F;并改名为element-web：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/vector-im/element-web/releases/download/v1.10.9-rc.3/element-v1.10.9-rc.3.tar.gz</span><br><span class="line">tar -zxvf element-v1.10.9-rc.3.tar.gz -C /data/synapse</span><br><span class="line">mv /data/synapse/element-v1.10.9-rc.3 /data/synapse/element-web</span><br><span class="line">cd /data/synapse/element-web</span><br><span class="line">cp config.sample.json config.json</span><br><span class="line">vim /data/synapse/element-web/config.json</span><br></pre></td></tr></table></figure>
+<p>上面的下载地址请自行替换为<a target="_blank" rel="noopener" href="https://github.com/vector-im/element-web/releases">最新版本地址</a>。</p>
+<p>在”m.homeserver”中，修改”base_url”和”server_name”分别如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&quot;default_server_config&quot;: &#123;</span><br><span class="line">    &quot;m.homeserver&quot;: &#123;</span><br><span class="line">        &quot;base_url&quot;: &quot;https://cafe.retirenow.top&quot;,</span><br><span class="line">        &quot;server_name&quot;: &quot;retirenow.top&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;m.identity_server&quot;: &#123;</span><br><span class="line">        &quot;base_url&quot;: &quot;https://vector.im&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>nginx只需要反代matrix的客户端，所以这里的域名一律只用cafe.retirenow.top</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/nginx/sites-available</span><br><span class="line">vim cafe.retirenow.top.conf</span><br></pre></td></tr></table></figure>
+
+<p>更改所有域名为cafe.retirenow.top，然后更改cafe.retirenow.top.conf的这三行为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssl_certificate /etc/letsencrypt/live/cafe.retirenow.top/fullchain.pem; # managed by Certbot</span><br><span class="line">ssl_certificate_key /etc/letsencrypt/live/cafe.retirenow.top/privkey.pem; # managed by Certbot</span><br><span class="line">root /data/synapse/element-web;</span><br></pre></td></tr></table></figure>
+<p>申请证书，reload nginx：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">certbot certonly --nginx -d cafe.retirenow.top</span><br><span class="line">ln -s /etc/nginx/sites-available/cafe.retirenow.top.conf /etc/nginx/sites-enabled/</span><br><span class="line">systemctl reload nginx</span><br></pre></td></tr></table></figure>
+<p>我的certbot一定要这么搞才可以成功，至今不知道为什么，会搞certbot的用你自己的流程搞就可以了。要点就是这里要用cafe.retirenow.top.conf。</p>
+<p>cloudflare添加好DNS记录，就可以直接打开啦：</p>
+<p><a target="_blank" rel="noopener" href="https://cafe.retirenow.top/">https://cafe.retirenow.top/</a></p>
+<h2 id="配置管理页面"><a href="#配置管理页面" class="headerlink" title="配置管理页面"></a>配置管理页面</h2><p>新建一个管理员账号:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /data/synapse</span><br><span class="line">docker-compose exec  synapse register_new_matrix_user -c /data/homeserver.yaml http://localhost:8008</span><br></pre></td></tr></table></figure>
+<p>按照提示输入账号密码，在Make admin [no]: 时输入yes，之后可以直接在网页上改密码且不需要邮箱，很方便，所以不用配邮箱服务了。</p>
+<p>然后搭建管理界面：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8100:80 awesometechnologies/synapse-admin</span><br></pre></td></tr></table></figure>
+<p>就可以通过访问：<br><a target="_blank" rel="noopener" href="http://localhost:59242/">http://localhost:59242</a><br>来使用管理页面。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -506,7 +613,7 @@
 <p>退出并重启容器：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose restart</span><br></pre></td></tr></table></figure>
 
-<p>感谢小柠檬 @<a href="mailto:&#108;&#x65;&#x6d;&#x6f;&#110;&#x40;&#x6e;&#x79;&#97;&#x2e;&#108;&#x65;&#x6d;&#111;&#x6e;&#x61;&#x64;&#101;&#46;&#x6d;&#111;&#x65;">&#108;&#x65;&#x6d;&#x6f;&#110;&#x40;&#x6e;&#x79;&#97;&#x2e;&#108;&#x65;&#x6d;&#111;&#x6e;&#x61;&#x64;&#101;&#46;&#x6d;&#111;&#x65;</a> 用自己的实例测试研究出这套可行方案！</p>
+<p>感谢小柠檬 @<a href="mailto:&#108;&#x65;&#109;&#111;&#110;&#x40;&#110;&#x79;&#x61;&#46;&#108;&#101;&#109;&#x6f;&#110;&#x61;&#100;&#101;&#x2e;&#x6d;&#x6f;&#101;">&#108;&#x65;&#109;&#111;&#110;&#x40;&#110;&#x79;&#x61;&#46;&#108;&#101;&#109;&#x6f;&#110;&#x61;&#100;&#101;&#x2e;&#x6d;&#x6f;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
 <h2 id="非docker的魔改方法"><a href="#非docker的魔改方法" class="headerlink" title="非docker的魔改方法"></a>非docker的魔改方法</h2><p>可参考这篇文章：<a target="_blank" rel="noopener" href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">进阶魔改：修改字数上限、媒体上限、投票上限、添加自定义主题、界面用语、非登陆用户有限显示，附阻止本站嘟文流入某站点方法</a></p>
 <p>一般的修改逻辑是：</p>
 <ul>
@@ -1286,110 +1393,6 @@
 
 <p>确认无误后可以删除，为了防止出错可以用一阵子再删</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">rm</span> -rf /var/lib/docker_temp</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://tech.konata.co/2021-08-08-2021-08-08-build-blog-by-hexo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Konata Izumi">
-      <meta itemprop="description" content="堆满了debug记录的笔记本">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Konata Tech Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021-08-08-2021-08-08-build-blog-by-hexo/" class="post-title-link" itemprop="url">使用 Hexo + GitHub Page 自建博客</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-08-08 04:14:38" itemprop="dateCreated datePublished" datetime="2021-08-08T04:14:38+08:00">2021-08-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-02-26 20:16:32" itemprop="dateModified" datetime="2022-02-26T20:16:32+08:00">2022-02-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Project/" itemprop="url" rel="index"><span itemprop="name">Project</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
-<p>官网下载安装node，确认以下命令均可使用：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
-<p>安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
-<p>如果出现报错</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR Cannot find module &#x27;hexo&#x27; </span><br></pre></td></tr></table></figure>
-<p>重新安装hexo-util</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -- save-dev hexo-util</span><br></pre></td></tr></table></figure>
-<p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
-<p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
-<h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
-<blockquote>
-<p>注：如果你用了 hexo clean 命令删除本地静态资源，CNAME文件也会被删掉，所以你可以在本地生成的public文件夹中直接创建好，再上传。</p>
-</blockquote>
-<p>也许是typo，应该把CNAME文件放在source里，才不会被删。</p>
-<h1 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h1><p>本站采用next主题：<a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-theme-next">https://github.com/next-theme/hexo-theme-next</a></p>
-<p>因为hexo是5.0+版本，所以安装主题只需：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd hexo-site</span><br><span class="line">$ npm install hexo-theme-next</span><br></pre></td></tr></table></figure>
-<p>再把_config.yml的theme改成next。但这种安装方法比较新，next的中文文档没有更新，需要参考英文文档进行定制：<a target="_blank" rel="noopener" href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a> 。</p>
-<p>以改scheme为例，如果按照上面的教程走，那就是npm安装的，运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cp node_modules/hexo-theme-next/_config.yml _config.next.yml</span><br></pre></td></tr></table></figure>
-<p>然后修改Schemes的部分即可。</p>
-<h1 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate # 生成本地静态文件</span><br><span class="line">$ hexo deploy   # 部署</span><br><span class="line">$ hexo clean   </span><br><span class="line">$ hexo g &amp; hexo d </span><br><span class="line">$ hexo new post &#x27;title&#x27;</span><br></pre></td></tr></table></figure>
 
 
       
