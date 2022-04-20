@@ -1,109 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>scikit-learn使用PCA降维小结</title>
-    <url>/2018-11-30-pca/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<p>本文在 <a href="http://www.cnblogs.com/pinard/p/6239403.html">http://www.cnblogs.com/pinard/p/6239403.html</a> 和 <a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。</p>
-<p>Jupiter notebook版本参见我的github: </p>
-<p><a href="https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb">https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb</a></p>
-<h2 id="PCA的思想"><a href="#PCA的思想" class="headerlink" title="PCA的思想"></a>PCA的思想</h2><p>PCA（Principal components analysis，主成分分析）是一种降维算法，它通过使样本间方差尽量大来尽可能保留原始数据的相关关系。</p>
-<h2 id="PCA的算法"><a href="#PCA的算法" class="headerlink" title="PCA的算法"></a>PCA的算法</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1) 对所有的样本进行中心化</span><br><span class="line"></span><br><span class="line">2) 计算样本的协方差矩阵</span><br><span class="line"></span><br><span class="line">3) 对协方差矩阵进行特征值分解</span><br><span class="line"></span><br><span class="line">4）取出最大的m个特征值对应的特征向量, 将所有的特征向量标准化后，组成特征向量矩阵W。</span><br><span class="line"></span><br><span class="line">5）对样本集中的每一个样本转化为新的样本</span><br></pre></td></tr></table></figure>
-
-<h2 id="scikit-learn的sklearn-decomposition-PCA参数介绍"><a href="#scikit-learn的sklearn-decomposition-PCA参数介绍" class="headerlink" title="scikit-learn的sklearn.decomposition.PCA参数介绍"></a>scikit-learn的sklearn.decomposition.PCA参数介绍</h2><p>官方文档：<a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html">https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html</a></p>
-<p>Parameters:</p>
-<p>n_components：这个代表了需要降维的维度。当它是整数时，代表了保留的维度数量。当它是一个介于0~1之间的数时，代表了主成分的方差所占的最小比例，例如0.95代表取超过95%的量的维度。当它为’mle’;，同时svd_solver &#x3D;&#x3D; ‘full’;时，系统会根据MLE算法自动选择维度。（此时svd_solver &#x3D;&#x3D; ‘auto’;将会被解读为svd_solver &#x3D;&#x3D; ‘full’;）</p>
-<p>svd_solver：默认是’auto’;，即在剩下的’full’;, ‘arpack’;, ‘randomized’;中根据情况选一个。’full’;是传统的PCA，’arpack’;, ‘randomized’;适用于数据量大的场景，其区别在于前者是通过scipy.sparse.linalg.svds实现。</p>
-<p>Attributes*:</p>
-<p>components_ : 主成分的投影坐标，代表了数据的最大方差的方向，根据explained_variance_由大到小排列。维度是m*n，其中n是原始数据的维度，m是降维后的维度。</p>
-<p>explained_variance_和explained_variance_ratio_：前者是每一维的方差，后者是所占比例：</p>
-<p>explained_variance_ratio_&#x3D;explained_variance&#x2F;sum（explained_variance_）</p>
-<p>维度是m, 当m&#x3D;n时，sum（explained_variance_ratio_）&#x3D;1。</p>
-<p>mean_：每个feature的平均值。在pca算法的第一步，需要对feature归一化，此时的平均值保留在这里。</p>
-<p>n_components_：模型实际的降维数，即m。</p>
-<h2 id="PCA实例"><a href="#PCA实例" class="headerlink" title="PCA实例"></a>PCA实例</h2><p><a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 中示范了降维的操作。</p>
-<p>首先我们生成随机数据并可视化，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from mpl_toolkits.mplot3d import Axes3D</span><br><span class="line">%matplotlib inline</span><br><span class="line">from sklearn.datasets.samples_generator import make_blobs</span><br><span class="line"># X为样本特征，Y为样本簇类别， 共1000个样本，每个样本3个特征，共4个簇</span><br><span class="line">X, y = make_blobs(n_samples=10000, n_features=3, centers=[[3,3, 3], [0,0,0], [1,1,1], [2,2,2]], cluster_std=[0.2, 0.1, 0.2, 0.2], </span><br><span class="line">                  random_state =9)</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X[:, 0], X[:, 1], X[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
-
-
-
-<p>输出如图：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104731303-1636187054.png"></p>
-<p>现在我们来进行降维，从3维降到2维，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from sklearn.decomposition import PCA</span><br><span class="line">pca = PCA(n_components=2)</span><br><span class="line">pca.fit(X)</span><br><span class="line">X_new = pca.transform(X)</span><br><span class="line">plt.scatter(X_new[:, 0], X_new[:, 1],marker=&#x27;o&#x27;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-
-
-<p>输出如图：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104805898-1186449046.png"></p>
-<p>在很多应用中，当我们将数据降维并用于训练后，训练出来的模型之后的输出也是降维后的数据，需要还原回原始维度。这时候需要将pca算法进行逆运算：</p>
-<p>X_old&#x3D;np.dot(X_new,pca.components_)+pca.mean_</p>
-<p>即将新数据和components_相乘并加上平均值。</p>
-<p>使用上文的例子，代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">X_old=np.dot(X_new,pca.components_)+pca.mean_</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X_old[:, 0], X_old[:, 1], X_old[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>输出如图：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104849634-1533278071.png"></p>
-<p>可以看到，数据即是投影到最大方差方向但并未进行降维时的样子。</p>
-<p>*parameter的命名后面没有下划线，而attribute的命名后面都有下划线，以此区分。</p>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>scikit-learn</tag>
-        <tag>PCA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在服务器用conda创建python环境</title>
-    <url>/2019-07-08-conda-create-env/</url>
-    <content><![CDATA[<p>2019年11月27日更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
-
-<p>可以导出environment配置环境：</p>
-<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
-<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
-<p>删除环境：conda remove -n your_env_name –all</p>
-<hr>
-<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
-<p>首先，尝试conda list，提示not command，解决方法：</p>
-<p>在.bashrc 的末尾添加如下一行：</p>
-<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
-<p>之后conda list，正常。</p>
-<p>创建：</p>
-<p>conda create -n vso python&#x3D;2.7</p>
-<p>激活：</p>
-<p>source activate vso</p>
-<p>然后就可以开始安装需要的package</p>
-<p>pip install imutils</p>
-<p>pip install numpy</p>
-<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
-<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
-<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
-<p>pip install scipy</p>
-<p>pip install matplotlib</p>
-<p>pip install sklearn</p>
-<p>pip install ffmpeg-normalize</p>
-<p>conda install ffmpeg</p>
-<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
-<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>conda</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python实现聚类算法</title>
     <url>/2019-07-08-kmeans/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -170,9 +67,51 @@
         <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>scikit-learn</tag>
+        <tag>python</tag>
         <tag>kmeans</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在服务器用conda创建python环境</title>
+    <url>/2019-07-08-conda-create-env/</url>
+    <content><![CDATA[<p>2019年11月27日更新：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
+
+<p>可以导出environment配置环境：</p>
+<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
+<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
+<p>删除环境：conda remove -n your_env_name –all</p>
+<hr>
+<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
+<p>首先，尝试conda list，提示not command，解决方法：</p>
+<p>在.bashrc 的末尾添加如下一行：</p>
+<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
+<p>之后conda list，正常。</p>
+<p>创建：</p>
+<p>conda create -n vso python&#x3D;2.7</p>
+<p>激活：</p>
+<p>source activate vso</p>
+<p>然后就可以开始安装需要的package</p>
+<p>pip install imutils</p>
+<p>pip install numpy</p>
+<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
+<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
+<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
+<p>pip install scipy</p>
+<p>pip install matplotlib</p>
+<p>pip install sklearn</p>
+<p>pip install ffmpeg-normalize</p>
+<p>conda install ffmpeg</p>
+<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
+<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>conda</tag>
       </tags>
   </entry>
   <entry>
@@ -236,116 +175,64 @@
       </tags>
   </entry>
   <entry>
-    <title>ffmpeg操作速查</title>
-    <url>/2019-11-28-ffmpeg/</url>
+    <title>scikit-learn使用PCA降维小结</title>
+    <url>/2018-11-30-pca/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
 
-<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
-<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
-<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
-<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
-<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
-<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
-<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
-<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
-<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
-<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
-<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
-<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
-<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
-<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
-<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
-<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
-<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
-<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
-<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
-<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
+<p>本文在 <a href="http://www.cnblogs.com/pinard/p/6239403.html">http://www.cnblogs.com/pinard/p/6239403.html</a> 和 <a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 的内容基础上做了一些笔记和补充，强调了我认为重要的部分，其中一些细节不再赘述。</p>
+<p>Jupiter notebook版本参见我的github: </p>
+<p><a href="https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb">https://github.com/konatasick/machine_learning_note/blob/master/pca.ipynb</a></p>
+<h2 id="PCA的思想"><a href="#PCA的思想" class="headerlink" title="PCA的思想"></a>PCA的思想</h2><p>PCA（Principal components analysis，主成分分析）是一种降维算法，它通过使样本间方差尽量大来尽可能保留原始数据的相关关系。</p>
+<h2 id="PCA的算法"><a href="#PCA的算法" class="headerlink" title="PCA的算法"></a>PCA的算法</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1) 对所有的样本进行中心化</span><br><span class="line"></span><br><span class="line">2) 计算样本的协方差矩阵</span><br><span class="line"></span><br><span class="line">3) 对协方差矩阵进行特征值分解</span><br><span class="line"></span><br><span class="line">4）取出最大的m个特征值对应的特征向量, 将所有的特征向量标准化后，组成特征向量矩阵W。</span><br><span class="line"></span><br><span class="line">5）对样本集中的每一个样本转化为新的样本</span><br></pre></td></tr></table></figure>
+
+<h2 id="scikit-learn的sklearn-decomposition-PCA参数介绍"><a href="#scikit-learn的sklearn-decomposition-PCA参数介绍" class="headerlink" title="scikit-learn的sklearn.decomposition.PCA参数介绍"></a>scikit-learn的sklearn.decomposition.PCA参数介绍</h2><p>官方文档：<a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html">https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html</a></p>
+<p>Parameters:</p>
+<p>n_components：这个代表了需要降维的维度。当它是整数时，代表了保留的维度数量。当它是一个介于0~1之间的数时，代表了主成分的方差所占的最小比例，例如0.95代表取超过95%的量的维度。当它为’mle’;，同时svd_solver &#x3D;&#x3D; ‘full’;时，系统会根据MLE算法自动选择维度。（此时svd_solver &#x3D;&#x3D; ‘auto’;将会被解读为svd_solver &#x3D;&#x3D; ‘full’;）</p>
+<p>svd_solver：默认是’auto’;，即在剩下的’full’;, ‘arpack’;, ‘randomized’;中根据情况选一个。’full’;是传统的PCA，’arpack’;, ‘randomized’;适用于数据量大的场景，其区别在于前者是通过scipy.sparse.linalg.svds实现。</p>
+<p>Attributes*:</p>
+<p>components_ : 主成分的投影坐标，代表了数据的最大方差的方向，根据explained_variance_由大到小排列。维度是m*n，其中n是原始数据的维度，m是降维后的维度。</p>
+<p>explained_variance_和explained_variance_ratio_：前者是每一维的方差，后者是所占比例：</p>
+<p>explained_variance_ratio_&#x3D;explained_variance&#x2F;sum（explained_variance_）</p>
+<p>维度是m, 当m&#x3D;n时，sum（explained_variance_ratio_）&#x3D;1。</p>
+<p>mean_：每个feature的平均值。在pca算法的第一步，需要对feature归一化，此时的平均值保留在这里。</p>
+<p>n_components_：模型实际的降维数，即m。</p>
+<h2 id="PCA实例"><a href="#PCA实例" class="headerlink" title="PCA实例"></a>PCA实例</h2><p><a href="https://www.cnblogs.com/pinard/p/6243025.html">https://www.cnblogs.com/pinard/p/6243025.html</a> 中示范了降维的操作。</p>
+<p>首先我们生成随机数据并可视化，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from mpl_toolkits.mplot3d import Axes3D</span><br><span class="line">%matplotlib inline</span><br><span class="line">from sklearn.datasets.samples_generator import make_blobs</span><br><span class="line"># X为样本特征，Y为样本簇类别， 共1000个样本，每个样本3个特征，共4个簇</span><br><span class="line">X, y = make_blobs(n_samples=10000, n_features=3, centers=[[3,3, 3], [0,0,0], [1,1,1], [2,2,2]], cluster_std=[0.2, 0.1, 0.2, 0.2], </span><br><span class="line">                  random_state =9)</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X[:, 0], X[:, 1], X[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>输出如图：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104731303-1636187054.png"></p>
+<p>现在我们来进行降维，从3维降到2维，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from sklearn.decomposition import PCA</span><br><span class="line">pca = PCA(n_components=2)</span><br><span class="line">pca.fit(X)</span><br><span class="line">X_new = pca.transform(X)</span><br><span class="line">plt.scatter(X_new[:, 0], X_new[:, 1],marker=&#x27;o&#x27;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>输出如图：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104805898-1186449046.png"></p>
+<p>在很多应用中，当我们将数据降维并用于训练后，训练出来的模型之后的输出也是降维后的数据，需要还原回原始维度。这时候需要将pca算法进行逆运算：</p>
+<p>X_old&#x3D;np.dot(X_new,pca.components_)+pca.mean_</p>
+<p>即将新数据和components_相乘并加上平均值。</p>
+<p>使用上文的例子，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">X_old=np.dot(X_new,pca.components_)+pca.mean_</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = Axes3D(fig, rect=[0, 0, 1, 1], elev=30, azim=20)</span><br><span class="line">plt.scatter(X_old[:, 0], X_old[:, 1], X_old[:, 2],marker=&#x27;o&#x27;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>输出如图：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1550156/201811/1550156-20181130104849634-1533278071.png"></p>
+<p>可以看到，数据即是投影到最大方差方向但并未进行降维时的样子。</p>
+<p>*parameter的命名后面没有下划线，而attribute的命名后面都有下划线，以此区分。</p>
 ]]></content>
       <categories>
-        <category>Workshop</category>
+        <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>ffmpeg</tag>
-        <tag>bash</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>大型vscode真香现场</title>
-    <url>/2020-01-16-vscode/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<p><strong>Update 2022-2-26:</strong><br>增加了更基础的一些<a href="https://s2.loli.net/2022/02/26/w2T56gV8CrDHzne.png">安装配置流程</a></p>
-<p>昨天朋友推荐了vscode以后今天试了一下真的是一见钟情，之前学c++的时候就很喜欢用vs，现在用python而且又是在服务器上跑，一直觉得sublime调试非常不方便。vscode对于以前用习惯vs的人不要太舒服，而且对jupyter notebook的支持意外地好，可以说是综合了好几个我非常爱用的IDE的优点了！</p>
-<h1 id="在vscode中使用python"><a href="#在vscode中使用python" class="headerlink" title="在vscode中使用python"></a>在vscode中使用python</h1><p>这个特别简单，一个官方的教程即可搞定：<a href="https://code.visualstudio.com/docs/python/python-tutorial">python-tutorial</a></p>
-<p>几个注意的点：</p>
-<ul>
-<li>设置语言</li>
-</ul>
-<p>按F1然后搜索“configure display language”，就可以选择和安装语言</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-c2ba80430dd7d00e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-66c6ebcbafa80b66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<ul>
-<li>切换python 环境</li>
-</ul>
-<p>左下角这里可以切换版本，非常方便</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-36a9ffb7f4d5250f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<ul>
-<li>安装包</li>
-</ul>
-<p>根据tutorial提示，最好是在虚拟环境下安装包</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">py -3 -m venv .venv</span><br><span class="line">Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process</span><br><span class="line">.venv\scripts\activate</span><br><span class="line">python -m pip install matplotlib</span><br></pre></td></tr></table></figure>
-
-<h1 id="用vscode远程工作"><a href="#用vscode远程工作" class="headerlink" title="用vscode远程工作"></a>用vscode远程工作</h1><p>这也是我最关心的问题，毕竟我的代码几乎都是在服务器上跑的。</p>
-<p>首先是官方教程：<a href="https://code.visualstudio.com/docs/remote/remote-overview">remote-overview</a>，or more specifically：<a href="https://code.visualstudio.com/docs/remote/ssh">Remote Development using SSH</a></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-a48b1a7d8bf81ef5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<p>简单介绍一下，在vscode上用SSH远程工作的大致原理就是，本地vscode只提供UI，所有的工作区和代码之类的全是在远程进行的。但你用起来的体验就像是在本地调代码一样。</p>
-<p>需要特别注意的一点是，python插件要在远程重新安装一次。</p>
-<h2 id="下载remote-development"><a href="#下载remote-development" class="headerlink" title="下载remote development"></a>下载remote development</h2><p>首先在extensions商店搜索“remote development”</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-1b57d11b1f23682d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<h2 id="连接remote-machine"><a href="#连接remote-machine" class="headerlink" title="连接remote machine"></a>连接remote machine</h2><p>F1, Remote-SSH: Connect to Host… </p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-2435fc80c6943f5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<p>这边我选择的是add SSH然后输入<code>username@hostname </code>，之后弹出来的窗口上方会提示是否继续和输入密码，输入密码之后就会连上然后就可以打开文件夹。</p>
-<h2 id="免密登录"><a href="#免密登录" class="headerlink" title="免密登录"></a>免密登录</h2><p>这个有点复杂，单独讲一下，官网见：<a href="https://code.visualstudio.com/docs/remote/troubleshooting#_quick-start-ssh-key">Quick start: SSH key</a>，同时参考了这篇文章：<a href="https://zhuanlan.zhihu.com/p/89662757">使用vscode进行远程炼丹</a>。</p>
-<ol>
-<li>在local打开cmd，输入：</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096</span><br></pre></td></tr></table></figure>
-<p>中途提示输入文件路径和密码，都直接回车。</p>
-<ol start="2">
-<li>上传公钥</li>
-</ol>
-<p>这边我是直接在服务器新建了&#x2F;.ssh&#x2F;authorized_keys然后手动把id_rsa.pub里的内容复制进去。</p>
-<p>接下来再连接就不需要输入密码了。</p>
-<h2 id="在远程中调试"><a href="#在远程中调试" class="headerlink" title="在远程中调试"></a>在远程中调试</h2><p>首先就是把python插件再安装一次，然后重新连接，这时候会重新也安装一下pylint。</p>
-<h1 id="在vscode里用jupyter-notebook"><a href="#在vscode里用jupyter-notebook" class="headerlink" title="在vscode里用jupyter notebook"></a>在vscode里用jupyter notebook</h1><p>这个我之前想复杂了，其实直接新建一个.ipynb文件，打开并且运行，就会提示你没有装，然后你选择一下安装方式conda&#x2F;pip就可以装好了。</p>
-<h2 id="连接本地的jupyter-notebook"><a href="#连接本地的jupyter-notebook" class="headerlink" title="连接本地的jupyter notebook"></a>连接本地的jupyter notebook</h2><p>用不上，理论上同下</p>
-<h2 id="连接服务器上的jupyter-notebook"><a href="#连接服务器上的jupyter-notebook" class="headerlink" title="连接服务器上的jupyter notebook"></a>连接服务器上的jupyter notebook</h2><p>意外也很容易，在想要的目录上<code>jupyter notebook</code>，出来的链接点进去就可以打开了<br>（之前的坑是用<code>jupyter notebook list</code>，结果出来的目录是home&#x2F;yourname）</p>
-<hr>
-<p>2020年6月12日更新<br>用上述方法做断连就打不开了，需要用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jupyter notebook --ip=0.0.0.0 --port=xxxx</span><br></pre></td></tr></table></figure>
-<p>然后在<a href="http://gpu-server-2:xxxx/?token=xxxx里把gpu-server-2换成服务器ip就可以了">http://gpu-server-2:xxxx/?token=xxxx里把gpu-server-2换成服务器ip就可以了</a></p>
-<h1 id="断点调试时设置参数"><a href="#断点调试时设置参数" class="headerlink" title="断点调试时设置参数"></a>断点调试时设置参数</h1><p>可以参考这篇文章：<br><a href="https://blog.csdn.net/u012332816/article/details/80801106">https://blog.csdn.net/u012332816/article/details/80801106</a></p>
-<p>打开Run→Open Configurations，添加“args”，类似这样：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;version&quot;: &quot;0.2.0&quot;,</span><br><span class="line">    &quot;configurations&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot;: &quot;Python: 当前文件&quot;,</span><br><span class="line">            &quot;type&quot;: &quot;python&quot;,</span><br><span class="line">            &quot;request&quot;: &quot;launch&quot;,</span><br><span class="line">            &quot;program&quot;: &quot;$&#123;file&#125;&quot;,</span><br><span class="line">            &quot;console&quot;: &quot;integratedTerminal&quot;,</span><br><span class="line">            &quot;args&quot;: [</span><br><span class="line">                &quot;--arg1&quot;,</span><br><span class="line">                &quot;--arg2&quot;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="用VScode连接docker容器"><a href="#用VScode连接docker容器" class="headerlink" title="用VScode连接docker容器"></a>用VScode连接docker容器</h1><p>参考<a href="https://code.visualstudio.com/docs/remote/containers#_quick-start-try-a-development-container">官方文档</a>，需要先配置好免密登陆。</p>
-<p>在本机安装docker，在vscode上安装Remote Development，docker插件。</p>
-<p>接下来要修改vscode 的 docker.host，在Docker插件的设置里打开settings.json，增加一行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;docker.host&quot;:&quot;ssh://root@ip:36000&quot;</span><br></pre></td></tr></table></figure>
-
-<p>点击左下角的远程开发按钮， 选择”Remote-Containers: Attach to Running Container…”，就可以看到可连接的docker container列表。</p>
-<p>之后也可以在远程资源管理器（vscode侧边栏）切换可连接的SSH和containers列表。</p>
-<p>实际测试后，如果在远程terminal直接运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker exec -it container_ID /bin/bash</span><br></pre></td></tr></table></figure>
-<p>也可以直接在远程docker列表中看到。</p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
+        <tag>scikit-learn</tag>
         <tag>python</tag>
-        <tag>vscode</tag>
-        <tag>JupyterNotebook</tag>
+        <tag>PCA</tag>
       </tags>
   </entry>
   <entry>
@@ -378,6 +265,41 @@
       </categories>
       <tags>
         <tag>mac</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ffmpeg操作速查</title>
+    <url>/2019-11-28-ffmpeg/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h2 id="切割音频"><a href="#切割音频" class="headerlink" title="切割音频"></a>切割音频</h2><p>ffmpeg -i zhaoliying.mp3 -vn -acodec copy -ss 00:00:00 -t 00:00:10 zhaoliying_10s.mp3</p>
+<h2 id="切割视频"><a href="#切割视频" class="headerlink" title="切割视频"></a>切割视频</h2><p>ffmpeg -i target_video.mp4 -vcodec copy -acodec copy -ss 00:00:00 -t 00:00:05 target_video_5s.mp4</p>
+<h2 id="加logo"><a href="#加logo" class="headerlink" title="加logo"></a>加logo</h2><p><a href="https://www.jianshu.com/p/a069df10a5fb">用ffmpeg给视频批量加水印</a></p>
+<h2 id="提取音频"><a href="#提取音频" class="headerlink" title="提取音频"></a>提取音频</h2><p>ffmpeg -i target_video_0829_1.mp4 -f mp3 -vn target_video_0829_1.mp3</p>
+<h2 id="改fps"><a href="#改fps" class="headerlink" title="改fps"></a>改fps</h2><p>ffmpeg -i “target_video_0829_1.mp4” -r 29.97 -b:v 10M “target_video_0829_1_fps2997.mp4”</p>
+<h2 id="拼接视频"><a href="#拼接视频" class="headerlink" title="拼接视频"></a>拼接视频</h2><p>ffmpeg -i input1.mp4 -i input2.mp4 -filter_complex hstack output.mp4</p>
+<h2 id="图片转视频"><a href="#图片转视频" class="headerlink" title="图片转视频"></a>图片转视频</h2><p>ffmpeg -f image2 -i %d.png  -vcodec libx264 -r 29.97 -b:v 10M  tt.mp4</p>
+<h2 id="旋转视频"><a href="#旋转视频" class="headerlink" title="旋转视频"></a>旋转视频</h2><p>ffmpeg -i input.mp4 -vf “transpose&#x3D;1” output.mp4</p>
+<h2 id="拼接音频"><a href="#拼接音频" class="headerlink" title="拼接音频"></a>拼接音频</h2><p>sox 1.mp3 2.mp3 out.mp3</p>
+<p>这边是发现ffmpeg拼不起来，然后用sox发现报错是<img src="https://upload-images.jianshu.io/upload_images/12583080-6cb124c9cafb069e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>所以要调整一下sample-rate和channels<br>ffmpeg -i 1.mp3 -ac 1 -ar 16000 out1.mp3</p>
+<h2 id="改音频为16K"><a href="#改音频为16K" class="headerlink" title="改音频为16K"></a>改音频为16K</h2><p>ffmpeg -i 01.mp3 -acodec pcm_s16le -ac 1 -ar 16000 1.wav</p>
+<h2 id="改视频size"><a href="#改视频size" class="headerlink" title="改视频size"></a>改视频size</h2><p>ffmpeg -i ziyi_C049_bg_4K.mp4 -vf scale&#x3D;1920:1080 ziyi_C049_bg_1080p.mp4 -hide_banner</p>
+<h2 id="切割画面"><a href="#切割画面" class="headerlink" title="切割画面"></a>切割画面</h2><p>ffmpeg -i input -vf crop&#x3D;480:480:186:0 output</p>
+<p><a href="https://ask.csdn.net/questions/227737">https://ask.csdn.net/questions/227737</a></p>
+<h2 id="加水印"><a href="#加水印" class="headerlink" title="加水印"></a>加水印</h2><p><code>ffmpeg -i audio_0_1s.avi -vf &quot;movie=logo.png[watermark];[in][watermark] overlay=main_w-overlay_w-10:main_h-overlay_h-10[out] &quot; output.avi</code></p>
+<h2 id="批量处理"><a href="#批量处理" class="headerlink" title="批量处理"></a>批量处理</h2><p>参考：<a href="https://forum.videohelp.com/threads/356314-How-to-batch-convert-multiplex-any-files-with-ffmpeg">How to batch convert&#x2F;multiplex any files with ffmpeg</a><br>改了一个脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">for %%a in (&quot;*.*&quot;) do ffmpeg -i &quot;%%a&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;newfiles\%%~na.mp4&quot;</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<h2 id="在terminal运行脚本"><a href="#在terminal运行脚本" class="headerlink" title="在terminal运行脚本"></a>在terminal运行脚本</h2><p>上面的链接用的是.bat，在linux需要用shell（<a href="http://c.biancheng.net/shell/">shell学习指南</a>）编写脚本。</p>
+<h3 id="在terminal运行-sh脚本"><a href="#在terminal运行-sh脚本" class="headerlink" title="在terminal运行.sh脚本"></a>在terminal运行.sh脚本</h3><p><a href="http://c.biancheng.net/view/739.html">执行Shell脚本（多种方法）</a></p>
+<p>首先新建一个文件test.sh，然后使用bash命令运行：<br><code>$ bash test.sh</code></p>
+<h3 id="运行command"><a href="#运行command" class="headerlink" title="运行command"></a>运行command</h3><p>在测试过程中得知command和script不太一样，用以下command成功了：<br><code>for vid in *.avi; do ffmpeg -i &quot;$vid&quot; -vf &quot;movie=logo_L.png[watermark];[in][watermark] overlay=0:0[out] &quot; &quot;$&#123;vid%.*&#125;_logo.avi&quot;; done</code></p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+        <tag>bash</tag>
       </tags>
   </entry>
   <entry>
@@ -518,6 +440,84 @@
       </tags>
   </entry>
   <entry>
+    <title>大型vscode真香现场</title>
+    <url>/2020-01-16-vscode/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<p><strong>Update 2022-2-26:</strong><br>增加了更基础的一些<a href="https://s2.loli.net/2022/02/26/w2T56gV8CrDHzne.png">安装配置流程</a></p>
+<p>昨天朋友推荐了vscode以后今天试了一下真的是一见钟情，之前学c++的时候就很喜欢用vs，现在用python而且又是在服务器上跑，一直觉得sublime调试非常不方便。vscode对于以前用习惯vs的人不要太舒服，而且对jupyter notebook的支持意外地好，可以说是综合了好几个我非常爱用的IDE的优点了！</p>
+<h1 id="在vscode中使用python"><a href="#在vscode中使用python" class="headerlink" title="在vscode中使用python"></a>在vscode中使用python</h1><p>这个特别简单，一个官方的教程即可搞定：<a href="https://code.visualstudio.com/docs/python/python-tutorial">python-tutorial</a></p>
+<p>几个注意的点：</p>
+<ul>
+<li>设置语言</li>
+</ul>
+<p>按F1然后搜索“configure display language”，就可以选择和安装语言</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-c2ba80430dd7d00e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-66c6ebcbafa80b66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<ul>
+<li>切换python 环境</li>
+</ul>
+<p>左下角这里可以切换版本，非常方便</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-36a9ffb7f4d5250f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<ul>
+<li>安装包</li>
+</ul>
+<p>根据tutorial提示，最好是在虚拟环境下安装包</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">py -3 -m venv .venv</span><br><span class="line">Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process</span><br><span class="line">.venv\scripts\activate</span><br><span class="line">python -m pip install matplotlib</span><br></pre></td></tr></table></figure>
+
+<h1 id="用vscode远程工作"><a href="#用vscode远程工作" class="headerlink" title="用vscode远程工作"></a>用vscode远程工作</h1><p>这也是我最关心的问题，毕竟我的代码几乎都是在服务器上跑的。</p>
+<p>首先是官方教程：<a href="https://code.visualstudio.com/docs/remote/remote-overview">remote-overview</a>，or more specifically：<a href="https://code.visualstudio.com/docs/remote/ssh">Remote Development using SSH</a></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-a48b1a7d8bf81ef5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>简单介绍一下，在vscode上用SSH远程工作的大致原理就是，本地vscode只提供UI，所有的工作区和代码之类的全是在远程进行的。但你用起来的体验就像是在本地调代码一样。</p>
+<p>需要特别注意的一点是，python插件要在远程重新安装一次。</p>
+<h2 id="下载remote-development"><a href="#下载remote-development" class="headerlink" title="下载remote development"></a>下载remote development</h2><p>首先在extensions商店搜索“remote development”</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-1b57d11b1f23682d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h2 id="连接remote-machine"><a href="#连接remote-machine" class="headerlink" title="连接remote machine"></a>连接remote machine</h2><p>F1, Remote-SSH: Connect to Host… </p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-2435fc80c6943f5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>这边我选择的是add SSH然后输入<code>username@hostname </code>，之后弹出来的窗口上方会提示是否继续和输入密码，输入密码之后就会连上然后就可以打开文件夹。</p>
+<h2 id="免密登录"><a href="#免密登录" class="headerlink" title="免密登录"></a>免密登录</h2><p>这个有点复杂，单独讲一下，官网见：<a href="https://code.visualstudio.com/docs/remote/troubleshooting#_quick-start-ssh-key">Quick start: SSH key</a>，同时参考了这篇文章：<a href="https://zhuanlan.zhihu.com/p/89662757">使用vscode进行远程炼丹</a>。</p>
+<ol>
+<li>在local打开cmd，输入：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096</span><br></pre></td></tr></table></figure>
+<p>中途提示输入文件路径和密码，都直接回车。</p>
+<ol start="2">
+<li>上传公钥</li>
+</ol>
+<p>这边我是直接在服务器新建了&#x2F;.ssh&#x2F;authorized_keys然后手动把id_rsa.pub里的内容复制进去。</p>
+<p>接下来再连接就不需要输入密码了。</p>
+<h2 id="在远程中调试"><a href="#在远程中调试" class="headerlink" title="在远程中调试"></a>在远程中调试</h2><p>首先就是把python插件再安装一次，然后重新连接，这时候会重新也安装一下pylint。</p>
+<h1 id="在vscode里用jupyter-notebook"><a href="#在vscode里用jupyter-notebook" class="headerlink" title="在vscode里用jupyter notebook"></a>在vscode里用jupyter notebook</h1><p>这个我之前想复杂了，其实直接新建一个.ipynb文件，打开并且运行，就会提示你没有装，然后你选择一下安装方式conda&#x2F;pip就可以装好了。</p>
+<h2 id="连接本地的jupyter-notebook"><a href="#连接本地的jupyter-notebook" class="headerlink" title="连接本地的jupyter notebook"></a>连接本地的jupyter notebook</h2><p>用不上，理论上同下</p>
+<h2 id="连接服务器上的jupyter-notebook"><a href="#连接服务器上的jupyter-notebook" class="headerlink" title="连接服务器上的jupyter notebook"></a>连接服务器上的jupyter notebook</h2><p>意外也很容易，在想要的目录上<code>jupyter notebook</code>，出来的链接点进去就可以打开了<br>（之前的坑是用<code>jupyter notebook list</code>，结果出来的目录是home&#x2F;yourname）</p>
+<hr>
+<p>2020年6月12日更新<br>用上述方法做断连就打不开了，需要用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">jupyter notebook --ip=0.0.0.0 --port=xxxx</span><br></pre></td></tr></table></figure>
+<p>然后在<a href="http://gpu-server-2:xxxx/?token=xxxx里把gpu-server-2换成服务器ip就可以了">http://gpu-server-2:xxxx/?token=xxxx里把gpu-server-2换成服务器ip就可以了</a></p>
+<h1 id="断点调试时设置参数"><a href="#断点调试时设置参数" class="headerlink" title="断点调试时设置参数"></a>断点调试时设置参数</h1><p>可以参考这篇文章：<br><a href="https://blog.csdn.net/u012332816/article/details/80801106">https://blog.csdn.net/u012332816/article/details/80801106</a></p>
+<p>打开Run→Open Configurations，添加“args”，类似这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;version&quot;: &quot;0.2.0&quot;,</span><br><span class="line">    &quot;configurations&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;name&quot;: &quot;Python: 当前文件&quot;,</span><br><span class="line">            &quot;type&quot;: &quot;python&quot;,</span><br><span class="line">            &quot;request&quot;: &quot;launch&quot;,</span><br><span class="line">            &quot;program&quot;: &quot;$&#123;file&#125;&quot;,</span><br><span class="line">            &quot;console&quot;: &quot;integratedTerminal&quot;,</span><br><span class="line">            &quot;args&quot;: [</span><br><span class="line">                &quot;--arg1&quot;,</span><br><span class="line">                &quot;--arg2&quot;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="用VScode连接docker容器"><a href="#用VScode连接docker容器" class="headerlink" title="用VScode连接docker容器"></a>用VScode连接docker容器</h1><p>参考<a href="https://code.visualstudio.com/docs/remote/containers#_quick-start-try-a-development-container">官方文档</a>，需要先配置好免密登陆。</p>
+<p>在本机安装docker，在vscode上安装Remote Development，docker插件。</p>
+<p>接下来要修改vscode 的 docker.host，在Docker插件的设置里打开settings.json，增加一行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;docker.host&quot;:&quot;ssh://root@ip:36000&quot;</span><br></pre></td></tr></table></figure>
+
+<p>点击左下角的远程开发按钮， 选择”Remote-Containers: Attach to Running Container…”，就可以看到可连接的docker container列表。</p>
+<p>之后也可以在远程资源管理器（vscode侧边栏）切换可连接的SSH和containers列表。</p>
+<p>实际测试后，如果在远程terminal直接运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker exec -it container_ID /bin/bash</span><br></pre></td></tr></table></figure>
+<p>也可以直接在远程docker列表中看到。</p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>vscode</tag>
+        <tag>JupyterNotebook</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Wordpress 建站笔记</title>
     <url>/2022-02-09-blog-note/</url>
     <content><![CDATA[<p>参考教程： <a href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose">https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose</a></p>
@@ -556,6 +556,32 @@
         <tag>nginx</tag>
         <tag>certbot</tag>
         <tag>wordpress</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>给 Hexo 配置 Giscus 评论系统</title>
+    <url>/2022-02-20-add-comment-to-hexo/</url>
+    <content><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p>
+<p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p>
+<p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure>
+<p>然后在 hexo 的 _config.yml 添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure>
+<p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p>
+<p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p>
+<p>最后：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>刷新页面后就可以看到评论页面啦！</p>
+<p>快来给我评论吧～～</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Next</tag>
+        <tag>Giscus</tag>
       </tags>
   </entry>
   <entry>
@@ -662,65 +688,6 @@
       </tags>
   </entry>
   <entry>
-    <title>给 Hexo 配置 Giscus 评论系统</title>
-    <url>/2022-02-20-add-comment-to-hexo/</url>
-    <content><![CDATA[<p>在网上看到别人家的博客有GitHub登陆评论的功能，立刻表示：“我也要！”</p>
-<p>一开始使用的是next自带的gitalk设置，然而在我的一番努力下依然没有配好，于是换成了Giscus，参考<a href="https://blog.southfox.me/2022/01/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">Giscus的优点</a>。</p>
-<p>Giscus的配置非常简单！按照上文的顺序配好了以后，卡在最后一步“嵌入到博客文章模板底部”，于是搜到了<a href="https://github.com/next-theme/hexo-next-giscus">这个插件</a>，安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-next-giscus --save</span><br></pre></td></tr></table></figure>
-<p>然后在 hexo 的 _config.yml 添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: false</span><br><span class="line">  repo: # Github repository name</span><br><span class="line">  repo_id: # Github repository id</span><br><span class="line">  category: # Github discussion category</span><br><span class="line">  category_id: # Github discussion category id</span><br><span class="line">  # Available values: pathname | url | title | og:title</span><br><span class="line">  mapping: pathname</span><br><span class="line">  # Available values: 0 | 1 </span><br><span class="line">  reactions_enabled: 1</span><br><span class="line">   # Available values: 0 | 1 </span><br><span class="line">  emit_metadata: 1</span><br><span class="line">  # Available values: light | dark | dark_high_contrast | transparent_dark | preferred-color-scheme</span><br><span class="line">  theme: light</span><br><span class="line">  # Available values: en | zh-C</span><br><span class="line">  lang: en</span><br><span class="line">  # Available value: anonymous</span><br><span class="line">  crossorigin: anonymous</span><br></pre></td></tr></table></figure>
-<p>把<code>enable: false</code>改为<code>true</code>，并参考<a href="https://giscus.app/zh-CN">Giscus</a>生成的脚本的元素依次填入设置。</p>
-<p>一开始是在<code>_config.next.yml</code>不起作用，不知为何。</p>
-<p>最后：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>刷新页面后就可以看到评论页面啦！</p>
-<p>快来给我评论吧～～</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Next</tag>
-        <tag>Giscus</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Crontab 各种运行不成功和解决方法</title>
-    <url>/2022-02-22-crontab-debug/</url>
-    <content><![CDATA[<p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron status # 查看运行状态和报错信息</span><br><span class="line">service cron reload # 重新载入 </span><br><span class="line">service cron restart # 重启</span><br><span class="line">vim /etc/crontab #编辑 crontab</span><br></pre></td></tr></table></figure>
-
-<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><h3 id="Missing-newline-before-EOF"><a href="#Missing-newline-before-EOF" class="headerlink" title="Missing newline before EOF"></a>Missing newline before EOF</h3><p>报错内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(*system*) ERROR (Missing newline before EOF, this crontab file will be ignored)</span><br></pre></td></tr></table></figure>
-<p><a href="https://cronitor.io/cron-reference/missing-newline-before-eof#:~:text=Fixing%20missing%20newline%20before%20EOF%20errors.%20Correct%20this,always%20added%20and%20are%20not%20%20incorrectly%20stripped.">解决方案</a></p>
-<blockquote>
-<p>Correct this error simply by <strong>adding a blank line</strong> at the end of your crontab. </p>
-</blockquote>
-<p>就是在crontab文件的末尾添加一个新的空行（回车），就离谱……</p>
-<h3 id="session-opened-for-user-root-by-uid-x3D-0"><a href="#session-opened-for-user-root-by-uid-x3D-0" class="headerlink" title="session opened for user root by (uid&#x3D;0)"></a>session opened for user root by (uid&#x3D;0)</h3><p>报错内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pam_unix(cron:session): session opened for user root by (uid=0)</span><br></pre></td></tr></table></figure>
-<p><a href="https://www.digitalocean.com/community/questions/weird-cron-logs-appearing-for-no-reasion">解决方案</a>：</p>
-<p>打开文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/pam.d/common-session-noninteractive</span><br></pre></td></tr></table></figure>
-<p>找到这一行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session required pam_unix.so</span><br></pre></td></tr></table></figure>
-<p>并在其上方添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session [success=1 default=ignore] pam_succeed_if.so service in cron quiet use_uid</span><br></pre></td></tr></table></figure>
-<p>然后重启：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron restart</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-        <tag>Crontab</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mastodon 媒体存储和数据库备份</title>
     <url>/2022-02-20-mastodon-backup/</url>
     <content><![CDATA[<p><strong>写在前面：</strong><br>本文备份方法我还在验证中，请谨慎使用，最好以防万一多导出一份<code>backup.dump</code> 。</p>
@@ -801,6 +768,39 @@
       </tags>
   </entry>
   <entry>
+    <title>Crontab 各种运行不成功和解决方法</title>
+    <url>/2022-02-22-crontab-debug/</url>
+    <content><![CDATA[<p>Crontab是一个运行定时脚本的工具，我在这里翻车了n次，记录一下debug过程。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron status # 查看运行状态和报错信息</span><br><span class="line">service cron reload # 重新载入 </span><br><span class="line">service cron restart # 重启</span><br><span class="line">vim /etc/crontab #编辑 crontab</span><br></pre></td></tr></table></figure>
+
+<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><h3 id="Missing-newline-before-EOF"><a href="#Missing-newline-before-EOF" class="headerlink" title="Missing newline before EOF"></a>Missing newline before EOF</h3><p>报错内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(*system*) ERROR (Missing newline before EOF, this crontab file will be ignored)</span><br></pre></td></tr></table></figure>
+<p><a href="https://cronitor.io/cron-reference/missing-newline-before-eof#:~:text=Fixing%20missing%20newline%20before%20EOF%20errors.%20Correct%20this,always%20added%20and%20are%20not%20%20incorrectly%20stripped.">解决方案</a></p>
+<blockquote>
+<p>Correct this error simply by <strong>adding a blank line</strong> at the end of your crontab. </p>
+</blockquote>
+<p>就是在crontab文件的末尾添加一个新的空行（回车），就离谱……</p>
+<h3 id="session-opened-for-user-root-by-uid-x3D-0"><a href="#session-opened-for-user-root-by-uid-x3D-0" class="headerlink" title="session opened for user root by (uid&#x3D;0)"></a>session opened for user root by (uid&#x3D;0)</h3><p>报错内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pam_unix(cron:session): session opened for user root by (uid=0)</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.digitalocean.com/community/questions/weird-cron-logs-appearing-for-no-reasion">解决方案</a>：</p>
+<p>打开文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/pam.d/common-session-noninteractive</span><br></pre></td></tr></table></figure>
+<p>找到这一行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session required pam_unix.so</span><br></pre></td></tr></table></figure>
+<p>并在其上方添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">session [success=1 default=ignore] pam_succeed_if.so service in cron quiet use_uid</span><br></pre></td></tr></table></figure>
+<p>然后重启：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">service cron restart</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>Crontab</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker 部署的 mastodon 在容器内 debug</title>
     <url>/2022-02-23-mastodon-debug-in-container/</url>
     <content><![CDATA[<p>TL; DR:</p>
@@ -813,7 +813,7 @@
 <p>退出并重启容器：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker-compose restart</span><br></pre></td></tr></table></figure>
 
-<p>感谢小柠檬 @<a href="mailto:&#x6c;&#101;&#109;&#111;&#x6e;&#64;&#x6e;&#121;&#x61;&#x2e;&#108;&#101;&#109;&#x6f;&#x6e;&#x61;&#x64;&#101;&#x2e;&#x6d;&#111;&#101;">&#x6c;&#101;&#109;&#111;&#x6e;&#64;&#x6e;&#121;&#x61;&#x2e;&#108;&#101;&#109;&#x6f;&#x6e;&#x61;&#x64;&#101;&#x2e;&#x6d;&#111;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
+<p>感谢小柠檬 @<a href="mailto:&#x6c;&#x65;&#x6d;&#x6f;&#x6e;&#64;&#110;&#x79;&#x61;&#46;&#x6c;&#x65;&#x6d;&#111;&#110;&#97;&#x64;&#x65;&#46;&#109;&#x6f;&#101;">&#x6c;&#x65;&#x6d;&#x6f;&#x6e;&#64;&#110;&#x79;&#x61;&#46;&#x6c;&#x65;&#x6d;&#111;&#110;&#97;&#x64;&#x65;&#46;&#109;&#x6f;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
 <h2 id="非docker的魔改方法"><a href="#非docker的魔改方法" class="headerlink" title="非docker的魔改方法"></a>非docker的魔改方法</h2><p>可参考这篇文章：<a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">进阶魔改：修改字数上限、媒体上限、投票上限、添加自定义主题、界面用语、非登陆用户有限显示，附阻止本站嘟文流入某站点方法</a></p>
 <p>一般的修改逻辑是：</p>
 <ul>
@@ -856,39 +856,82 @@
         <category>Project</category>
       </categories>
       <tags>
-        <tag>Docker</tag>
         <tag>Mastodon</tag>
+        <tag>Docker</tag>
       </tags>
   </entry>
   <entry>
-    <title>Windows 下配置 Anaconda3 + vscode 基础环境</title>
-    <url>/2022-02-26-anaconda-vscode/</url>
-    <content><![CDATA[<p>之前写过一个<a href="https://tech.konata.co/2020-01-16-vscode/">vscode安利帖</a>，最近因为重新配置环境，顺便把更基础的部分补充一下。</p>
-<h2 id="安装必要软件"><a href="#安装必要软件" class="headerlink" title="安装必要软件"></a>安装必要软件</h2><h3 id="Anaconda3"><a href="#Anaconda3" class="headerlink" title="Anaconda3"></a>Anaconda3</h3><p>在<a href="https://www.anaconda.com/products/individual">官网</a>下载，安装时勾选<code>add anaconda3 to my PATH enviroment variable</code>。</p>
-<h3 id="VScode"><a href="#VScode" class="headerlink" title="VScode"></a>VScode</h3><p>在<a href="https://code.visualstudio.com/">官网</a>下载，安装时勾选<code>添加到PATH</code>，重启使其生效。</p>
-<h3 id="git"><a href="#git" class="headerlink" title="git"></a>git</h3><p>在<a href="https://git-scm.com/downloads">官网</a>下载，并配置好个人信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.email &quot;you@example.com&quot;</span><br><span class="line">git config --global user.name &quot;Your Name&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h3><p>在<a href="https://www.docker.com/get-started">官网</a>下载。</p>
-<p>下载重启后，打开docker，通常会报错：WSL 2 installation is incomplete，并给出一个下载链接，点进去以后下载一个msi然后安装即可。</p>
-<h2 id="配置-VScode"><a href="#配置-VScode" class="headerlink" title="配置 VScode"></a>配置 VScode</h2><p>重启电脑，打开 vscode，下载 python 插件，有需要可以改成中文，参考<a href="https://tech.konata.co/2020-01-16-vscode/">vscode安利帖</a>。</p>
-<p>在 vscode 的菜单中选择：Terminal-new terminal</p>
-<p>在出现的终端界面右边选择默认terminal为cmd（重要）：</p>
-<p><img src="https://s2.loli.net/2022/02/26/w2T56gV8CrDHzne.png"><br>再点+出现新的cmd命令窗口，输入</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Conda activate base</span><br></pre></td></tr></table></figure>
-<p>激活conda，如果最左边有个（base）说明成功了。</p>
-<p>另外我的 vscode 出现画面很糊的诡异情况，这时候去快捷方式的目录，右键快捷方式，选择属性，在目标中增加一个 <code>--disable-gpu</code> 参数，如:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;C:\Program Files (x86)\Microsoft VS Code\Code.exe&quot; --disable-gpu</span><br></pre></td></tr></table></figure>
+    <title>Mastodon | 以 local-only 代码合并为例浅谈如何合并特定 commit</title>
+    <url>/2022-03-16-local-only/</url>
+    <content><![CDATA[<p>2022-4-21 Update：</p>
+<p>给大家提供了更方便的方法，现在可以直接使用<a href="https://github.com/mastodon/mastodon/compare/main...konatasick:instance_only?expand=1">这个链接</a>给你的代码提pr，v3.5.1可以无痕merge。登陆你的账号并把base repository改为你的提交即可。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文会尽我可能解释涉及到的所有概念，但还是推荐有一定的 git 使用基础后阅读。推荐阅读的前置内容：<a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html">《如何利用Docker搭建Mastodon实例（二）：进阶魔改篇》</a> 的升级章节。</p>
+<p>最初是有一位大神写了 local-only 的功能，可以让嘟文限制在本实例而不流出外部。此 <a href="https://github.com/mastodon/mastodon/pull/8427">pr</a> 并没有被官方采纳，但是一些站点都有增加这个魔改功能。</p>
+<p>本篇以我的 <a href="https://github.com/retirenow/mastodon/commit/6a2ca72f711849586f49c44dde555abb0ad13179">local-only commit</a> （ <a href="https://github.com/retirenow/mastodon/commit/f5721ea53ddab2bf0f1f519f9db7a735953075ef">需要改个bug</a> ）为例，说明如何合并这种代码量较大的魔改（代码量小的通常找到位置复制粘贴即可，参考文章开头的<a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html">教程</a> ）。</p>
+<h2 id="从远程仓库拉取代码"><a href="#从远程仓库拉取代码" class="headerlink" title="从远程仓库拉取代码"></a>从远程仓库拉取代码</h2><p>首先将<strong>你的</strong>代码仓库 <code>git clone</code> 到本地，或直接 <code>cd</code> 到已有的仓库目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git clone https://github.com/yourname/mastodon.git </span><br><span class="line">$ cd mastodon</span><br></pre></td></tr></table></figure>
+<p>此时如果查看远程连接情况，只会看到一个名为 <code>origin</code> 的远程仓库链接，也就是你自己的远程仓库的名字。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">origin  https://github.com/yourname/mastodon.git (fetch)</span><br><span class="line">origin  https://github.com/yourname/mastodon.git (push)</span><br></pre></td></tr></table></figure>
+<p>此时如果查看分支情况，一般而言默认是只 <code>clone</code> 了 <code>main</code> 分支（即 <code>origin/main</code>）。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git branch -vv</span><br><span class="line">* main 4bdce2c51 [origin/main] 你最新的 commit 内容 (#17618)</span><br></pre></td></tr></table></figure>
 
-<h2 id="配置清华镜像"><a href="#配置清华镜像" class="headerlink" title="配置清华镜像"></a>配置清华镜像</h2><p>如果 conda 和 pip 太慢，可以配置清华镜像：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --setshow_channel_urls yes</span><br><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U </span><br><span class="line">Pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<h3 id="（可选）创建一个专门用于处理此次合并的分支"><a href="#（可选）创建一个专门用于处理此次合并的分支" class="headerlink" title="（可选）创建一个专门用于处理此次合并的分支"></a>（可选）创建一个专门用于处理此次合并的分支</h3><p>如果你熟悉 <code>git</code> 的分支管理，此时可以新建一个专门的分支，最后再并入主干，本文采取直接合入主干的方式，故这部分不展开讲。</p>
+<h2 id="设置远程仓库连接"><a href="#设置远程仓库连接" class="headerlink" title="设置远程仓库连接"></a>设置远程仓库连接</h2><p>一个基础的 <code>git</code> 概念是，在本地的这个是你的本地代码仓库，而 GitHub 只是代码的远程托管，本地和远程仓库可以理解为一个仓库的两个副本，你可以把你的代码发送给远程仓库，也可以从远程仓库拉取，而且一个本地仓库可以连接不止一个远程仓库。</p>
+<p>现在添加我的 <a href="https://github.com/retirenow/mastodon.git">local-only 的仓库</a> 作为 <code>upstream</code> ：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git remote add upstream https://github.com/retirenow/mastodon.git</span><br></pre></td></tr></table></figure>
+<p>此时再查看远程连接：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">origin  https://github.com/yourname/mastodon.git (fetch)</span><br><span class="line">origin  https://github.com/yourname/mastodon.git (push)</span><br><span class="line">upstream        https://github.com/retirenow/mastodon.git (fetch)</span><br><span class="line">upstream        https://github.com/retirenow/mastodon.git (push)</span><br></pre></td></tr></table></figure>
+<p>就会有两个远程，名字分别为 <code>origin</code> 和 <code>upstream</code>。</p>
+<h2 id="拉取分支并合并代码"><a href="#拉取分支并合并代码" class="headerlink" title="拉取分支并合并代码"></a>拉取分支并合并代码</h2><p>设置好远程以后，我们就可以从 <code>upstream</code> 拉取含有 local-only 的分支：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git fetch upstream main:instance_only_statuses</span><br></pre></td></tr></table></figure>
+<p>这边因为分支都叫 <code>main</code>，为了区分我给从 <code>upstream</code> 拉取的本地分支重命名了一下。上面这句话的意思是，从 <code>upstream</code> 拉取它的 <code>main</code> 分支，并命名为本地的 <code>instance_only_statuses</code>。</p>
+<p>这时候查看分支情况，会有两个分支：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git branch -vv</span><br><span class="line">  instance_only_statuses d8c03d962 retirenow 最新的 commit 内容</span><br><span class="line">* main                   4bdce2c51 [origin/main] 你最新的 commit 内容 (#17618)</span><br></pre></td></tr></table></figure>
+<p>星号代表你现在处于 <code>main</code> 分支上。</p>
+<p>现在 cherry-pick 这个 commit：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git cherry-pick 6a2ca72f711849586f49c44dde555abb0ad13179</span><br></pre></td></tr></table></figure>
+<p>那一长串编码是这个 <code>commit</code> 的哈希值，可以唯一指定找到这串 <code>commit</code> ，可以在 <code>commit</code> 页面找到。</p>
+<p><code>cherry-pick</code> 用于只合并特定 <code>commit</code> ，和 <code>merge</code> 类似，<code>merge</code> 是合并两个分支（包含所有 <code>commit</code>）。</p>
+<h2 id="处理冲突"><a href="#处理冲突" class="headerlink" title="处理冲突"></a>处理冲突</h2><p>在 <code>cherry-pick</code> 之后，如此大的改动量通常会提示代码有冲突，推荐用 <a href="https://tech.konata.co/2022-02-26-anaconda-vscode/">vscode</a> 处理。</p>
+<p>从侧边的 <code>git</code> 点进去看：</p>
+<p><img src="https://s2.loli.net/2022/03/16/fOcUHQFNBJW8LVw.png"></p>
+<p>其中暂存的更改（Staged Changes）就是已经被自动合并好的代码，不需要处理，而合并更改（Merge Changes）则是需要处理的冲突文件，具体数量因人而异。</p>
+<p>点开合并更改中一个文件，在冲突的地方，会有如下所示：<br><img src="https://s2.loli.net/2022/03/16/aRDdFfQykV3qzXL.png"></p>
+<p>Accept Current Change 是保持现在（main分支）的代码，Accept Incomming Change 是用 local-only 的代码，Accept Both Changes 则是保留两者。</p>
+<p>这里的处理其实需要一点灵性和连蒙带猜，可以结合<a href="https://github.com/mastodon/mastodon/pull/8427/files">原始pr的file change</a>理解一下它增加代码的逻辑然后去选择如何更改。以上图为例，显然是因为我们main分支增加了一个叫 “ordered_media_attachment_ids” 的东西，而 local only 也增加了 “local_only”，所以我们的选择就是 Accept Both Changes。</p>
+<h2 id="处理完冲突后"><a href="#处理完冲突后" class="headerlink" title="处理完冲突后"></a>处理完冲突后</h2><p>一般而言，如果你是参考<a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/01/Mastodon-on-Docker-2.html">这个教程</a>进行代码魔改，此时你只需要提交你的改动：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ git commit -m &quot;local-only&quot;</span><br><span class="line">$ git push -u origin main</span><br></pre></td></tr></table></figure>
+<p>然后静待 GitHub 编译好镜像，你再拉取使用即可。</p>
+<p>我在这一步遇到了报错500，参考<a href="https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94">这篇文章</a>对数据库进行 migrate 再重启即可。</p>
+<h3 id="在-docker-容器中-debug"><a href="#在-docker-容器中-debug" class="headerlink" title="在 docker 容器中 debug"></a>在 docker 容器中 debug</h3><p>但是通常来说如此大的代码改动量，有一定风险不能一次性跑通，如果直接使用镜像遇到问题，我推荐参考<a href="https://tech.konata.co/2022-02-23-mastodon-debug-in-container/">《Docker 部署的 mastodon 在容器内 debug》</a>。或者如果不放心也可以先在容器内部编译通过再拉取镜像。</p>
+<p>首先进入 docker 容器:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ docker exec --user root -it mastodon_web_1 /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>容器里默认是没有 <code>git</code> 的，需要先安装 <code>git</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ apt-get update</span><br><span class="line">$ apt-get install git</span><br></pre></td></tr></table></figure>
+<p>这时候可能会遇到报错</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">E: Archives directory /var/cache/apt/archives/partial is missing</span><br></pre></td></tr></table></figure>
+<p>解决方案：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ mkdir -p /var/cache/apt/archive/partial</span><br></pre></td></tr></table></figure>
+<p>继续：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ apt-get install git</span><br></pre></td></tr></table></figure>
+<p>即可正确安装。</p>
+<p>进入到我们的代码目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd /mastodon</span><br><span class="line">$ git init</span><br></pre></td></tr></table></figure>
+<p>然后添加你的远程仓库并拉取最新的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git remote add origin https://github.com/yourname/mastodon.git</span><br><span class="line">$ git fetch origin main:main</span><br><span class="line">$ git checkout -f main</span><br></pre></td></tr></table></figure>
+<p>也可以一开始就直接在 docker 容器里合代码，如果你会用 vscode 连接 docker 容器，原理都是一样的。</p>
+<p>接下来 precompile:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ RAILS_ENV=production bundle exec rails assets:precompile</span><br></pre></td></tr></table></figure>
+<p>通过后退出并 <code>docker-compose restart</code>，就可以直接在网页上预览效果了。</p>
 ]]></content>
       <categories>
-        <category>Workshop</category>
+        <category>Project</category>
       </categories>
       <tags>
-        <tag>python</tag>
-        <tag>vscode</tag>
-        <tag>Anaconda3</tag>
+        <tag>mastodon</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -944,6 +987,37 @@
         <tag>matrix</tag>
         <tag>synapse</tag>
         <tag>element</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows 下配置 Anaconda3 + vscode 基础环境</title>
+    <url>/2022-02-26-anaconda-vscode/</url>
+    <content><![CDATA[<p>之前写过一个<a href="https://tech.konata.co/2020-01-16-vscode/">vscode安利帖</a>，最近因为重新配置环境，顺便把更基础的部分补充一下。</p>
+<h2 id="安装必要软件"><a href="#安装必要软件" class="headerlink" title="安装必要软件"></a>安装必要软件</h2><h3 id="Anaconda3"><a href="#Anaconda3" class="headerlink" title="Anaconda3"></a>Anaconda3</h3><p>在<a href="https://www.anaconda.com/products/individual">官网</a>下载，安装时勾选<code>add anaconda3 to my PATH enviroment variable</code>。</p>
+<h3 id="VScode"><a href="#VScode" class="headerlink" title="VScode"></a>VScode</h3><p>在<a href="https://code.visualstudio.com/">官网</a>下载，安装时勾选<code>添加到PATH</code>，重启使其生效。</p>
+<h3 id="git"><a href="#git" class="headerlink" title="git"></a>git</h3><p>在<a href="https://git-scm.com/downloads">官网</a>下载，并配置好个人信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.email &quot;you@example.com&quot;</span><br><span class="line">git config --global user.name &quot;Your Name&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h3><p>在<a href="https://www.docker.com/get-started">官网</a>下载。</p>
+<p>下载重启后，打开docker，通常会报错：WSL 2 installation is incomplete，并给出一个下载链接，点进去以后下载一个msi然后安装即可。</p>
+<h2 id="配置-VScode"><a href="#配置-VScode" class="headerlink" title="配置 VScode"></a>配置 VScode</h2><p>重启电脑，打开 vscode，下载 python 插件，有需要可以改成中文，参考<a href="https://tech.konata.co/2020-01-16-vscode/">vscode安利帖</a>。</p>
+<p>在 vscode 的菜单中选择：Terminal-new terminal</p>
+<p>在出现的终端界面右边选择默认terminal为cmd（重要）：</p>
+<p><img src="https://s2.loli.net/2022/02/26/w2T56gV8CrDHzne.png"><br>再点+出现新的cmd命令窗口，输入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Conda activate base</span><br></pre></td></tr></table></figure>
+<p>激活conda，如果最左边有个（base）说明成功了。</p>
+<p>另外我的 vscode 出现画面很糊的诡异情况，这时候去快捷方式的目录，右键快捷方式，选择属性，在目标中增加一个 <code>--disable-gpu</code> 参数，如:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;C:\Program Files (x86)\Microsoft VS Code\Code.exe&quot; --disable-gpu</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置清华镜像"><a href="#配置清华镜像" class="headerlink" title="配置清华镜像"></a>配置清华镜像</h2><p>如果 conda 和 pip 太慢，可以配置清华镜像：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --setshow_channel_urls yes</span><br><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U </span><br><span class="line">Pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>vscode</tag>
+        <tag>Anaconda3</tag>
       </tags>
   </entry>
 </search>
