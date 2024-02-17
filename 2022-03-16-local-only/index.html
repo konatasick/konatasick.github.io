@@ -30,10 +30,10 @@
 <meta property="og:image" content="https://s2.loli.net/2022/03/16/fOcUHQFNBJW8LVw.png">
 <meta property="og:image" content="https://s2.loli.net/2022/03/16/aRDdFfQykV3qzXL.png">
 <meta property="article:published_time" content="2022-03-16T12:43:31.000Z">
-<meta property="article:modified_time" content="2022-04-20T20:47:11.873Z">
+<meta property="article:modified_time" content="2024-02-17T14:18:24.835Z">
 <meta property="article:author" content="Konata Izumi">
-<meta property="article:tag" content="mastodon">
 <meta property="article:tag" content="git">
+<meta property="article:tag" content="mastodon">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://s2.loli.net/2022/03/16/fOcUHQFNBJW8LVw.png">
 
@@ -253,7 +253,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-04-21 04:47:11" itemprop="dateModified" datetime="2022-04-21T04:47:11+08:00">2022-04-21</time>
+      <time title="Modified: 2024-02-17 22:18:24" itemprop="dateModified" datetime="2024-02-17T22:18:24+08:00">2024-02-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -312,7 +312,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git cherry-pick 6a2ca72f711849586f49c44dde555abb0ad13179</span><br></pre></td></tr></table></figure>
 <p>那一长串编码是这个 <code>commit</code> 的哈希值，可以唯一指定找到这串 <code>commit</code> ，可以在 <code>commit</code> 页面找到。</p>
 <p><code>cherry-pick</code> 用于只合并特定 <code>commit</code> ，和 <code>merge</code> 类似，<code>merge</code> 是合并两个分支（包含所有 <code>commit</code>）。</p>
-<h2 id="处理冲突"><a href="#处理冲突" class="headerlink" title="处理冲突"></a>处理冲突</h2><p>在 <code>cherry-pick</code> 之后，如此大的改动量通常会提示代码有冲突，推荐用 <a href="https://tech.konata.co/2022-02-26-anaconda-vscode/">vscode</a> 处理。</p>
+<h2 id="处理冲突"><a href="#处理冲突" class="headerlink" title="处理冲突"></a>处理冲突</h2><p>在 <code>cherry-pick</code> 之后，如此大的改动量通常会提示代码有冲突，推荐用 <a target="_blank" rel="noopener" href="https://tech.konata.vip/2022-02-26-anaconda-vscode/">vscode</a> 处理。</p>
 <p>从侧边的 <code>git</code> 点进去看：</p>
 <p><img src="https://s2.loli.net/2022/03/16/fOcUHQFNBJW8LVw.png"></p>
 <p>其中暂存的更改（Staged Changes）就是已经被自动合并好的代码，不需要处理，而合并更改（Merge Changes）则是需要处理的冲突文件，具体数量因人而异。</p>
@@ -323,7 +323,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ git commit -m &quot;local-only&quot;</span><br><span class="line">$ git push -u origin main</span><br></pre></td></tr></table></figure>
 <p>然后静待 GitHub 编译好镜像，你再拉取使用即可。</p>
 <p>我在这一步遇到了报错500，参考<a target="_blank" rel="noopener" href="https://blog.tantalum.life/posts/how-to-run-your-mastodon-by-docker/#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%82%E5%BA%94">这篇文章</a>对数据库进行 migrate 再重启即可。</p>
-<h3 id="在-docker-容器中-debug"><a href="#在-docker-容器中-debug" class="headerlink" title="在 docker 容器中 debug"></a>在 docker 容器中 debug</h3><p>但是通常来说如此大的代码改动量，有一定风险不能一次性跑通，如果直接使用镜像遇到问题，我推荐参考<a href="https://tech.konata.co/2022-02-23-mastodon-debug-in-container/">《Docker 部署的 mastodon 在容器内 debug》</a>。或者如果不放心也可以先在容器内部编译通过再拉取镜像。</p>
+<h3 id="在-docker-容器中-debug"><a href="#在-docker-容器中-debug" class="headerlink" title="在 docker 容器中 debug"></a>在 docker 容器中 debug</h3><p>但是通常来说如此大的代码改动量，有一定风险不能一次性跑通，如果直接使用镜像遇到问题，我推荐参考<a target="_blank" rel="noopener" href="https://tech.konata.vip/2022-02-23-mastodon-debug-in-container/">《Docker 部署的 mastodon 在容器内 debug》</a>。或者如果不放心也可以先在容器内部编译通过再拉取镜像。</p>
 <p>首先进入 docker 容器:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker exec --user root -it mastodon_web_1 /bin/bash</span><br></pre></td></tr></table></figure>
 
@@ -370,8 +370,8 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/mastodon/" rel="tag"># mastodon</a>
               <a href="/tags/git/" rel="tag"># git</a>
+              <a href="/tags/mastodon/" rel="tag"># mastodon</a>
           </div>
 
         
@@ -425,7 +425,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fas fa-mug-hot"></i>
   </span>
