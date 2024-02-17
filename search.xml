@@ -1,48 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>在服务器用conda创建python环境</title>
-    <url>/2019-07-08-conda-create-env/</url>
-    <content><![CDATA[<p>2019年11月27日更新：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
-
-<p>可以导出environment配置环境：</p>
-<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
-<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
-<p>删除环境：conda remove -n your_env_name –all</p>
-<hr>
-<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
-<p>首先，尝试conda list，提示not command，解决方法：</p>
-<p>在.bashrc 的末尾添加如下一行：</p>
-<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
-<p>之后conda list，正常。</p>
-<p>创建：</p>
-<p>conda create -n vso python&#x3D;2.7</p>
-<p>激活：</p>
-<p>source activate vso</p>
-<p>然后就可以开始安装需要的package</p>
-<p>pip install imutils</p>
-<p>pip install numpy</p>
-<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
-<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
-<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
-<p>pip install scipy</p>
-<p>pip install matplotlib</p>
-<p>pip install sklearn</p>
-<p>pip install ffmpeg-normalize</p>
-<p>conda install ffmpeg</p>
-<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
-<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
-]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>conda</tag>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>scikit-learn使用PCA降维小结</title>
     <url>/2018-11-30-pca/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
@@ -98,69 +56,9 @@
         <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>scikit-learn</tag>
+        <tag>python</tag>
         <tag>PCA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git操作速查</title>
-    <url>/2019-07-12-git/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
-<ol>
-<li><p>未add时<br><code>git checkout .</code></p>
-</li>
-<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
-</li>
-<li><p>commit后</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
-<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
-<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
-<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
-<p><code>git reset --hard</code></p>
-<p>即可</p>
-<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
-<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
-<ol>
-<li><p>添加远程仓库到本地remote分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看当前仓库的远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>fetch 远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>推送本地到远程仓库（自己fork的仓库）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote <span class="built_in">rm</span> origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-
-<h1 id="提PR"><a href="#提PR" class="headerlink" title="提PR"></a>提PR</h1><ol>
-<li>fork repo A&#x2F;code 到自己的 GitHub，称之为 B&#x2F;code</li>
-<li>clone B&#x2F;code 到本地</li>
-<li>增加 A&#x2F;code 作为本地的远程 upstream：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote add upstream https://github.com/A/code.git</span><br></pre></td></tr></table></figure></li>
-<li>新建工作分支<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git  checkout -b my-dev</span><br></pre></td></tr></table></figure></li>
-<li>进行 add，commit，push 到自己的远程分支 B&#x2F;code<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git push --set-upstream origin my-dev</span><br></pre></td></tr></table></figure></li>
-<li>在 GitHub 上发起 Pull Request，会有分支选择</li>
-</ol>
-<p>这里不清楚为什么要添加 upstream 根本没用到，可能为了之后拉代码方便</p>
-<h1 id="让-gitignore生效"><a href="#让-gitignore生效" class="headerlink" title="让.gitignore生效"></a>让.gitignore生效</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git rm -r --cached .</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Workshop</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>GitHub</tag>
       </tags>
   </entry>
   <entry>
@@ -230,9 +128,111 @@
         <category>Algorithm</category>
       </categories>
       <tags>
-        <tag>python</tag>
         <tag>scikit-learn</tag>
+        <tag>python</tag>
         <tag>kmeans</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在服务器用conda创建python环境</title>
+    <url>/2019-07-08-conda-create-env/</url>
+    <content><![CDATA[<p>2019年11月27日更新：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">conda env export &gt; environment.yml</span><br><span class="line">conda env create -f environment.yml</span><br></pre></td></tr></table></figure>
+
+<p>可以导出environment配置环境：</p>
+<p><a href="https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine">https://datascience.stackexchange.com/questions/24093/how-to-clone-python-working-environment-on-another-machine</a></p>
+<p>另外，home&#x2F;xxx&#x2F;.conda&#x2F;pkgs会保存很多安装包，可以通过用<code>conda clean -p</code>删除未使用的的包(<a href="https://segmentfault.com/q/1010000017438362">https://segmentfault.com/q/1010000017438362</a>)</p>
+<p>删除环境：conda remove -n your_env_name –all</p>
+<hr>
+<p><a href="http://know.continuum.io/rs/387-XNW-688/images/conda-cheatsheet.pdf">conda cheatsheet</a></p>
+<p>首先，尝试conda list，提示not command，解决方法：</p>
+<p>在.bashrc 的末尾添加如下一行：</p>
+<p><code>export PATH=/opt/anaconda3/bin/:$PATH</code></p>
+<p>之后conda list，正常。</p>
+<p>创建：</p>
+<p>conda create -n vso python&#x3D;2.7</p>
+<p>激活：</p>
+<p>source activate vso</p>
+<p>然后就可以开始安装需要的package</p>
+<p>pip install imutils</p>
+<p>pip install numpy</p>
+<p>pip install opencv-python：遇到报错：libSM.so.6: cannot open shared object file: No such file or directory，解决方案：<br>（<a href="https://blog.csdn.net/liuyingying0418/article/details/84580254">https://blog.csdn.net/liuyingying0418/article/details/84580254</a>）</p>
+<p>(pip install opencv-python -i <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a>)</p>
+<p>pip install dlib：安装dlib的时候又出现了cmake报错，用pip install CMake，搞定</p>
+<p>pip install scipy</p>
+<p>pip install matplotlib</p>
+<p>pip install sklearn</p>
+<p>pip install ffmpeg-normalize</p>
+<p>conda install ffmpeg</p>
+<p>conda install -c conda-forge librosa&#x3D;0.6.3</p>
+<p>conda install x264 ffmpeg -c conda-forge（为了用h.264编码，参考：<a href="https://teratail.com/questions/156621">https://teratail.com/questions/156621</a>）</p>
+]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>conda</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git操作速查</title>
+    <url>/2019-07-12-git/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h1 id="舍弃本地修改"><a href="#舍弃本地修改" class="headerlink" title="舍弃本地修改"></a>舍弃本地修改</h1><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 撤销，放弃本地修改</a></p>
+<ol>
+<li><p>未add时<br><code>git checkout .</code></p>
+</li>
+<li><p>add后，commit前<br><code>git reset HEAD . </code><br>回到1，继续<br><code>git checkout .</code></p>
+</li>
+<li><p>commit后</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git log</span><br><span class="line">git reset --hard  commitid </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="处理git-push文件过大的办法"><a href="#处理git-push文件过大的办法" class="headerlink" title="处理git push文件过大的办法"></a>处理git push文件过大的办法</h1><p>在进行git push的时候，遇到了报错HTTP 413 curl 22 The requested URL returned error: 413 Request Entity Too Large<br><img src="https://upload-images.jianshu.io/upload_images/12583080-b3197ead790b002d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"><br>我觉得可能是因为保存rnn模型的文件夹比较大，就在.gitignore加上了那个目录。（让.gitignore生效的办法：<a href="https://blog.csdn.net/mingjie1212/article/details/51689606">git 修改.gitignore后生效</a>），然后再push还是不行，我不确定是不是因为之前commit的还在。</p>
+<p>这个错误本身搜到的解决方案一般是提高文件传输限制之类的，但是我是希望之前的较大的那个commit不要被push上去。于是我搜到了一个解决方案是用git reset： <a href="https://www.cnblogs.com/NewBigLiang/p/7015887.html">git push 推送大文件失败的处理办法</a>。</p>
+<p>也就是说，下次遇到类似的问题，先用git log查commitid，然后用git reset撤销commit，之后修改.gitignore再使其生效，最后commit&amp;push即可。</p>
+<p>另外，reset也可以用于强制更新本地版本，只需在git pull前运行</p>
+<p><code>git reset --hard</code></p>
+<p>即可</p>
+<h1 id="保持本地仓库和远程同步"><a href="#保持本地仓库和远程同步" class="headerlink" title="保持本地仓库和远程同步"></a>保持本地仓库和远程同步</h1><p>远程仓库，个人fork，和本地仓库的逻辑关系如下图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/12583080-86edb36217c60f6e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p>当远程仓库更新时，需要先把更新拉到本地，合并好后再push到个人fork的仓库中。具体流程为：</p>
+<ol>
+<li><p>添加远程仓库到本地remote分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add upstream  http://xxxxxx.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前仓库的远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>fetch 远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>合并 fetch 的分支到本地(此处应该和develop保持一致，故merge develop分支)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge upstream/develop</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>推送本地到远程仓库（自己fork的仓库）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="更改远程仓库地址"><a href="#更改远程仓库地址" class="headerlink" title="更改远程仓库地址"></a>更改远程仓库地址</h1><p>对于原本就是clone的repo，直接添加链接会报错，需要加一句git remote rm orgin</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> existing_folder</span><br><span class="line">git init</span><br><span class="line">git remote <span class="built_in">rm</span> origin</span><br><span class="line">git remote add origin https://xxx.git</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+<h1 id="提PR"><a href="#提PR" class="headerlink" title="提PR"></a>提PR</h1><ol>
+<li>fork repo A&#x2F;code 到自己的 GitHub，称之为 B&#x2F;code</li>
+<li>clone B&#x2F;code 到本地</li>
+<li>增加 A&#x2F;code 作为本地的远程 upstream：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git remote add upstream https://github.com/A/code.git</span><br></pre></td></tr></table></figure></li>
+<li>新建工作分支<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git  checkout -b my-dev</span><br></pre></td></tr></table></figure></li>
+<li>进行 add，commit，push 到自己的远程分支 B&#x2F;code<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git push --set-upstream origin my-dev</span><br></pre></td></tr></table></figure></li>
+<li>在 GitHub 上发起 Pull Request，会有分支选择</li>
+</ol>
+<p>这里不清楚为什么要添加 upstream 根本没用到，可能为了之后拉代码方便</p>
+<h1 id="让-gitignore生效"><a href="#让-gitignore生效" class="headerlink" title="让.gitignore生效"></a>让.gitignore生效</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git rm -r --cached .</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Workshop</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>GitHub</tag>
       </tags>
   </entry>
   <entry>
@@ -381,6 +381,68 @@
       </tags>
   </entry>
   <entry>
+    <title>COMA 环境配置记录</title>
+    <url>/2021-07-23-COMA/</url>
+    <content><![CDATA[<p><a href="https://github.com/anuragranj/coma">https://github.com/anuragranj/coma</a></p>
+<h2 id="Tensorflow-1-3"><a href="#Tensorflow-1-3" class="headerlink" title="Tensorflow 1.3"></a>Tensorflow 1.3</h2><p>这一步由于tensorflow1的环境非常难配置，使用现成docker，版本对应关系如下：</p>
+<p><a href="https://blog.csdn.net/qq_41936559/article/details/104226333">https://blog.csdn.net/qq_41936559/article/details/104226333</a></p>
+<h2 id="opendr安装"><a href="#opendr安装" class="headerlink" title="opendr安装"></a>opendr安装</h2><p>opendr安装对python3的支持比较麻烦，参考：</p>
+<p><a href="https://www.codenong.com/cs110955392/">https://www.codenong.com/cs110955392/</a></p>
+<h2 id="MPI-IS-x2F-mesh配置"><a href="#MPI-IS-x2F-mesh配置" class="headerlink" title="MPI-IS &#x2F; mesh配置"></a>MPI-IS &#x2F; mesh配置</h2><p><a href="https://github.com/MPI-IS/mesh">https://github.com/MPI-IS/mesh</a></p>
+<p>经常要用到的mesh渲染工具</p>
+<p>配置过程：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install boost-devel</span><br><span class="line">BOOST_INCLUDE_DIRS=/usr/include/boost make all</span><br><span class="line">make tests</span><br></pre></td></tr></table></figure>
+
+<p>遇到报错：<br>ImportError: No module named psbody.mesh.mesh<br>但是在python3下import是可以的，后来发现是在make tests时默认是python，而在docker环境下要改成python3，测试通过。</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>COMA</tag>
+        <tag>opendr</tag>
+        <tag>Tensorflow</tag>
+        <tag>MPI-IS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用 Hexo + GitHub Page 自建博客</title>
+    <url>/2021-08-08-2021-08-08-build-blog-by-hexo/</url>
+    <content><![CDATA[<h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
+<p>官网下载安装node，确认以下命令均可使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<p>安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
+<p>如果出现报错</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ERROR Cannot find module &#x27;hexo&#x27; </span><br></pre></td></tr></table></figure>
+<p>重新安装hexo-util</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -- save-dev hexo-util</span><br></pre></td></tr></table></figure>
+<p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
+<p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
+<h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
+<blockquote>
+<p>注：如果你用了 hexo clean 命令删除本地静态资源，CNAME文件也会被删掉，所以你可以在本地生成的public文件夹中直接创建好，再上传。</p>
+</blockquote>
+<p>也许是typo，应该把CNAME文件放在source里，才不会被删。</p>
+<h1 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h1><p>本站采用next主题：<a href="https://github.com/next-theme/hexo-theme-next">https://github.com/next-theme/hexo-theme-next</a></p>
+<p>因为hexo是5.0+版本，所以安装主题只需：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd hexo-site</span><br><span class="line">$ npm install hexo-theme-next</span><br></pre></td></tr></table></figure>
+<p>再把_config.yml的theme改成next。但这种安装方法比较新，next的中文文档没有更新，需要参考英文文档进行定制：<a href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a> 。</p>
+<p>以改scheme为例，如果按照上面的教程走，那就是npm安装的，运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cp node_modules/hexo-theme-next/_config.yml _config.next.yml</span><br></pre></td></tr></table></figure>
+<p>然后修改Schemes的部分即可。</p>
+<h1 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo generate # 生成本地静态文件</span><br><span class="line">$ hexo deploy   # 部署</span><br><span class="line">$ hexo clean   </span><br><span class="line">$ hexo g &amp; hexo d </span><br><span class="line">$ hexo new post &#x27;title&#x27;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>GitHub</tag>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>解决 docker no space left on device</title>
     <url>/2021-09-16-docker-no-space/</url>
     <content><![CDATA[<p>操作系统为 CentOS Linux release 7.2，试过网上的一些方法例如软链接，增加graph路径都没有用，自己摸索找到了配置路径的位置，记录一下。</p>
@@ -453,68 +515,6 @@
       </categories>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>COMA 环境配置记录</title>
-    <url>/2021-07-23-COMA/</url>
-    <content><![CDATA[<p><a href="https://github.com/anuragranj/coma">https://github.com/anuragranj/coma</a></p>
-<h2 id="Tensorflow-1-3"><a href="#Tensorflow-1-3" class="headerlink" title="Tensorflow 1.3"></a>Tensorflow 1.3</h2><p>这一步由于tensorflow1的环境非常难配置，使用现成docker，版本对应关系如下：</p>
-<p><a href="https://blog.csdn.net/qq_41936559/article/details/104226333">https://blog.csdn.net/qq_41936559/article/details/104226333</a></p>
-<h2 id="opendr安装"><a href="#opendr安装" class="headerlink" title="opendr安装"></a>opendr安装</h2><p>opendr安装对python3的支持比较麻烦，参考：</p>
-<p><a href="https://www.codenong.com/cs110955392/">https://www.codenong.com/cs110955392/</a></p>
-<h2 id="MPI-IS-x2F-mesh配置"><a href="#MPI-IS-x2F-mesh配置" class="headerlink" title="MPI-IS &#x2F; mesh配置"></a>MPI-IS &#x2F; mesh配置</h2><p><a href="https://github.com/MPI-IS/mesh">https://github.com/MPI-IS/mesh</a></p>
-<p>经常要用到的mesh渲染工具</p>
-<p>配置过程：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install boost-devel</span><br><span class="line">BOOST_INCLUDE_DIRS=/usr/include/boost make all</span><br><span class="line">make tests</span><br></pre></td></tr></table></figure>
-
-<p>遇到报错：<br>ImportError: No module named psbody.mesh.mesh<br>但是在python3下import是可以的，后来发现是在make tests时默认是python，而在docker环境下要改成python3，测试通过。</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>COMA</tag>
-        <tag>opendr</tag>
-        <tag>Tensorflow</tag>
-        <tag>MPI-IS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用 Hexo + GitHub Page 自建博客</title>
-    <url>/2021-08-08-2021-08-08-build-blog-by-hexo/</url>
-    <content><![CDATA[<h1 id="创建页面"><a href="#创建页面" class="headerlink" title="创建页面"></a>创建页面</h1><p>参考资料：<a href="https://zhuanlan.zhihu.com/p/70240127">https://zhuanlan.zhihu.com/p/70240127</a></p>
-<p>官网下载安装node，确认以下命令均可使用：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
-<p>安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo -v</span><br></pre></td></tr></table></figure>
-<p>如果出现报错</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ERROR Cannot find module &#x27;hexo&#x27; </span><br></pre></td></tr></table></figure>
-<p>重新安装hexo-util</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -- save-dev hexo-util</span><br></pre></td></tr></table></figure>
-<p>使用Hexo自建博客，Hexo会自动生成静态页面并部署到GitHub repo上，不需要直接git push。而在GitHub repo里也只会有public目录下的内容。与此同时public文件夹在hexo的目录下是在.gitignore里的，所以不要直接push整个目录，这样会导致网页404。</p>
-<p>关于网站信息的修改在<code>_config.yml</code>进行，例如修改标题在Site下。</p>
-<h2 id="修改域名"><a href="#修改域名" class="headerlink" title="修改域名"></a>修改域名</h2><p>主要步骤上面的资料已经很详细了，但关于这段</p>
-<blockquote>
-<p>注：如果你用了 hexo clean 命令删除本地静态资源，CNAME文件也会被删掉，所以你可以在本地生成的public文件夹中直接创建好，再上传。</p>
-</blockquote>
-<p>也许是typo，应该把CNAME文件放在source里，才不会被删。</p>
-<h1 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h1><p>本站采用next主题：<a href="https://github.com/next-theme/hexo-theme-next">https://github.com/next-theme/hexo-theme-next</a></p>
-<p>因为hexo是5.0+版本，所以安装主题只需：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd hexo-site</span><br><span class="line">$ npm install hexo-theme-next</span><br></pre></td></tr></table></figure>
-<p>再把_config.yml的theme改成next。但这种安装方法比较新，next的中文文档没有更新，需要参考英文文档进行定制：<a href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a> 。</p>
-<p>以改scheme为例，如果按照上面的教程走，那就是npm安装的，运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cp node_modules/hexo-theme-next/_config.yml _config.next.yml</span><br></pre></td></tr></table></figure>
-<p>然后修改Schemes的部分即可。</p>
-<h1 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo generate # 生成本地静态文件</span><br><span class="line">$ hexo deploy   # 部署</span><br><span class="line">$ hexo clean   </span><br><span class="line">$ hexo g &amp; hexo d </span><br><span class="line">$ hexo new post &#x27;title&#x27;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>GitHub</tag>
-        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -813,7 +813,7 @@
 <p>退出并重启容器：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker-compose restart</span><br></pre></td></tr></table></figure>
 
-<p>感谢小柠檬 @<a href="mailto:&#x6c;&#101;&#109;&#x6f;&#110;&#x40;&#x6e;&#121;&#97;&#46;&#x6c;&#101;&#x6d;&#111;&#110;&#97;&#100;&#x65;&#46;&#x6d;&#x6f;&#101;">&#x6c;&#101;&#109;&#x6f;&#110;&#x40;&#x6e;&#121;&#97;&#46;&#x6c;&#101;&#x6d;&#111;&#110;&#97;&#100;&#x65;&#46;&#x6d;&#x6f;&#101;</a> 用自己的实例测试研究出这套可行方案！</p>
+<p>感谢小柠檬 @<a href="mailto:&#108;&#101;&#109;&#x6f;&#110;&#x40;&#110;&#x79;&#x61;&#x2e;&#108;&#x65;&#109;&#x6f;&#x6e;&#97;&#100;&#x65;&#46;&#x6d;&#x6f;&#x65;">&#108;&#101;&#109;&#x6f;&#110;&#x40;&#110;&#x79;&#x61;&#x2e;&#108;&#x65;&#109;&#x6f;&#x6e;&#97;&#100;&#x65;&#46;&#x6d;&#x6f;&#x65;</a> 用自己的实例测试研究出这套可行方案！</p>
 <h2 id="非docker的魔改方法"><a href="#非docker的魔改方法" class="headerlink" title="非docker的魔改方法"></a>非docker的魔改方法</h2><p>可参考这篇文章：<a href="https://pullopen.github.io/%E8%BF%9B%E9%98%B6%E9%AD%94%E6%94%B9/2020/11/14/mastodon-modify.html">进阶魔改：修改字数上限、媒体上限、投票上限、添加自定义主题、界面用语、非登陆用户有限显示，附阻止本站嘟文流入某站点方法</a></p>
 <p>一般的修改逻辑是：</p>
 <ul>
@@ -892,61 +892,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Matrix | 使用 docker 搭建 Synapse 记录</title>
-    <url>/2022-04-10-matrix/</url>
-    <content><![CDATA[<p>因为想用docker搭建，这里主要参考了<a href="https://www.b612.me/code/223.html">使用docker搭建Synapse[Matrix]</a>，关于域名问题参考了<a href="https://blog.bgme.me/posts/matrix-deployment-process-part-1/">Matrix踩坑记（一）</a>和南狐的手把手debug。</p>
-<h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>参考<a href="https://blog.bgme.me/posts/matrix-deployment-process-part-1/">Matrix踩坑记（一）</a>，matrix是可以和其他服务共用一个域名的。因为我后续希望账号都是和社畜站的id完全相同，所以我使用retirenow.top这个域名，与此同时服务挂在cafe.retirenow.top。没有这个问题的，都用一样的域名就行。</p>
-<h2 id="搭建Synapse"><a href="#搭建Synapse" class="headerlink" title="搭建Synapse"></a>搭建Synapse</h2><p>按照教程建立&#x2F;data&#x2F;synapse&#x2F;下的三个文件夹：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir /data/synapse</span><br><span class="line">mkdir /data/synapse/data</span><br><span class="line">mkdir /data/synapse/postgres</span><br><span class="line">mkdir /data/synapse/redis</span><br></pre></td></tr></table></figure>
-<p>之后都直接按照教程一步步执行即可，输入\q退出。<br>搭建时使用的所有域名均为retirenow.top。</p>
-<p>如果使用不同域名，在修改&#x2F;data&#x2F;synapse&#x2F;data&#x2F;homeserver.yaml时，除了教程里的内容，还需要修改：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public_baseurl: https://cafe.retirenow.top</span><br></pre></td></tr></table></figure>
-<p>如果你之后使用cloudflare反代，由于关闭了8448端口，所以这边也要改：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">serve_server_wellknown: true</span><br></pre></td></tr></table></figure>
-
-
-<p>到这一步，打开 <a href="http://127.0.0.1:55800/">http://127.0.0.1:55800/</a> 应该会显示matrix的server界面，提示：</p>
-<blockquote>
-<p>Your Synapse server is listening on this port and is ready for messages.</p>
-</blockquote>
-<p>这就是成功了！就是这么简单！</p>
-<h2 id="配置Riot-web界面"><a href="#配置Riot-web界面" class="headerlink" title="配置Riot web界面"></a>配置Riot web界面</h2><p>服务器配置好以后来配置客户端，这边推荐全平台的element。需要注意的是，这里用的是cafe.retirenow.top这个域名，也就是通过打开：</p>
-<p><a href="https://cafe.retirenow.top/">https://cafe.retirenow.top/</a></p>
-<p>来使用matrix。所以cloudflare里应该添加的是cafe到服务器的DNS映射，nginx也应该监听cafe.retirenow.top，只有在element的设置文件中需要指定server_name为retirenow.top。</p>
-<p>这里解压到任何路径都可以，因为和前面的server是独立的。我的话解压到了&#x2F;data&#x2F;synapse&#x2F;并改名为element-web：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://github.com/vector-im/element-web/releases/download/v1.10.9-rc.3/element-v1.10.9-rc.3.tar.gz</span><br><span class="line">tar -zxvf element-v1.10.9-rc.3.tar.gz -C /data/synapse</span><br><span class="line">mv /data/synapse/element-v1.10.9-rc.3 /data/synapse/element-web</span><br><span class="line">cd /data/synapse/element-web</span><br><span class="line">cp config.sample.json config.json</span><br><span class="line">vim /data/synapse/element-web/config.json</span><br></pre></td></tr></table></figure>
-<p>上面的下载地址请自行替换为<a href="https://github.com/vector-im/element-web/releases">最新版本地址</a>。</p>
-<p>在”m.homeserver”中，修改”base_url”和”server_name”分别如下:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;default_server_config&quot;: &#123;</span><br><span class="line">    &quot;m.homeserver&quot;: &#123;</span><br><span class="line">        &quot;base_url&quot;: &quot;https://cafe.retirenow.top&quot;,</span><br><span class="line">        &quot;server_name&quot;: &quot;retirenow.top&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;m.identity_server&quot;: &#123;</span><br><span class="line">        &quot;base_url&quot;: &quot;https://vector.im&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>在之前就配好的retirenow.top的nginx配置中加上：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Matrix</span><br><span class="line">location /.well-known/matrix/client &#123;</span><br><span class="line">  return 200 &#x27;&#123;&quot;m.homeserver&quot;: &#123;&quot;base_url&quot;: &quot;https://cafe.retirenow.top&quot;&#125;&#125;&#x27;;</span><br><span class="line">  default_type application/json;</span><br><span class="line">  add_header Access-Control-Allow-Origin *;</span><br><span class="line">&#125;  </span><br><span class="line">location /.well-known/matrix/server &#123;</span><br><span class="line">  return 200 &#x27;&#123;&quot;m.server&quot;: &quot;cafe.retirenow.top:443&quot;&#125;&#x27;;</span><br><span class="line">  default_type application/json;</span><br><span class="line">  add_header Access-Control-Allow-Origin *;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
-<p>然后新建一个cafe.retirenow.top的配置。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /etc/nginx/sites-available</span><br><span class="line">vim cafe.retirenow.top.conf</span><br></pre></td></tr></table></figure>
-<p>依然按照<a href="https://www.b612.me/code/223.html">使用docker搭建Synapse[Matrix]</a>配置，但是删掉上面被挪到retirenow.top的那几行。<br>更改所有域名为cafe.retirenow.top，然后更改cafe.retirenow.top.conf的这三行为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssl_certificate /etc/letsencrypt/live/cafe.retirenow.top/fullchain.pem; # managed by Certbot</span><br><span class="line">ssl_certificate_key /etc/letsencrypt/live/cafe.retirenow.top/privkey.pem; # managed by Certbot</span><br><span class="line">root /data/synapse/element-web;</span><br></pre></td></tr></table></figure>
-<p>申请证书，reload nginx：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">certbot certonly --nginx -d cafe.retirenow.top</span><br><span class="line">ln -s /etc/nginx/sites-available/cafe.retirenow.top.conf /etc/nginx/sites-enabled/</span><br><span class="line">systemctl reload nginx</span><br></pre></td></tr></table></figure>
-<p>我的certbot一定要这么搞才可以成功，至今不知道为什么，会搞certbot的用你自己的流程搞就可以了。要点就是这里要用cafe.retirenow.top.conf。</p>
-<p>cloudflare添加好DNS记录，就可以直接打开啦：</p>
-<p><a href="https://cafe.retirenow.top/">https://cafe.retirenow.top/</a></p>
-<h2 id="配置管理页面"><a href="#配置管理页面" class="headerlink" title="配置管理页面"></a>配置管理页面</h2><p>新建一个管理员账号:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /data/synapse</span><br><span class="line">docker-compose exec  synapse register_new_matrix_user -c /data/homeserver.yaml http://localhost:8008</span><br></pre></td></tr></table></figure>
-<p>按照提示输入账号密码，在Make admin [no]: 时输入yes，之后可以直接在网页上改密码且不需要邮箱，很方便，所以不用配邮箱服务了。</p>
-<p>然后搭建管理界面：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 8100:80 awesometechnologies/synapse-admin</span><br></pre></td></tr></table></figure>
-<p>就可以通过访问：<br><a href="http://localhost:59242/">http://localhost:59242</a><br>来使用管理页面。</p>
-]]></content>
-      <categories>
-        <category>Project</category>
-      </categories>
-      <tags>
-        <tag>matrix</tag>
-        <tag>synapse</tag>
-        <tag>element</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mastodon | 以 local-only 代码合并为例浅谈如何合并特定 commit</title>
     <url>/2022-03-16-local-only/</url>
     <content><![CDATA[<p>2022-4-21 Update：</p>
@@ -1018,6 +963,61 @@
       <tags>
         <tag>git</tag>
         <tag>mastodon</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Matrix | 使用 docker 搭建 Synapse 记录</title>
+    <url>/2022-04-10-matrix/</url>
+    <content><![CDATA[<p>因为想用docker搭建，这里主要参考了<a href="https://www.b612.me/code/223.html">使用docker搭建Synapse[Matrix]</a>，关于域名问题参考了<a href="https://blog.bgme.me/posts/matrix-deployment-process-part-1/">Matrix踩坑记（一）</a>和南狐的手把手debug。</p>
+<h2 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h2><p>参考<a href="https://blog.bgme.me/posts/matrix-deployment-process-part-1/">Matrix踩坑记（一）</a>，matrix是可以和其他服务共用一个域名的。因为我后续希望账号都是和社畜站的id完全相同，所以我使用retirenow.top这个域名，与此同时服务挂在cafe.retirenow.top。没有这个问题的，都用一样的域名就行。</p>
+<h2 id="搭建Synapse"><a href="#搭建Synapse" class="headerlink" title="搭建Synapse"></a>搭建Synapse</h2><p>按照教程建立&#x2F;data&#x2F;synapse&#x2F;下的三个文件夹：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir /data/synapse</span><br><span class="line">mkdir /data/synapse/data</span><br><span class="line">mkdir /data/synapse/postgres</span><br><span class="line">mkdir /data/synapse/redis</span><br></pre></td></tr></table></figure>
+<p>之后都直接按照教程一步步执行即可，输入\q退出。<br>搭建时使用的所有域名均为retirenow.top。</p>
+<p>如果使用不同域名，在修改&#x2F;data&#x2F;synapse&#x2F;data&#x2F;homeserver.yaml时，除了教程里的内容，还需要修改：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public_baseurl: https://cafe.retirenow.top</span><br></pre></td></tr></table></figure>
+<p>如果你之后使用cloudflare反代，由于关闭了8448端口，所以这边也要改：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">serve_server_wellknown: true</span><br></pre></td></tr></table></figure>
+
+
+<p>到这一步，打开 <a href="http://127.0.0.1:55800/">http://127.0.0.1:55800/</a> 应该会显示matrix的server界面，提示：</p>
+<blockquote>
+<p>Your Synapse server is listening on this port and is ready for messages.</p>
+</blockquote>
+<p>这就是成功了！就是这么简单！</p>
+<h2 id="配置Riot-web界面"><a href="#配置Riot-web界面" class="headerlink" title="配置Riot web界面"></a>配置Riot web界面</h2><p>服务器配置好以后来配置客户端，这边推荐全平台的element。需要注意的是，这里用的是cafe.retirenow.top这个域名，也就是通过打开：</p>
+<p><a href="https://cafe.retirenow.top/">https://cafe.retirenow.top/</a></p>
+<p>来使用matrix。所以cloudflare里应该添加的是cafe到服务器的DNS映射，nginx也应该监听cafe.retirenow.top，只有在element的设置文件中需要指定server_name为retirenow.top。</p>
+<p>这里解压到任何路径都可以，因为和前面的server是独立的。我的话解压到了&#x2F;data&#x2F;synapse&#x2F;并改名为element-web：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://github.com/vector-im/element-web/releases/download/v1.10.9-rc.3/element-v1.10.9-rc.3.tar.gz</span><br><span class="line">tar -zxvf element-v1.10.9-rc.3.tar.gz -C /data/synapse</span><br><span class="line">mv /data/synapse/element-v1.10.9-rc.3 /data/synapse/element-web</span><br><span class="line">cd /data/synapse/element-web</span><br><span class="line">cp config.sample.json config.json</span><br><span class="line">vim /data/synapse/element-web/config.json</span><br></pre></td></tr></table></figure>
+<p>上面的下载地址请自行替换为<a href="https://github.com/vector-im/element-web/releases">最新版本地址</a>。</p>
+<p>在”m.homeserver”中，修改”base_url”和”server_name”分别如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;default_server_config&quot;: &#123;</span><br><span class="line">    &quot;m.homeserver&quot;: &#123;</span><br><span class="line">        &quot;base_url&quot;: &quot;https://cafe.retirenow.top&quot;,</span><br><span class="line">        &quot;server_name&quot;: &quot;retirenow.top&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;m.identity_server&quot;: &#123;</span><br><span class="line">        &quot;base_url&quot;: &quot;https://vector.im&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>在之前就配好的retirenow.top的nginx配置中加上：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Matrix</span><br><span class="line">location /.well-known/matrix/client &#123;</span><br><span class="line">  return 200 &#x27;&#123;&quot;m.homeserver&quot;: &#123;&quot;base_url&quot;: &quot;https://cafe.retirenow.top&quot;&#125;&#125;&#x27;;</span><br><span class="line">  default_type application/json;</span><br><span class="line">  add_header Access-Control-Allow-Origin *;</span><br><span class="line">&#125;  </span><br><span class="line">location /.well-known/matrix/server &#123;</span><br><span class="line">  return 200 &#x27;&#123;&quot;m.server&quot;: &quot;cafe.retirenow.top:443&quot;&#125;&#x27;;</span><br><span class="line">  default_type application/json;</span><br><span class="line">  add_header Access-Control-Allow-Origin *;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<p>然后新建一个cafe.retirenow.top的配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /etc/nginx/sites-available</span><br><span class="line">vim cafe.retirenow.top.conf</span><br></pre></td></tr></table></figure>
+<p>依然按照<a href="https://www.b612.me/code/223.html">使用docker搭建Synapse[Matrix]</a>配置，但是删掉上面被挪到retirenow.top的那几行。<br>更改所有域名为cafe.retirenow.top，然后更改cafe.retirenow.top.conf的这三行为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssl_certificate /etc/letsencrypt/live/cafe.retirenow.top/fullchain.pem; # managed by Certbot</span><br><span class="line">ssl_certificate_key /etc/letsencrypt/live/cafe.retirenow.top/privkey.pem; # managed by Certbot</span><br><span class="line">root /data/synapse/element-web;</span><br></pre></td></tr></table></figure>
+<p>申请证书，reload nginx：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">certbot certonly --nginx -d cafe.retirenow.top</span><br><span class="line">ln -s /etc/nginx/sites-available/cafe.retirenow.top.conf /etc/nginx/sites-enabled/</span><br><span class="line">systemctl reload nginx</span><br></pre></td></tr></table></figure>
+<p>我的certbot一定要这么搞才可以成功，至今不知道为什么，会搞certbot的用你自己的流程搞就可以了。要点就是这里要用cafe.retirenow.top.conf。</p>
+<p>cloudflare添加好DNS记录，就可以直接打开啦：</p>
+<p><a href="https://cafe.retirenow.top/">https://cafe.retirenow.top/</a></p>
+<h2 id="配置管理页面"><a href="#配置管理页面" class="headerlink" title="配置管理页面"></a>配置管理页面</h2><p>新建一个管理员账号:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /data/synapse</span><br><span class="line">docker-compose exec  synapse register_new_matrix_user -c /data/homeserver.yaml http://localhost:8008</span><br></pre></td></tr></table></figure>
+<p>按照提示输入账号密码，在Make admin [no]: 时输入yes，之后可以直接在网页上改密码且不需要邮箱，很方便，所以不用配邮箱服务了。</p>
+<p>然后搭建管理界面：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d -p 8100:80 awesometechnologies/synapse-admin</span><br></pre></td></tr></table></figure>
+<p>就可以通过访问：<br><a href="http://localhost:59242/">http://localhost:59242</a><br>来使用管理页面。</p>
+]]></content>
+      <categories>
+        <category>Project</category>
+      </categories>
+      <tags>
+        <tag>matrix</tag>
+        <tag>synapse</tag>
+        <tag>element</tag>
       </tags>
   </entry>
 </search>
